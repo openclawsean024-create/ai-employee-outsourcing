@@ -803,3 +803,45 @@ quadrantChart
 ---
 
 *文件結束。本 PRD 為 v2.2.1，已通過 validate_prd.py 100% 合規。下游開發可依本文件執行 Sprint 1 v1 MVP。*
+
+## X. Sprint 1 實作紀錄
+
+### X.1 已完成（2026-07-14）
+
+| Day | 任務 | 狀態 |
+|-----|------|------|
+| Day 1-3 | Next.js 16 + IndexedDB 基礎架構 | ✅ |
+
+### X.2 新增/修改檔案
+- `src/lib/db.ts` — Dexie IndexedDB wrapper (tasks, templates tables)
+- `src/lib/agents.ts` — 144 種 AI Agent 預載（10 大類）
+- `src/lib/types.ts` — TypeScript 型別定義
+- `src/lib/store.ts` — Zustand state store
+- `src/lib/utils.ts` — 共用工具 (fmtMoney, fmtNumber, TIER_LABELS 等)
+- `src/lib/orchestrator.ts` — 多 Agent 協作 orchestrator
+- `src/components/Sidebar.tsx` + 7 views (Dashboard/Agents/NewTask/Tasks/Templates/Usage/Settings)
+
+### X.3 整合細節 / 設定 / 環境
+- Next.js 16.2.10 + Turbopack
+- React 19 + TypeScript 5.7
+- Dexie 4 (IndexedDB) + dexie-react-hooks
+- Zustand 5
+- Tailwind 4
+- 已部署至 https://ai-employee-outsourcing.vercel.app (HTTP 200)
+
+### X.4 本次修復
+- `TemplatesView.tsx` 補 `import { useState } from 'react'`（之前 build 失敗）
+- 重建 `node_modules`（baseline-browser-mapping ENOTEMPTY 衝突）
+
+### X.5 重新評分
+- 程式碼完成度：20% (Notion 舊值) → **35%** (實際 Sprint 1 Day 1-3 完成 + build pass + deploy live)
+- 商業化分數：77 → 77（不變，本 sprint 未觸及商業化面向）
+- 狀態：開發中（不變）
+
+### X.6 已知限制
+- 144 Agent 預載已寫但還沒在 UI 完整測試互動（待 Day 9-11）
+- orchestrator 多 Agent 協作邏輯已寫但未跑 end-to-end（待 Day 12-14）
+- Stripe / Supabase Auth 還沒接（屬 Sprint 2 / Sprint 3）
+
+### X.7 下次 sprint 接力點
+下次接手從「Day 4-8：Agent 預載完整測試 + 中文化驗收」開始，看 `src/lib/agents.ts` 的 144 筆 agent 元資料是否符合 SPEC §6.2。
