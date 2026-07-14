@@ -2,7 +2,8 @@
 
 import { useState, useMemo } from 'react';
 import { useAIEOStore } from '@/lib/store';
-import { ALL_AGENTS, AGENT_CATEGORIES, getCategoryAgents } from '@/lib/agents';
+import { ALL_AGENTS, AGENT_CATEGORIES } from '@/lib/agents';
+import { listAgentsByCategory, countAgentsByCategory } from '@/lib/agents-catalog';
 import { Search, Plus, Check, ArrowRight, Bot } from 'lucide-react';
 import type { AgentCategory } from '@/lib/types';
 import { cn } from '@/lib/utils';
@@ -17,7 +18,7 @@ export default function AgentsView() {
   const filtered = useMemo(() => {
     let agents = ALL_AGENTS;
     if (activeCategory !== 'all') {
-      agents = getCategoryAgents(activeCategory);
+      agents = listAgentsByCategory(activeCategory);
     }
     if (search) {
       const q = search.toLowerCase();
@@ -72,7 +73,7 @@ export default function AgentsView() {
                 active={activeCategory === cat.key}
                 onClick={() => setActiveCategory(cat.key)}
                 label={cat.label}
-                count={ALL_AGENTS.filter(a => a.category === cat.key).length}
+                count={countAgentsByCategory(cat.key)}
               />
             ))}
           </div>

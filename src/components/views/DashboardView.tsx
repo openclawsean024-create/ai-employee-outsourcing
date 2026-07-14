@@ -4,6 +4,7 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { useAIEOStore } from '@/lib/store';
 import { db } from '@/lib/db';
 import { ALL_AGENTS, AGENT_CATEGORIES } from '@/lib/agents';
+import { countAgentsByCategory } from '@/lib/agents-catalog';
 import { fmtNumber, fmtMoney, fmtShortDate, TIER_LABELS, TIER_LIMITS } from '@/lib/utils';
 import { Bot, Plus, ArrowRight, Sparkles, Receipt, Play } from 'lucide-react';
 
@@ -189,7 +190,7 @@ export default function DashboardView() {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
           {AGENT_CATEGORIES.map(cat => {
-            const count = ALL_AGENTS.filter(a => a.category === cat.key).length;
+            const count = countAgentsByCategory(cat.key);
             return (
               <button
                 key={cat.key}
