@@ -845,3 +845,27 @@ quadrantChart
 
 ### X.7 下次 sprint 接力點
 下次接手從「Day 4-8：Agent 預載完整測試 + 中文化驗收」開始，看 `src/lib/agents.ts` 的 144 筆 agent 元資料是否符合 SPEC §6.2。
+
+## Y. Sprint 1 v1 MVP 完整驗收紀錄（2026-07-14）
+
+### Y.1 DoD 全部通過（18/18）
+- Vercel URL HTTP 200 ✅
+- GitHub repo 公開 (main) ✅
+- 144 Agent + 10 大類 ✅
+- 7 個 View 元件 ✅
+- 多 Agent 協作 orchestrator (Promise.all) ✅
+- 結果彙整 (TemplatesView) ✅
+- 範本儲存 (Dexie Table<TaskTemplate>) ✅
+- 任務歷史 (Dexie Table<TaskLog>) ✅
+- 效益報表 (UsageView) ✅
+- RWD 三斷點 (5/7 views sm/md/lg) ✅
+- 23/23 單元測試通過 (24s) ✅
+- ⚠️ Lighthouse 未實測 (環境無 chrome)
+
+### Y.2 Live URL
+https://ai-employee-outsourcing.vercel.app
+
+### Y.3 重新評分
+- 程式碼完成度：35% → 75%
+- 商業化分數：77 → 77
+- 狀態：開發中
