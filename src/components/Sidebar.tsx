@@ -1,14 +1,15 @@
 'use client';
+
 import { useAIEOStore } from '@/lib/store';
 import {
-  LayoutDashboard, Bot, Plus, Receipt, Bookmark, BarChart3, Settings as SettingsIcon, Sparkles
+  LayoutDashboard, Bot, Plus, Receipt, Bookmark, BarChart3, Settings as SettingsIcon, Sparkles, ChevronLeft, ChevronRight
 } from 'lucide-react';
 import type { View } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
 const MENU: Array<{ view: View; label: string; icon: React.ElementType }> = [
   { view: 'dashboard', label: '儀表板', icon: LayoutDashboard },
-  { view: 'agents', label: 'AI Agent 庫', icon: Bot },
+  { view: 'agents', label: 'Agent 庫', icon: Bot },
   { view: 'task_new', label: '建立任務', icon: Plus },
   { view: 'tasks', label: '任務歷史', icon: Receipt },
   { view: 'templates', label: '範本', icon: Bookmark },
@@ -16,44 +17,74 @@ const MENU: Array<{ view: View; label: string; icon: React.ElementType }> = [
   { view: 'settings', label: '設定', icon: SettingsIcon },
 ];
 
-export default function Sidebar() {
+interface Props {
+  collapsed: boolean;
+  onToggle: () => void;
+}
+
+export default function Sidebar({ collapsed, onToggle }: Props) {
   const currentView = useAIEOStore(s => s.currentView);
   const setView = useAIEOStore(s => s.setView);
   const settings = useAIEOStore(s => s.settings);
-  const selectedCount = useAIEOStore(s => s.selectedAgentIds.length);
 
   return (
-    <aside className="w-56 bg-slate-900 text-white flex flex-col">
-      <div className="p-4 border-b border-slate-800">
-        <div className="flex items-center gap-2">
-          <div className="w-9 h-9 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center">
-            <Sparkles className="w-5 h-5" />
-          </div>
-          <div>
-            <div className="font-bold text-sm">AI Employee</div>
-            <div className="text-xs text-slate-400">{settings.workspaceName}</div>
-          </div>
+    <aside
+      className={cn(
+        "flex flex-col bg-white border-r border-[var(--ink-100)]",
+        "transition-[width] duration-200",
+        collapsed ? "w-16" : "w-60"
+      )}
+    >
+      {/* Logo */}
+      <div className={cn(
+        "h-14 flex items-center border-b border-[var(--ink-100)]",
+        collapsed ? "justify-center px-2" : "px-4"
+      )}>
+        <div className="w-7 h-7 rounded-md bg-[var(--ink-900)] flex items-center justify-center flex-shrink-0">
+          <Sparkles className="w-4 h-4 text-white" strokeWidth={2.5} />
         </div>
+        {!collapsed && (
+          <div className="ml-2.5 min-w-0">
+            <div className="text-[13px] font-semibold text-[var(--ink-900)] leading-tight">AI Employee</div>
+            <div className="text-[11px] text-[var(--ink-500)] leading-tight truncate">{settings.workspaceName}</div>
+          </div>
+        )}
       </div>
-      <nav className="flex-1 py-2">
+
+      {/* Nav */}
+      <nav className="flex-1 px-2 py-3 space-y-0.5">
         {MENU.map(item => {
           const Icon = item.icon;
           const active = currentView === item.view;
           return (
-            <button key={item.view} onClick={() => setView(item.view)} className={cn('w-full px-4 py-2.5 flex items-center gap-3 text-sm transition-colors', active ? 'bg-indigo-600 text-white border-l-4 border-indigo-300' : 'text-slate-300 hover:bg-slate-800 border-l-4 border-transparent')}>
-              <Icon className="w-4 h-4" />
-              <span className="flex-1 text-left">{item.label}</span>
-              {item.view === 'task_new' && selectedCount > 0 && (
-                <span className="px-1.5 py-0.5 bg-indigo-500 rounded text-xs font-medium">{selectedCount}</span>
+            <button
+              key={item.view}
+              onClick={() => setView(item.view)}
+              className={cn(
+                "w-full flex items-center gap-2.5 rounded-md text-[13px] font-medium",
+                "transition-colors duration-150",
+                collapsed ? "h-9 justify-center" : "h-8 px-2.5",
+                active
+                  ? "bg-[var(--ink-50)] text-[var(--ink-900)]"
+                  : "text-[var(--ink-600)] hover:bg-[var(--ink-25)] hover:text-[var(--ink-900)]"
               )}
+              title={collapsed ? item.label : undefined}
+            >
+              <Icon className="w-4 h-4 flex-shrink-0" strokeWidth={1.75} />
+              {!collapsed && <span className="truncate">{item.label}</span>}
+              {!collapsed && active && <span className="ml-auto w-1 h-1 rounded-full bg-[var(--accent)]" />}
             </button>
           );
         })}
       </nav>
-      <div className="p-3 border-t border-slate-800 text-xs text-slate-500">
-        <div>© 2026 OpenClaw</div>
-        <div className="mt-1">v0.1 MVP · 144 Agents</div>
-      </div>
+
+      {/* Collapse toggle */}
+      <button
+        onClick={onToggle}
+        className="h-10 flex items-center justify-center border-t border-[var(--ink-100)] text-[var(--ink-500)] hover:text-[var(--ink-700)] hover:bg-[var(--ink-25)] transition-colors"
+      >
+        {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+      </button>
     </aside>
   );
 }
