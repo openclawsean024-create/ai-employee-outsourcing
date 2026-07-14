@@ -1,22 +1,29 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Inter, Sora } from "next/font/google";
 import "./globals.css";
 
-const jakarta = Plus_Jakarta_Sans({
+const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-jakarta",
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const sora = Sora({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-sora",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "AI Employee — 把 144 種工作變成 AI Agent",
-  description: "AI 員工外包平台：144 種預載 Agent + 多 Agent 協作 + Freemium",
+  title: "AI Employee — 144 種 AI Agent 隨選即用",
+  description: "把重複工作交給 AI。144 種預載 Agent + 多 Agent 協作 + Freemium。",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="zh-TW" className={jakarta.variable}>
+    <html lang="zh-TW" className={`${inter.variable} ${sora.variable}`}>
       <body>{children}</body>
     </html>
   );
