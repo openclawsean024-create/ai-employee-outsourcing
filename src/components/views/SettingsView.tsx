@@ -1,106 +1,174 @@
 'use client';
+
 import { useState } from 'react';
 import { useAIEOStore } from '@/lib/store';
-import { Save, AlertCircle } from 'lucide-react';
 import { TIER_LABELS, TIER_LIMITS } from '@/lib/utils';
+import { Save, Download, Upload, Key, Building, DollarSign } from 'lucide-react';
+import { db } from '@/lib/db';
 
 export default function SettingsView() {
   const settings = useAIEOStore(s => s.settings);
   const updateSettings = useAIEOStore(s => s.updateSettings);
-  const [draft, setDraft] = useState(settings);
   const [saved, setSaved] = useState(false);
 
-  const handleSave = () => {
-    updateSettings(draft);
+  function showSaved() {
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
-  };
+  }
+
+  async function exportData() {
+    const tasks = await db.tasks.toArray();
+    const templates = await db.templates.toArray();
+    const data = { settings, tasks, templates, exportedAt: new Date().toISOString() };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `ai-employee-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  async function importData(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const text = await file.text();
+    try {
+      const data = JSON.parse(text);
+      if (data.settings) updateSettings(data.settings);
+      if (data.tasks) {
+        for (const t of data.tasks) await db.tasks.put(t);
+      }
+      if (data.templates) {
+        for (const t of data.templates) await db.templates.put(t);
+      }
+      showSaved();
+    } catch (err) {
+      alert('匯入失敗：' + (err as Error).message);
+    }
+  }
 
   return (
-    <div className="p-6 max-w-3xl">
-      <h2 className="text-2xl font-bold text-slate-900 mb-1">系統設定</h2>
-      <p className="text-sm text-slate-500 mb-4">工作區、訂閱方案、API 金鑰</p>
+    <div className="space-y-10">
+      <section>
+        <div className="text-micro mb-3">設定</div>
+        <h1 className="text-h1">工作區與帳號</h1>
+      </section>
 
-      <div className="bg-white border rounded-lg p-5 space-y-4">
-        <div>
-          <h3 className="text-sm font-semibold mb-3">工作區</h3>
-          <div className="space-y-3">
-            <Field label="工作區名稱" value={draft.workspaceName} onChange={(v) => setDraft({ ...draft, workspaceName: v })} />
-          </div>
-        </div>
-
-        <div className="border-t pt-4">
-          <h3 className="text-sm font-semibold mb-3">訂閱方案</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-            {(['free', 'kol', 'pro', 'enterprise'] as const).map(tier => {
-              const limit = TIER_LIMITS[tier];
-              const selected = draft.tier === tier;
-              return (
-                <button key={tier} onClick={() => setDraft({ ...draft, tier, monthlyTaskLimit: limit.taskLimit })} className={`text-left p-3 rounded-lg border-2 transition-colors ${selected ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200 hover:border-slate-300'}`}>
-                  <div className="font-semibold text-sm text-slate-900">{TIER_LABELS[tier]}</div>
-                  <div className="text-xs text-slate-500 mt-1">{limit.price}</div>
-                  <div className="text-xs text-slate-600 mt-2">{limit.agentLimit === 144 ? '144' : limit.agentLimit} Agent · {limit.taskLimit} 任務/月</div>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="border-t pt-4">
-          <h3 className="text-sm font-semibold mb-3">任務費用上限</h3>
-          <div>
-            <label className="block text-sm font-medium mb-1">單任務預設上限 (NT$)</label>
-            <input type="number" step="1" value={draft.defaultCostLimit} onChange={(e) => setDraft({ ...draft, defaultCostLimit: Number(e.target.value) })} className="w-full px-3 py-2 border rounded-lg text-sm" />
-            <div className="text-xs text-slate-500 mt-1">預設 NT$5 / 任務（依 SPEC §5.2）</div>
-          </div>
-        </div>
-
-        <div className="border-t pt-4">
-          <h3 className="text-sm font-semibold mb-3">API 金鑰（v2 真實模式用）</h3>
-          <div className="space-y-3">
+      {/* Workspace */}
+      <Section title="工作區" icon={Building}>
+        <Field label="工作區名稱">
+          <input
+            type="text"
+            value={settings.workspaceName}
+            onChange={e => updateSettings({ workspaceName: e.target.value })}
+            className="input"
+            onBlur={showSaved}
+          />
+        </Field>
+        <Field label="方案">
+          <div className="card p-4 flex items-center justify-between">
             <div>
-              <label className="block text-sm font-medium mb-1">OpenAI API Key</label>
-              <input type="password" value={draft.apiKeyOpenAI || ''} onChange={(e) => setDraft({ ...draft, apiKeyOpenAI: e.target.value })} placeholder="sk-..." className="w-full px-3 py-2 border rounded-lg text-sm font-mono" />
-              <div className="text-xs text-slate-500 mt-1">MVP 為 mock 模式，金鑰僅儲存於 localStorage</div>
+              <div className="text-h4">{TIER_LABELS[settings.tier]}</div>
+              <div className="text-body-sm text-[var(--ink-500)] mt-0.5">
+                {TIER_LIMITS[settings.tier].taskLimit === Infinity
+                  ? '無限任務'
+                  : `${TIER_LIMITS[settings.tier].taskLimit.toLocaleString()} 任務 / 月`}
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Anthropic API Key</label>
-              <input type="password" value={draft.apiKeyClaude || ''} onChange={(e) => setDraft({ ...draft, apiKeyClaude: e.target.value })} placeholder="sk-ant-..." className="w-full px-3 py-2 border rounded-lg text-sm font-mono" />
-            </div>
+            <span className="badge badge-brand">{settings.tier === 'free' ? '免費' : '已升級'}</span>
           </div>
-        </div>
+        </Field>
+      </Section>
 
-        <div className="border-t pt-4 flex items-center gap-3">
-          <button onClick={handleSave} className="flex items-center gap-1.5 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium">
-            <Save className="w-4 h-4" />
-            儲存設定
+      {/* Cost Limit */}
+      <Section title="成本控制" icon={DollarSign}>
+        <Field label={`單任務成本上限 · NT$ ${settings.defaultCostLimit}`}>
+          <input
+            type="range"
+            min="1"
+            max="50"
+            step="1"
+            value={settings.defaultCostLimit}
+            onChange={e => updateSettings({ defaultCostLimit: Number(e.target.value) })}
+            className="w-full accent-[var(--brand)]"
+          />
+          <div className="flex items-center justify-between text-body-sm text-[var(--ink-500)] mt-1">
+            <span>NT$ 1</span>
+            <span>NT$ 50</span>
+          </div>
+        </Field>
+      </Section>
+
+      {/* API Keys (future) */}
+      <Section title="API 金鑰" icon={Key}>
+        <p className="text-body-sm text-[var(--ink-500)] mb-4">
+          連接你自己的 OpenAI / Anthropic API 金鑰可享有更便宜的模型成本。
+          目前 Beta 版僅使用平台預載金鑰。
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <input
+            type="password"
+            placeholder="OpenAI API Key"
+            disabled
+            className="input opacity-50 cursor-not-allowed"
+          />
+          <input
+            type="password"
+            placeholder="Anthropic API Key"
+            disabled
+            className="input opacity-50 cursor-not-allowed"
+          />
+        </div>
+        <div className="text-body-sm text-[var(--ink-500)] mt-2">
+          Sprint 2 開放自訂金鑰功能
+        </div>
+      </Section>
+
+      {/* Data */}
+      <Section title="資料管理" icon={Save}>
+        <div className="flex flex-wrap gap-2">
+          <button onClick={exportData} className="btn btn-secondary">
+            <Download className="w-4 h-4" />
+            匯出備份
           </button>
-          {saved && <span className="text-sm text-emerald-600">✓ 已儲存</span>}
+          <label className="btn btn-secondary cursor-pointer">
+            <Upload className="w-4 h-4" />
+            匯入備份
+            <input type="file" accept="application/json" className="hidden" onChange={importData} />
+          </label>
+          {saved && (
+            <span className="badge badge-success self-center">已儲存</span>
+          )}
         </div>
-      </div>
-
-      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4">
-        <div className="flex items-start gap-2">
-          <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5" />
-          <div>
-            <div className="text-sm font-medium text-amber-900">MVP 模式說明</div>
-            <div className="text-xs text-amber-700 mt-1">
-              本 MVP 為純前端 mock 模式，不會呼叫真實 OpenAI / Anthropic API。
-              Agent 會根據角色產生合理的範例輸出。v2.0 將整合真實 API（需填入金鑰）。
-              所有資料儲存於瀏覽器 localStorage 與 IndexedDB。
-            </div>
-          </div>
-        </div>
-      </div>
+      </Section>
     </div>
   );
 }
 
-function Field({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
+function Section({ title, icon: Icon, children }: {
+  title: string;
+  icon: React.ElementType;
+  children: React.ReactNode;
+}) {
+  return (
+    <section>
+      <div className="flex items-center gap-2 mb-4">
+        <Icon className="w-4 h-4 text-[var(--ink-500)]" strokeWidth={1.75} />
+        <div className="text-micro">{title}</div>
+      </div>
+      <div className="card p-6 space-y-5">
+        {children}
+      </div>
+    </section>
+  );
+}
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="block text-sm font-medium mb-1">{label}</label>
-      <input value={value} onChange={(e) => onChange(e.target.value)} className="w-full px-3 py-2 border rounded-lg text-sm" />
+      <label className="text-body-sm font-medium text-[var(--ink-700)] block mb-2">{label}</label>
+      {children}
     </div>
   );
 }

@@ -2,7 +2,7 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '@/lib/db';
 import { fmtMoney, fmtDuration, fmtShortDate } from '@/lib/utils';
-import { Search, Eye, X, Sparkles, AlertCircle } from 'lucide-react';
+import { Search, Eye, X, ArrowRight, FileText } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import type { TaskLog } from '@/lib/types';
@@ -23,100 +23,186 @@ export default function TasksView() {
   const successCount = tasks.filter(t => t.status === 'success').length;
 
   return (
-    <div className="p-6">
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <h2 className="text-2xl font-bold text-slate-900">任務歷史</h2>
-          <p className="text-sm text-slate-500 mt-1">共 {tasks.length} 筆 · 成功率 {tasks.length > 0 ? (successCount / tasks.length * 100).toFixed(0) : 0}% · 累計費用 {fmtMoney(totalCost)}</p>
+    <div className="space-y-8">
+      {/* Header */}
+      <section>
+        <div className="text-micro mb-3">任務歷史</div>
+        <h1 className="text-h1 text-balance">
+          {tasks.length} 筆任務
+          <span className="text-[var(--ink-500)] font-normal">，成功率 {tasks.length > 0 ? Math.round(successCount / tasks.length * 100) : 0}%</span>
+        </h1>
+        <p className="text-body-lg mt-3">
+          累計花費 {fmtMoney(totalCost)} · 每一筆都可重新檢視輸出
+        </p>
+      </section>
+
+      {/* Filters */}
+      <div className="flex flex-col sm:flex-row gap-3 items-stretch">
+        <div className="relative flex-1 max-w-md">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--ink-400)]" />
+          <input
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="搜尋任務名稱或 Agent..."
+            className="input pl-9"
+          />
+        </div>
+        <div className="flex gap-1">
+          {[
+            { v: 'all', l: '全部' },
+            { v: 'success', l: '成功' },
+            { v: 'partial', l: '部分' },
+            { v: 'failed', l: '失敗' },
+          ].map(opt => (
+            <button
+              key={opt.v}
+              onClick={() => setStatusFilter(opt.v as any)}
+              className={cn(
+                "h-9 px-3.5 rounded-md text-[13px] font-medium transition-colors",
+                statusFilter === opt.v
+                  ? "bg-[var(--ink-900)] text-white"
+                  : "text-[var(--ink-700)] hover:bg-[var(--ink-50)]"
+              )}
+            >
+              {opt.l}
+            </button>
+          ))}
         </div>
       </div>
 
-      <div className="flex gap-2 mb-3">
-        <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="搜尋任務名稱或 Agent..." className="w-full pl-10 pr-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none" />
+      {/* Task table */}
+      {filtered.length === 0 ? (
+        <div className="card p-12 text-center">
+          <FileText className="w-10 h-10 mx-auto mb-3 text-[var(--ink-300)]" />
+          <div className="text-h4 mb-2">{tasks.length === 0 ? '還沒有任何任務' : '沒有符合的任務'}</div>
+          <p className="text-body-sm">建立第一個任務，看 Agent 怎麼協作輸出</p>
         </div>
-        <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value as any)} className="px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
-          <option value="all">全部狀態</option>
-          <option value="success">成功</option>
-          <option value="partial">部分</option>
-          <option value="failed">失敗</option>
-        </select>
-      </div>
-
-      <div className="space-y-2">
-        {filtered.length === 0 ? (
-          <div className="text-center text-slate-400 py-12 text-sm bg-white border rounded-lg">尚無任務記錄</div>
-        ) : (
-          filtered.map(t => (
-            <div key={t.id} className="bg-white border rounded-lg p-3 hover:shadow-md transition-shadow">
-              <div className="flex items-center justify-between">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="font-semibold text-sm text-slate-900 truncate">{t.taskName}</span>
-                    <span className={cn('text-xs px-1.5 py-0.5 rounded', t.status === 'success' ? 'bg-emerald-100 text-emerald-700' : t.status === 'partial' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700')}>
+      ) : (
+        <div className="card overflow-hidden">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-[var(--border-soft)] text-left bg-[var(--ink-25)]">
+                <th className="text-micro px-5 py-3 font-medium">任務</th>
+                <th className="text-micro px-5 py-3 font-medium hidden md:table-cell">由 Agent 執行</th>
+                <th className="text-micro px-5 py-3 font-medium hidden lg:table-cell">執行時間</th>
+                <th className="text-micro px-5 py-3 font-medium">狀態</th>
+                <th className="text-micro px-5 py-3 font-medium text-right">成本</th>
+                <th className="px-2"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((t, i) => (
+                <tr
+                  key={t.id}
+                  className={cn(
+                    "border-b border-[var(--border-soft)] last:border-0 hover:bg-[var(--ink-25)] transition-colors cursor-pointer",
+                    i % 2 === 1 && "bg-[var(--ink-25)]/30"
+                  )}
+                  onClick={() => setViewing(t)}
+                >
+                  <td className="px-5 py-3.5">
+                    <div className="text-body font-medium text-[var(--ink-900)]">{t.taskName}</div>
+                    <div className="text-body-sm text-[var(--ink-500)] mt-0.5">{fmtShortDate(t.createdAt)}</div>
+                  </td>
+                  <td className="px-5 py-3.5 hidden md:table-cell">
+                    <div className="text-body-sm text-[var(--ink-700)]">
+                      {t.agentNames.slice(0, 2).join(' · ')}
+                      {t.agentNames.length > 2 && ` +${t.agentNames.length - 2}`}
+                    </div>
+                  </td>
+                  <td className="px-5 py-3.5 hidden lg:table-cell text-body-sm text-tabular text-[var(--ink-600)]">
+                    {fmtDuration(t.totalDurationMs)}
+                  </td>
+                  <td className="px-5 py-3.5">
+                    <span className={cn(
+                      "badge",
+                      t.status === 'success' ? 'badge-success' :
+                      t.status === 'partial' ? 'badge-warning' : 'badge-danger'
+                    )}>
                       {t.status === 'success' ? '成功' : t.status === 'partial' ? '部分' : '失敗'}
                     </span>
-                    {t.templateName && <span className="text-xs px-1.5 py-0.5 bg-purple-100 text-purple-700 rounded">{t.templateName}</span>}
-                  </div>
-                  <div className="text-xs text-slate-500">
-                    {fmtShortDate(t.createdAt)} · {t.agentNames.length} 個 Agent · {fmtMoney(t.totalCost)} · {fmtDuration(t.totalDurationMs)}
-                  </div>
-                  <div className="text-xs text-slate-600 mt-1 truncate">{t.agentNames.join('、')}</div>
-                </div>
-                <button onClick={() => setViewing(t)} className="p-2 hover:bg-slate-100 rounded">
-                  <Eye className="w-4 h-4 text-slate-600" />
-                </button>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
+                  </td>
+                  <td className="px-5 py-3.5 text-right text-body-sm text-tabular text-[var(--ink-700)]">
+                    {fmtMoney(t.totalCost)}
+                  </td>
+                  <td className="px-3">
+                    <Eye className="w-4 h-4 text-[var(--ink-400)]" />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
+      {/* Modal */}
       {viewing && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[85vh] flex flex-col">
-            <div className="p-4 border-b flex justify-between items-center">
+        <div
+          className="fixed inset-0 bg-[var(--ink-900)]/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          onClick={() => setViewing(null)}
+        >
+          <div
+            className="bg-white rounded-xl w-full max-w-3xl max-h-[88vh] flex flex-col shadow-[var(--shadow-3)]"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="px-6 py-5 border-b border-[var(--border-soft)] flex justify-between items-start">
               <div>
-                <h3 className="font-bold text-slate-900">{viewing.taskName}</h3>
-                <div className="text-xs text-slate-500 mt-1">{fmtShortDate(viewing.createdAt)}</div>
+                <div className="text-micro mb-2">{fmtShortDate(viewing.createdAt)}</div>
+                <h3 className="text-h3">{viewing.taskName}</h3>
               </div>
-              <button onClick={() => setViewing(null)}><X className="w-5 h-5" /></button>
+              <button onClick={() => setViewing(null)} className="text-[var(--ink-400)] hover:text-[var(--ink-700)]">
+                <X className="w-5 h-5" />
+              </button>
             </div>
-            <div className="flex-1 overflow-y-auto p-5 space-y-3">
-              <div className="bg-slate-50 rounded-lg p-3 text-sm">
-                <div className="font-medium text-slate-700 mb-1">任務輸入</div>
-                <div className="text-slate-600 whitespace-pre-wrap">{viewing.input}</div>
+            <div className="flex-1 overflow-y-auto p-6 space-y-5">
+              <div>
+                <div className="text-micro mb-2">任務輸入</div>
+                <div className="card p-4 text-body whitespace-pre-wrap">{viewing.input}</div>
               </div>
-              <div className="grid grid-cols-3 gap-2 text-center">
-                <div className="bg-slate-50 rounded p-2">
-                  <div className="text-xs text-slate-500">費用</div>
-                  <div className="font-bold">{fmtMoney(viewing.totalCost)}</div>
+
+              <div className="grid grid-cols-3 gap-3">
+                <div className="card p-4 text-center">
+                  <div className="text-micro mb-1">費用</div>
+                  <div className="text-h3 text-tabular">{fmtMoney(viewing.totalCost)}</div>
                 </div>
-                <div className="bg-slate-50 rounded p-2">
-                  <div className="text-xs text-slate-500">時間</div>
-                  <div className="font-bold">{fmtDuration(viewing.totalDurationMs)}</div>
+                <div className="card p-4 text-center">
+                  <div className="text-micro mb-1">時間</div>
+                  <div className="text-h3 text-tabular">{fmtDuration(viewing.totalDurationMs)}</div>
                 </div>
-                <div className="bg-slate-50 rounded p-2">
-                  <div className="text-xs text-slate-500">Agent</div>
-                  <div className="font-bold">{viewing.results.length}</div>
+                <div className="card p-4 text-center">
+                  <div className="text-micro mb-1">Agent</div>
+                  <div className="text-h3 text-tabular">{viewing.results.length}</div>
                 </div>
               </div>
-              <div className="space-y-2">
-                <div className="text-sm font-medium text-slate-700">各 Agent 結果</div>
-                {viewing.results.map((r, i) => (
-                  <div key={i} className={cn('border-l-4 rounded p-3', r.status === 'success' ? 'border-emerald-500 bg-emerald-50/30' : 'border-rose-500 bg-rose-50/30')}>
-                    <div className="flex items-center justify-between mb-1">
-                      <div className="font-medium text-sm">{r.agentName}</div>
-                      <div className="text-xs text-slate-500">{fmtMoney(r.costNTD)} · {fmtDuration(r.durationMs)}</div>
+
+              <div>
+                <div className="text-micro mb-3">各 Agent 結果</div>
+                <div className="space-y-3">
+                  {viewing.results.map((r, i) => (
+                    <div key={i} className="card p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="text-body font-semibold">{r.agentName}</div>
+                        <div className="flex items-center gap-2 text-body-sm text-[var(--ink-500)] text-tabular">
+                          <span>{fmtMoney(r.costNTD)}</span>
+                          <span>·</span>
+                          <span>{fmtDuration(r.durationMs)}</span>
+                          <span className={cn(
+                            "badge ml-1",
+                            r.status === 'success' ? 'badge-success' :
+                            r.status === 'partial' ? 'badge-warning' : 'badge-danger'
+                          )}>
+                            {r.status === 'success' ? '成功' : r.status === 'partial' ? '部分' : '失敗'}
+                          </span>
+                        </div>
+                      </div>
+                      {r.status === 'success' ? (
+                        <pre className="text-body-sm whitespace-pre-wrap font-sans text-[var(--ink-700)] leading-relaxed">{r.output}</pre>
+                      ) : (
+                        <div className="text-body-sm text-[var(--danger)]">{r.error}</div>
+                      )}
                     </div>
-                    {r.status === 'success' ? (
-                      <pre className="text-xs text-slate-700 whitespace-pre-wrap font-sans">{r.output}</pre>
-                    ) : (
-                      <div className="text-xs text-rose-600 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{r.error}</div>
-                    )}
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </div>
