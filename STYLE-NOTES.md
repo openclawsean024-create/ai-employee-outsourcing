@@ -19,6 +19,61 @@
 
 ---
 
+## 🎨 Relevance AI 對齊 — 13 項 diff 全做 (2026-07-15)
+
+**Source**: relevanceai.com 的 type scale + button + color tokens
+**檔案**: `app/globals.css`
+**Tests**: 86/86 pass ✅ | Build OK ✅ | Dev server 200 OK ✅
+
+### 對齊結果 (vs 對手)
+
+| # | 類別 | 對手 | 我現況 (after) | 狀態 |
+|---|---|---|---|---|
+| 1 | Body font-size | 16/24 | 16/25.6 | ✅ |
+| 2 | H1 size | 48 | 48 | ✅ |
+| 3 | H1 line-height | 57.6 (1.2) | 57.6 (1.2) | ✅ |
+| 4 | H1 letter-spacing | -2.4px (-5%) | -0.05em (-5%) | ✅ |
+| 5 | H2 size | 36 | 36 | ✅ |
+| 6 | H2 letter-spacing | -0.9px (-2.5%) | -0.025em (-2.5%) | ✅ |
+| 7 | H3 改 Inter | Inter 16/24 w400 | Inter 16/24 w400 | ✅ |
+| 8 | Paragraph color | #868A97 (中灰) | #868A97 via `--fg-muted-2` | ✅ |
+| 9 | Btn primary gradient | radial #6056FF→#3B32F9 | radial 4-stop (#7E6FFF→#2D27B8) | ✅ |
+| 10 | Btn primary radius | 4.8px | 4.8px | ✅ |
+| 11 | Btn primary height | 42px | 42px | ✅ |
+| 12 | Btn primary padding | 10/20 | 10/20 | ✅ |
+| 13 | Btn pill (outline) | r9999, h42, border #E6E7EA | `.btn-pill` 新增 | ✅ (未使用) |
+| (額外) | Nav item | h36, p8/16, no radius/border | `.nav-item` 新增 | ✅ (未使用) |
+
+### 額外決策 (Sean 2026-07-15 拍板)
+
+1. **`btn-lg` 從 h44 改 h48** — baseline 變 42 後, btn-lg 必須 ≥ baseline 維持「最大」地位
+2. **`btn-sm` 從 h28 改 h32** — 同邏輯, btn-sm ≤ baseline
+3. **Btn primary 加 box-shadow** — 兩層陰影 (`0 1px 2px` + `0 6px 16px`), 讓 gradient + 主按鈕視覺對抗次按鈕
+4. **Hero (`.text-display`) 保留 56px** — Sean 拍板選項 1, 不跟頁面 H1 統一
+
+### 新增 token / class
+
+- **CSS var**: `--fg-muted-2: #868A97` (對手 body 中灰)
+- **CSS var**: `--border: #E6E7EA` (從 #E5E7EB 對齊對手)
+- **Class**: `.btn-pill` (radius 9999, h42, outline)
+- **Class**: `.nav-item` (h36, p8/16, no radius/border, `data-active="true"` for active state)
+
+### 對齊驗證方式
+
+```bash
+cd /home/sean/Program/ai-employee-outsourcing
+npx vitest run          # 86/86 pass
+npx next build          # OK
+npx next dev -p 3277    # http://localhost:3277/
+```
+
+**Pixel sample** (從截圖驗證 gradient 真的渲染):
+- 按鈕頂部中央: `#5750F8` (亮紫)
+- 按鈕底部中央: `#4E44F3` (深紫)
+- RGB 跨度 9/12/5 — 微 gradient, 對手本來就這樣, 視覺對齊 ✅
+
+---
+
 ## ⏸️ 暫停的事項
 
 - ❌ Matt aihero.dev 風格 clone (需要先確認路徑)
