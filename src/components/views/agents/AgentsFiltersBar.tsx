@@ -21,14 +21,14 @@ function FilterPill({ active, onClick, label, count }: FilterPillProps) {
       className={cn(
         "flex items-center gap-1.5 h-8 px-3 rounded-full text-[13px] font-medium transition-colors whitespace-nowrap",
         active
-          ? "bg-[var(--ink-900)] text-white"
-          : "bg-white text-[var(--ink-700)] border border-[var(--border)] hover:border-[var(--ink-300)]"
+          ? "bg-[var(--navy-900)] text-white"
+          : "bg-white text-[var(--navy-700)] border border-[var(--border)] hover:border-[var(--navy-300)]"
       )}
     >
       {label}
       <span className={cn(
         "text-[11px] tabular-nums",
-        active ? "text-[var(--ink-300)]" : "text-[var(--ink-400)]"
+        active ? "text-[var(--navy-300)]" : "text-[var(--navy-400)]"
       )}>
         {count}
       </span>
@@ -52,7 +52,7 @@ export default function AgentsFiltersBar({
     <section className="sticky top-0 bg-white/95 backdrop-blur-md -mx-6 md:-mx-10 px-6 md:px-10 py-3 border-b border-[var(--border-soft)] z-10">
       <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center">
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--ink-400)]" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--navy-400)]" />
           <input
             type="text"
             placeholder="搜尋 Agent (例如：客服、IG、Excel)"

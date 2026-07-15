@@ -44,8 +44,8 @@ export default function Sidebar({ collapsed, onToggle }: Props) {
         </div>
         {!collapsed && (
           <div className="ml-2.5 min-w-0">
-            <div className="text-[14px] font-semibold text-[var(--ink-900)] leading-tight font-display">AI Employee</div>
-            <div className="text-[12px] text-[var(--ink-500)] leading-tight truncate">{settings.workspaceName}</div>
+            <div className="text-[14px] font-semibold text-[var(--navy-900)] leading-tight font-display">AI Employee</div>
+            <div className="text-[12px] text-[var(--navy-500)] leading-tight truncate">{settings.workspaceName}</div>
           </div>
         )}
       </div>
@@ -64,7 +64,7 @@ export default function Sidebar({ collapsed, onToggle }: Props) {
                 collapsed ? "h-9 justify-center" : "h-9 px-2.5",
                 active
                   ? "bg-[var(--brand-soft)] text-[var(--brand)]"
-                  : "text-[var(--ink-700)] hover:bg-[var(--ink-50)] hover:text-[var(--ink-900)]"
+                  : "text-[var(--navy-700)] hover:bg-[var(--navy-50)] hover:text-[var(--navy-900)]"
               )}
               title={collapsed ? item.label : undefined}
             >
@@ -77,7 +77,7 @@ export default function Sidebar({ collapsed, onToggle }: Props) {
 
       <button
         onClick={onToggle}
-        className="h-10 flex items-center justify-center border-t border-[var(--border-soft)] text-[var(--ink-400)] hover:text-[var(--ink-700)] hover:bg-[var(--ink-25)] transition-colors"
+        className="h-10 flex items-center justify-center border-t border-[var(--border-soft)] text-[var(--navy-400)] hover:text-[var(--navy-700)] hover:bg-[var(--cream-50)] transition-colors"
       >
         {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
       </button>

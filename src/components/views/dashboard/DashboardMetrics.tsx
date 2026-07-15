@@ -16,7 +16,7 @@ function Metric({ label, value, delta, deltaColor = 'neutral' }: MetricProps) {
         <div className={`text-[12px] ${
           deltaColor === 'success' ? 'text-[var(--success)]' :
           deltaColor === 'warning' ? 'text-[var(--warning)]' :
-          'text-[var(--ink-500)]'
+          'text-[var(--navy-500)]'
         }`}>{delta}</div>
       )}
     </div>

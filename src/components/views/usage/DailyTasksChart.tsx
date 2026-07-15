@@ -23,7 +23,7 @@ export default function DailyTasksChart({ dailyTasks, maxDaily, hasTasks }: Prop
       </div>
       <div className="card p-6">
         {!hasTasks ? (
-          <div className="text-center text-body-sm text-[var(--ink-500)] py-8">
+          <div className="text-center text-body-sm text-[var(--navy-500)] py-8">
             開始建立任務後，這裡會顯示每日使用趨勢
           </div>
         ) : (
@@ -32,14 +32,14 @@ export default function DailyTasksChart({ dailyTasks, maxDaily, hasTasks }: Prop
               const heightPct = (d.count / maxDaily) * 100;
               return (
                 <div key={i} className="flex-1 flex flex-col items-center gap-2">
-                  <div className="text-body-sm text-tabular font-medium text-[var(--ink-700)]">{d.count}</div>
-                  <div className="w-full bg-[var(--ink-50)] rounded-md overflow-hidden" style={{ height: 100 }}>
+                  <div className="text-body-sm text-tabular font-medium text-[var(--navy-700)]">{d.count}</div>
+                  <div className="w-full bg-[var(--navy-50)] rounded-md overflow-hidden" style={{ height: 100 }}>
                     <div
                       className="w-full bg-[var(--brand)] transition-all duration-500 mt-auto"
                       style={{ height: `${heightPct}%`, marginTop: `${100 - heightPct}%` }}
                     />
                   </div>
-                  <div className="text-body-sm text-[var(--ink-500)]">{d.label}</div>
+                  <div className="text-body-sm text-[var(--navy-500)]">{d.label}</div>
                 </div>
               );
             })}

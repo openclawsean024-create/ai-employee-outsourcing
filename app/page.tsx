@@ -18,7 +18,7 @@ export default function HomePage() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   return (
-    <div className="min-h-screen flex bg-[var(--ink-0)]">
+    <div className="min-h-screen flex bg-[var(--cream-200)]">
       {/* Desktop Sidebar */}
       <div className="hidden md:flex sticky top-0 h-screen">
         <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} />

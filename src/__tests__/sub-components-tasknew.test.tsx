@@ -107,11 +107,11 @@ describe('SelectedAgentsPanel', () => {
   it('點擊 X 刪除應觸發 onToggle', () => {
     let captured = ''
     render(<SelectedAgentsPanel selectedAgents={[makeAgent()]} running={false} onToggle={(id) => { captured = id }} onShowAll={() => {}} />)
-    // X button 是 disabled-enabled 的 button，class 含 text-ink-400
+    // X button 是 disabled-enabled 的 button，class 含 text-navy-400
     const buttons = document.querySelectorAll('button')
     // 找 onClick 為 undefined (只有 form-action) 之外的 button
     const xBtn = Array.from(buttons).find(b =>
-      b.className.includes('text-[var(--ink-400)]') &&
+      b.className.includes('text-[var(--navy-400)]') &&
       b.querySelector('svg') // lucide icon
     ) as HTMLButtonElement
     expect(xBtn).toBeTruthy()

@@ -78,7 +78,7 @@ export default function TemplatesView() {
 
       {templates.length === 0 ? (
         <div className="card p-12 text-center">
-          <Bookmark className="w-10 h-10 mx-auto mb-3 text-[var(--ink-300)]" />
+          <Bookmark className="w-10 h-10 mx-auto mb-3 text-[var(--navy-300)]" />
           <div className="text-h4 mb-2">還沒有任何範本</div>
           <p className="text-body-sm max-w-md mx-auto mb-6">
             完成一個任務後，可從「任務歷史」把它存成範本。
@@ -105,11 +105,11 @@ export default function TemplatesView() {
                 <p className="text-body-sm mb-3 line-clamp-2">{tmpl.description}</p>
               )}
 
-              <div className="text-body-sm text-[var(--ink-500)] mb-4 space-y-1">
+              <div className="text-body-sm text-[var(--navy-500)] mb-4 space-y-1">
                 <div>{fmtShortDate(tmpl.createdAt)} · {tmpl.agentIds.length} 個 Agent</div>
               </div>
 
-              <div className="text-body-sm text-[var(--ink-700)] bg-[var(--ink-25)] rounded-md p-2.5 mb-4 line-clamp-2">
+              <div className="text-body-sm text-[var(--navy-700)] bg-[var(--cream-50)] rounded-md p-2.5 mb-4 line-clamp-2">
                 {tmpl.defaultInput}
               </div>
 

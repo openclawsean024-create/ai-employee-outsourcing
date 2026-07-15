@@ -24,7 +24,7 @@ export default function TaskFilters({ q, setQ, statusFilter, setStatusFilter }: 
   return (
     <div className="flex flex-col sm:flex-row gap-3 items-stretch">
       <div className="relative flex-1 max-w-md">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--ink-400)]" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--navy-400)]" />
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
@@ -40,8 +40,8 @@ export default function TaskFilters({ q, setQ, statusFilter, setStatusFilter }: 
             className={cn(
               "h-9 px-3.5 rounded-md text-[13px] font-medium transition-colors",
               statusFilter === opt.v
-                ? "bg-[var(--ink-900)] text-white"
-                : "text-[var(--ink-700)] hover:bg-[var(--ink-50)]"
+                ? "bg-[var(--navy-900)] text-white"
+                : "text-[var(--navy-700)] hover:bg-[var(--navy-50)]"
             )}
           >
             {opt.l}

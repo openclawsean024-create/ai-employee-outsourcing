@@ -17,7 +17,7 @@ export default function RecentTasksPanel({ recentTasks }: Props) {
       <div className="space-y-2">
         {recentTasks.slice(0, 3).map(t => (
           <div key={t.id} className="flex items-center gap-2">
-            <FileText className="w-3.5 h-3.5 text-[var(--ink-400)] flex-shrink-0" />
+            <FileText className="w-3.5 h-3.5 text-[var(--navy-400)] flex-shrink-0" />
             <div className="text-body-sm truncate flex-1">{t.taskName}</div>
             <span className={cn(
               "badge",

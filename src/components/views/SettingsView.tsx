@@ -70,7 +70,7 @@ export default function SettingsView() {
           <div className="card p-4 flex items-center justify-between">
             <div>
               <div className="text-h4">{TIER_LABELS[settings.tier]}</div>
-              <div className="text-body-sm text-[var(--ink-500)] mt-0.5">
+              <div className="text-body-sm text-[var(--navy-500)] mt-0.5">
                 {TIER_LIMITS[settings.tier].taskLimit === Infinity
                   ? '無限任務'
                   : `${TIER_LIMITS[settings.tier].taskLimit.toLocaleString()} 任務 / 月`}
@@ -93,7 +93,7 @@ export default function SettingsView() {
             onChange={e => updateSettings({ defaultCostLimit: Number(e.target.value) })}
             className="w-full accent-[var(--brand)]"
           />
-          <div className="flex items-center justify-between text-body-sm text-[var(--ink-500)] mt-1">
+          <div className="flex items-center justify-between text-body-sm text-[var(--navy-500)] mt-1">
             <span>NT$ 1</span>
             <span>NT$ 50</span>
           </div>
@@ -102,7 +102,7 @@ export default function SettingsView() {
 
       {/* API Keys (future) */}
       <Section title="API 金鑰" icon={Key}>
-        <p className="text-body-sm text-[var(--ink-500)] mb-4">
+        <p className="text-body-sm text-[var(--navy-500)] mb-4">
           連接你自己的 OpenAI / Anthropic API 金鑰可享有更便宜的模型成本。
           目前 Beta 版僅使用平台預載金鑰。
         </p>
@@ -120,7 +120,7 @@ export default function SettingsView() {
             className="input opacity-50 cursor-not-allowed"
           />
         </div>
-        <div className="text-body-sm text-[var(--ink-500)] mt-2">
+        <div className="text-body-sm text-[var(--navy-500)] mt-2">
           Sprint 2 開放自訂金鑰功能
         </div>
       </Section>
@@ -154,7 +154,7 @@ function Section({ title, icon: Icon, children }: {
   return (
     <section>
       <div className="flex items-center gap-2 mb-4">
-        <Icon className="w-4 h-4 text-[var(--ink-500)]" strokeWidth={1.75} />
+        <Icon className="w-4 h-4 text-[var(--navy-500)]" strokeWidth={1.75} />
         <div className="text-micro">{title}</div>
       </div>
       <div className="card p-6 space-y-5">
@@ -167,7 +167,7 @@ function Section({ title, icon: Icon, children }: {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="text-body-sm font-medium text-[var(--ink-700)] block mb-2">{label}</label>
+      <label className="text-body-sm font-medium text-[var(--navy-700)] block mb-2">{label}</label>
       {children}
     </div>
   );

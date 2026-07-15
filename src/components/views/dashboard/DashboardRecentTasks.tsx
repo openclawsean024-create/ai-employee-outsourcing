@@ -9,8 +9,8 @@ import type { TaskLog, View } from '@/lib/types';
 function EmptyTasks({ onCreate }: { onCreate: () => void }) {
   return (
     <div className="card p-12 text-center">
-      <div className="w-12 h-12 mx-auto rounded-lg bg-[var(--ink-50)] flex items-center justify-center mb-4">
-        <Receipt className="w-6 h-6 text-[var(--ink-400)]" strokeWidth={1.5} />
+      <div className="w-12 h-12 mx-auto rounded-lg bg-[var(--navy-50)] flex items-center justify-center mb-4">
+        <Receipt className="w-6 h-6 text-[var(--navy-400)]" strokeWidth={1.5} />
       </div>
       <div className="text-h4 mb-2">還沒有任何任務</div>
       <p className="text-body-sm max-w-md mx-auto mb-6">
@@ -58,9 +58,9 @@ export default function DashboardRecentTasks({ onNavigate }: { onNavigate: (v: V
       ) : (
         <div className="card divide-y divide-[var(--border-soft)]">
           {recent.map(t => (
-            <div key={t.id} className="flex items-center gap-4 px-5 py-4 hover:bg-[var(--ink-25)] transition-colors">
+            <div key={t.id} className="flex items-center gap-4 px-5 py-4 hover:bg-[var(--cream-50)] transition-colors">
               <div className="flex-1 min-w-0">
-                <div className="text-body text-[var(--ink-900)] font-medium truncate">{t.taskName}</div>
+                <div className="text-body text-[var(--navy-900)] font-medium truncate">{t.taskName}</div>
                 <div className="text-body-sm mt-0.5 truncate">
                   {t.agentNames.slice(0, 3).join(' · ')} · {fmtShortDate(t.createdAt)}
                 </div>
@@ -68,7 +68,7 @@ export default function DashboardRecentTasks({ onNavigate }: { onNavigate: (v: V
               <span className={`badge ${statusBadgeClass(t.status)}`}>
                 {statusLabel(t.status)}
               </span>
-              <div className="text-body-sm text-tabular w-20 text-right text-[var(--ink-700)]">{fmtMoney(t.totalCost)}</div>
+              <div className="text-body-sm text-tabular w-20 text-right text-[var(--navy-700)]">{fmtMoney(t.totalCost)}</div>
             </div>
           ))}
         </div>

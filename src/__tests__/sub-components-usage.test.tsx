@@ -98,9 +98,9 @@ describe('CostLimitPanel', () => {
 })
 
 describe('DashboardHero', () => {
-  it('應顯示 144 種 Agent 標題', () => {
+  it('應顯示 AI 員工團隊 標題', () => {
     render(<DashboardHero onNavigate={() => {}} />)
-    expect(screen.getByText(/144 種 AI Agent/)).toBeTruthy()
+    expect(screen.getByText(/AI 員工團隊/)).toBeTruthy()
   })
 
   it('點擊「開始使用」應呼叫 onNavigate("task_new")', () => {

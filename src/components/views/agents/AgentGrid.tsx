@@ -44,7 +44,7 @@ function AgentCard({ agent, selected, onToggle }: AgentCardProps) {
       <div className="flex items-center gap-3 pt-4 border-t border-[var(--border-soft)]">
         <span className="badge badge-neutral">{agent.modelType === 'gpt-4o' ? 'GPT-4o' : 'Claude 3.5'}</span>
         <span className="badge badge-success">{evalPct}% 評測</span>
-        <span className="ml-auto text-body-sm text-tabular text-[var(--ink-700)]">${cost}/task</span>
+        <span className="ml-auto text-body-sm text-tabular text-[var(--navy-700)]">${cost}/task</span>
       </div>
 
       {!selected && (
@@ -77,7 +77,7 @@ export default function AgentGrid({ filteredAgents, activeCategory, selectedIds,
       </div>
       {filteredAgents.length === 0 ? (
         <div className="card p-12 text-center">
-          <Search className="w-8 h-8 mx-auto mb-3 text-[var(--ink-300)]" />
+          <Search className="w-8 h-8 mx-auto mb-3 text-[var(--navy-300)]" />
           <div className="text-h4 mb-2">沒有符合的 Agent</div>
           <p className="text-body-sm">換個關鍵字試試，或瀏覽全部類別</p>
         </div>

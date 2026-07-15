@@ -53,10 +53,10 @@ describe('TaskFilters', () => {
     expect(captured).toBe('success')
   })
 
-  it('當前選項應有高亮樣式 (bg-ink-900)', () => {
+  it('當前選項應有高亮樣式 (bg-navy-900)', () => {
     const { container } = render(<TaskFilters q="" setQ={() => {}} statusFilter="success" setStatusFilter={() => {}} />)
     const successBtn = screen.getByText('成功')
-    expect(successBtn.className).toContain('bg-[var(--ink-900)]')
+    expect(successBtn.className).toContain('bg-[var(--navy-900)]')
   })
 
   it('輸入搜尋字應觸發 setQ', () => {

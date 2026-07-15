@@ -42,14 +42,14 @@ export default function DashboardFeaturedAgents({ onNavigate }: { onNavigate: (v
             {featuredAgents.map((a, i) => (
               <tr
                 key={a.name}
-                className={`border-b border-[var(--border-soft)] last:border-0 hover:bg-[var(--ink-25)] transition-colors cursor-pointer ${i % 2 === 1 ? 'bg-[var(--ink-25)]/30' : ''}`}
+                className={`border-b border-[var(--border-soft)] last:border-0 hover:bg-[var(--cream-50)] transition-colors cursor-pointer ${i % 2 === 1 ? 'bg-[var(--cream-50)]/30' : ''}`}
                 onClick={() => onNavigate('agents')}
               >
                 <td className="px-5 py-3.5">
-                  <div className="text-body text-[var(--ink-900)] font-medium">{a.task}</div>
+                  <div className="text-body text-[var(--navy-900)] font-medium">{a.task}</div>
                 </td>
                 <td className="px-5 py-3.5 hidden sm:table-cell">
-                  <div className="text-body-sm text-[var(--ink-700)]">{a.name}</div>
+                  <div className="text-body-sm text-[var(--navy-700)]">{a.name}</div>
                 </td>
                 <td className="px-5 py-3.5 hidden md:table-cell">
                   <span className="badge badge-neutral">{a.model}</span>

@@ -53,7 +53,7 @@ export default function TaskInputPanel(props: Props) {
           style={{ resize: 'vertical', minHeight: 180, lineHeight: 1.6 }}
           disabled={running}
         />
-        <div className="text-body-sm text-[var(--ink-500)] mt-2">
+        <div className="text-body-sm text-[var(--navy-500)] mt-2">
           {input.length} 字 · 越具體，輸出越準
         </div>
       </div>
@@ -63,8 +63,8 @@ export default function TaskInputPanel(props: Props) {
         <div className="card p-4 bg-[#FEF3C7] border-[var(--warning)]/30 flex items-start gap-3">
           <AlertCircle className="w-5 h-5 text-[var(--warning)] flex-shrink-0 mt-0.5" />
           <div className="flex-1">
-            <div className="text-body font-semibold text-[var(--ink-900)] mb-1">預估成本超過單任務上限</div>
-            <div className="text-body-sm text-[var(--ink-700)]">
+            <div className="text-body font-semibold text-[var(--navy-900)] mb-1">預估成本超過單任務上限</div>
+            <div className="text-body-sm text-[var(--navy-700)]">
               預估 NT${estimatedCost.toFixed(2)} &gt; 上限 NT${settings.defaultCostLimit}。
               可提高上限，或精簡 Agent 數量。
             </div>

@@ -15,7 +15,7 @@ export default function TasksHeader({ taskCount, successCount, totalCost }: Prop
       <div className="text-micro mb-3">任務歷史</div>
       <h1 className="text-h1 text-balance">
         {taskCount} 筆任務
-        <span className="text-[var(--ink-500)] font-normal">，成功率 {successRate}%</span>
+        <span className="text-[var(--navy-500)] font-normal">，成功率 {successRate}%</span>
       </h1>
       <p className="text-body-lg mt-3">
         累計花費 {fmtMoney(totalCost)} · 每一筆都可重新檢視輸出

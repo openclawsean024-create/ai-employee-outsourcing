@@ -17,7 +17,7 @@ export default function MobileTabBar() {
   const setView = useAIEOStore(s => s.setView);
 
   return (
-    <nav className="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-[var(--ink-100)] z-50">
+    <nav className="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-[var(--navy-100)] z-50">
       <div className="flex items-stretch justify-around h-16">
         {MOBILE_MENU.map(item => {
           const Icon = item.icon;
@@ -33,7 +33,7 @@ export default function MobileTabBar() {
               >
                 <span className={cn(
                   "w-11 h-11 rounded-full flex items-center justify-center",
-                  "bg-[var(--ink-900)] text-white",
+                  "bg-[var(--navy-900)] text-white",
                   "shadow-[var(--shadow-3)]",
                   "transition-transform active:scale-95"
                 )}>
@@ -48,7 +48,7 @@ export default function MobileTabBar() {
               onClick={() => setView(item.view)}
               className={cn(
                 "flex-1 flex flex-col items-center justify-center gap-1 transition-colors",
-                active ? "text-[var(--ink-900)]" : "text-[var(--ink-500)]"
+                active ? "text-[var(--navy-900)]" : "text-[var(--navy-500)]"
               )}
             >
               <Icon className="w-5 h-5" strokeWidth={1.75} />

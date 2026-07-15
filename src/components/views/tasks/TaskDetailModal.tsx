@@ -14,7 +14,7 @@ export default function TaskDetailModal({ task, onClose }: Props) {
 
   return (
     <div
-      className="fixed inset-0 bg-[var(--ink-900)]/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-[var(--navy-900)]/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
       onClick={onClose}
     >
       <div
@@ -26,7 +26,7 @@ export default function TaskDetailModal({ task, onClose }: Props) {
             <div className="text-micro mb-2">{fmtShortDate(task.createdAt)}</div>
             <h3 className="text-h3">{task.taskName}</h3>
           </div>
-          <button onClick={onClose} className="text-[var(--ink-400)] hover:text-[var(--ink-700)]">
+          <button onClick={onClose} className="text-[var(--navy-400)] hover:text-[var(--navy-700)]">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -58,7 +58,7 @@ export default function TaskDetailModal({ task, onClose }: Props) {
                 <div key={i} className="card p-4">
                   <div className="flex items-center justify-between mb-2">
                     <div className="text-body font-semibold">{r.agentName}</div>
-                    <div className="flex items-center gap-2 text-body-sm text-[var(--ink-500)] text-tabular">
+                    <div className="flex items-center gap-2 text-body-sm text-[var(--navy-500)] text-tabular">
                       <span>{fmtMoney(r.costNTD)}</span>
                       <span>·</span>
                       <span>{fmtDuration(r.durationMs)}</span>
@@ -72,7 +72,7 @@ export default function TaskDetailModal({ task, onClose }: Props) {
                     </div>
                   </div>
                   {r.status === 'success' ? (
-                    <pre className="text-body-sm whitespace-pre-wrap font-sans text-[var(--ink-700)] leading-relaxed">{r.output}</pre>
+                    <pre className="text-body-sm whitespace-pre-wrap font-sans text-[var(--navy-700)] leading-relaxed">{r.output}</pre>
                   ) : (
                     <div className="text-body-sm text-[var(--danger)]">{r.error}</div>
                   )}

@@ -19,8 +19,8 @@ export default function SelectedAgentsPanel({ selectedAgents, running, onToggle,
       </div>
       {selectedAgents.length === 0 ? (
         <div className="text-center py-6">
-          <Bot className="w-8 h-8 mx-auto mb-2 text-[var(--ink-300)]" />
-          <div className="text-body-sm text-[var(--ink-500)] mb-3">尚未選任何 Agent</div>
+          <Bot className="w-8 h-8 mx-auto mb-2 text-[var(--navy-300)]" />
+          <div className="text-body-sm text-[var(--navy-500)] mb-3">尚未選任何 Agent</div>
           <button onClick={onShowAll} className="btn btn-secondary btn-sm">
             挑選 Agent
           </button>
@@ -38,7 +38,7 @@ export default function SelectedAgentsPanel({ selectedAgents, running, onToggle,
                 </div>
                 <button
                   onClick={() => onToggle(a.id)}
-                  className="text-[var(--ink-400)] hover:text-[var(--ink-700)]"
+                  className="text-[var(--navy-400)] hover:text-[var(--navy-700)]"
                   disabled={running}
                 >
                   <X className="w-4 h-4" />

@@ -30,9 +30,9 @@ export default function DashboardCategories({ onNavigate }: { onNavigate: (v: Vi
               <div className="text-micro mb-3">{cat.label}</div>
               <div className="flex items-baseline gap-1.5">
                 <span className="text-h3 text-tabular">{count}</span>
-                <span className="text-body-sm text-[var(--ink-500)]">個 Agent</span>
+                <span className="text-body-sm text-[var(--navy-500)]">個 Agent</span>
               </div>
-              <ArrowRight className="w-4 h-4 text-[var(--ink-300)] mt-3 transition-all group-hover:translate-x-1 group-hover:text-[var(--brand)]" />
+              <ArrowRight className="w-4 h-4 text-[var(--navy-300)] mt-3 transition-all group-hover:translate-x-1 group-hover:text-[var(--brand)]" />
             </button>
           );
         })}

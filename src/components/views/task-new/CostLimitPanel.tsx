@@ -13,7 +13,7 @@ export default function CostLimitPanel({ settings, onChange }: Props) {
       <div className="text-micro mb-3">成本上限</div>
       <div className="flex items-baseline gap-2 mb-3">
         <span className="text-h2 text-tabular">NT${settings.defaultCostLimit}</span>
-        <span className="text-body-sm text-[var(--ink-500)]">/ 任務</span>
+        <span className="text-body-sm text-[var(--navy-500)]">/ 任務</span>
       </div>
       <input
         type="range"
@@ -24,7 +24,7 @@ export default function CostLimitPanel({ settings, onChange }: Props) {
         onChange={e => onChange(Number(e.target.value))}
         className="w-full accent-[var(--brand)]"
       />
-      <div className="text-body-sm text-[var(--ink-500)] mt-1">
+      <div className="text-body-sm text-[var(--navy-500)] mt-1">
         超過會要求確認
       </div>
     </div>

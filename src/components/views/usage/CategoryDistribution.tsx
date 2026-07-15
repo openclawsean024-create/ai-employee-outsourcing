@@ -16,11 +16,11 @@ export default function CategoryDistribution({ topCategories }: Props) {
           {topCategories.map(([cat, count]) => (
             <div key={cat} className="flex items-center justify-between">
               <div className="text-body">{cat}</div>
-              <div className="text-body-sm text-tabular text-[var(--ink-700)]">{count} 次</div>
+              <div className="text-body-sm text-tabular text-[var(--navy-700)]">{count} 次</div>
             </div>
           ))}
           {topCategories.length === 0 && (
-            <div className="text-center text-body-sm text-[var(--ink-500)] py-6">尚無資料</div>
+            <div className="text-center text-body-sm text-[var(--navy-500)] py-6">尚無資料</div>
           )}
         </div>
       </div>

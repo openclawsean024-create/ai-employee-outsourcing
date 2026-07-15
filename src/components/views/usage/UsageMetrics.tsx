@@ -22,7 +22,7 @@ function BigMetric({ icon: Icon, label, value, sub }: {
         <Icon className="w-4 h-4 text-[var(--brand)]" strokeWidth={1.75} />
       </div>
       <div className="text-h2 text-tabular mb-1">{value}</div>
-      {sub && <div className="text-body-sm text-[var(--ink-500)]">{sub}</div>}
+      {sub && <div className="text-body-sm text-[var(--navy-500)]">{sub}</div>}
     </div>
   );
 }
