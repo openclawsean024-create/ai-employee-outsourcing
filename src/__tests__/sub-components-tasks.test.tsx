@@ -82,9 +82,10 @@ describe('TaskTable', () => {
   it('點擊 row 應呼叫 onView(task)', () => {
     const task = makeTask()
     let captured: TaskLog | null = null
-    render(<TaskTable tasks={[task]} hasAnyTask={true} onView={(t) => { captured = t }} />)
+    render(<TaskTable tasks={[task]} hasAnyTask={true} onView={(t: TaskLog) => { captured = t }} />)
     fireEvent.click(screen.getByText('測試任務'))
-    expect(captured?.id).toBe('t1')
+    const id = (captured as TaskLog | null)?.id
+    expect(id).toBe('t1')
   })
 
   it('應顯示任務成本', () => {

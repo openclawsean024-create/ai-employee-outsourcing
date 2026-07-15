@@ -27,18 +27,18 @@
 - ✅ `DashboardOnboardingSteps.tsx` 修正 onboarding steps
 - ✅ `STYLE-NOTES.md` 風格決策紀錄
 
-## Batch 1.5 待啟動（Phase 2b-e）
+## Batch 1.5 執行中（Phase 2c + 2e）
 
-> **狀態**：等 Sean 看完 Batch 1 deploy 決定要不要繼續
+> **狀態**：cron 已依自主推進鐵律啟動；只做 PRD 支援且符合 dashboard 定位的兩項。
 
-| 階段 | 內容 | 建議 |
+| 階段 | 內容 | 決策 |
 |---|---|---|
-| 2b | iPhone mockup | ⚠️ 不建議 — Lindy 是 marketing landing，我是後台 dashboard |
-| 2c | pricing card | 可考慮 — pricing 在 dashboard 也有用 |
-| 2d | Wall of Love | ⚠️ 不建議 — 行銷 landing 才用 |
-| 2e | footer | ✅ 可做 — 通用 |
+| 2b | iPhone mockup | 不做 — marketing landing 元件，不符合後台 dashboard |
+| 2c | pricing card | 執行 — 依 PRD 四方案呈現；只導向設定，不假裝已接金流 |
+| 2d | Wall of Love | 不做 — 無真實 testimonial，避免捏造社會證明 |
+| 2e | footer | 執行 — 提供 in-app 導覽與 Beta/local-first 說明 |
 
-**Sophia 建議**：Batch 1.5 只做 **2c + 2e**（15 分鐘內），2b/2d 不做（跟產品定位不符）。
+**Batch 1.5 DoD**：TDD red/green、完整測試與 build、desktop/mobile E2E、手動 production deploy、curl + 內容驗證、Notion read-back。
 
 ## 下一步（cron 接力起點）
 
