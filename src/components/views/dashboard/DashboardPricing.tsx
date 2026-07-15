@@ -49,7 +49,7 @@ export default function DashboardPricing({ currentTier, onNavigate }: Props) {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 items-stretch">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-stretch">
         {PLAN_ORDER.map((tier) => {
           const limits = TIER_LIMITS[tier];
           const meta = PLAN_META[tier];
