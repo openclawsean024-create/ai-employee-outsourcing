@@ -275,20 +275,20 @@ body {
   .font-display { font-family: var(--font-manrope), system-ui, sans-serif; font-weight: 700; letter-spacing: -0.02em; }
   .font-body { font-family: var(--font-manrope), system-ui, sans-serif; }
 
-  /* Hero display — Lindy H1 72px / 1.05 / -0.02em / 700 */
-  .text-display-xl { font-family: var(--font-manrope), system-ui, sans-serif; font-size: 72px; line-height: 1.05; letter-spacing: -0.02em; font-weight: 700; color: var(--navy-900); }
-  .text-display    { font-family: var(--font-manrope), system-ui, sans-serif; font-size: 72px; line-height: 1.05; letter-spacing: -0.02em; font-weight: 700; color: var(--navy-900); }
+  /* Hero display — Lindy H1 流動 (mobile 49.5 / desktop 72) */
+  .text-display-xl { font-family: var(--font-manrope), system-ui, sans-serif; font-size: clamp(3rem, 2.25rem + 2.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-weight: 700; color: var(--navy-900); }
+  .text-display    { font-family: var(--font-manrope), system-ui, sans-serif; font-size: clamp(3rem, 2.25rem + 2.5vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em; font-weight: 700; color: var(--navy-900); }
 
-  /* 頁面 H1 — Lindy H1 72 */
-  .text-h1         { font-family: var(--font-manrope), system-ui, sans-serif; font-size: 48px; line-height: 1.05; letter-spacing: -0.02em; font-weight: 700; color: var(--navy-900); }
+  /* 頁面 H1 — Lindy 流動 (mobile 32 / desktop 48) */
+  .text-h1         { font-family: var(--font-manrope), system-ui, sans-serif; font-size: clamp(2rem, 1.5rem + 1.7vw, 3rem); line-height: 1.05; letter-spacing: -0.02em; font-weight: 700; color: var(--navy-900); }
 
-  /* H2 — Lindy H2 48 */
-  .text-h2         { font-family: var(--font-manrope), system-ui, sans-serif; font-size: 48px; line-height: 1.05; letter-spacing: -0.02em; font-weight: 700; color: var(--navy-900); }
+  /* H2 — Lindy 流動 (mobile 32 / desktop 48) */
+  .text-h2         { font-family: var(--font-manrope), system-ui, sans-serif; font-size: clamp(2rem, 1.5rem + 1.7vw, 3rem); line-height: 1.05; letter-spacing: -0.02em; font-weight: 700; color: var(--navy-900); }
 
-  /* H3 — Lindy H3 32 */
-  .text-h3         { font-family: var(--font-manrope), system-ui, sans-serif; font-size: 32px; line-height: 1.15; letter-spacing: -0.01em; font-weight: 700; color: var(--navy-900); }
+  /* H3 — Lindy H3 流動 (mobile 24 / desktop 32) */
+  .text-h3         { font-family: var(--font-manrope), system-ui, sans-serif; font-size: clamp(1.5rem, 1.25rem + 1vw, 2rem); line-height: 1.15; letter-spacing: -0.01em; font-weight: 700; color: var(--navy-900); }
 
-  .text-h4         { font-size: 20px; line-height: 1.4;  font-weight: 700; color: var(--navy-900); }
+  .text-h4         { font-size: clamp(1.125rem, 1rem + 0.5vw, 1.25rem); line-height: 1.4;  font-weight: 700; color: var(--navy-900); }
 
   /* Body — Lindy 16/24 navy */
   .text-body-lg    { font-family: var(--font-manrope), system-ui, sans-serif; font-size: 20px; line-height: 30px;  color: var(--navy-600); }
