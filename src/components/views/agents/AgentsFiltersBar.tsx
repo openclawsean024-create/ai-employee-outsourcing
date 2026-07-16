@@ -49,7 +49,7 @@ export default function AgentsFiltersBar({
   search, setSearch, activeCategory, setActiveCategory, selectedCount, setView,
 }: Props) {
   return (
-    <section className="sticky top-0 bg-white/95 backdrop-blur-md -mx-6 md:-mx-10 px-6 md:px-10 py-3 border-b border-[var(--border-soft)] z-10">
+    <section data-testid="agents-filter-bar" className="sticky top-0 bg-white/95 backdrop-blur-md -mx-6 md:-mx-10 px-6 md:px-10 py-3 border-b border-[var(--border-soft)] z-10">
       <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--navy-400)]" />
@@ -61,7 +61,7 @@ export default function AgentsFiltersBar({
             className="input pl-9"
           />
         </div>
-        <div className="flex items-center gap-2 overflow-x-auto -mx-6 md:mx-0 px-6 md:px-0">
+        <div data-testid="agents-filter-row" className="flex items-center gap-2 overflow-x-auto -mx-6 md:mx-0 px-6 md:px-0">
           <FilterPill
             active={activeCategory === 'all'}
             onClick={() => setActiveCategory('all')}

@@ -1,8 +1,9 @@
 # AI 員工外包平台 — Architecture Control
 
 > Canonical product specification: `PRD/SPEC.md`
-> Active delivery scope: Batch 1.5, Phase 2c + Phase 2e
-> Updated: 2026-07-15
+> Active delivery scope: Batch 2.1, UX-1 + UX-3
+> Ground truth: `/home/sean/Program/ai-employee-outsourcing`
+> Updated: 2026-07-16
 
 ## 1. Runtime architecture
 

@@ -802,7 +802,29 @@ quadrantChart
 
 ---
 
-*文件結束。本 PRD 為 v2.2.1，已通過 validate_prd.py 100% 合規。下游開發可依本文件執行 Sprint 1 v1 MVP。*
+### Z. Batch 2.1 實作規格：UX-1 + UX-3（2026-07-16）
+
+**範圍**：只修正兩個 Sprint 2 P1 UX 視覺瑕疵，不新增頁面、不接 API、不改產品流程。
+
+**UX-1 DoD（成本超限警告）**
+- `TaskInputPanel` 不再硬編 `#FEF3C7`，背景改用既有 semantic design token。
+- 警告卡在 light surface 上維持可讀對比，warning icon、標題與說明仍可辨識。
+- 既有 over-limit 行為不變：未確認時執行按鈕 disabled，確認後可執行。
+
+**UX-3 DoD（Agent filters mobile spacing）**
+- `AgentsFiltersBar` 在 mobile 的 sticky filter row 使用與內容容器一致的水平 padding。
+- category pills 可水平捲動，不產生不必要的 viewport overflow。
+- desktop layout 與既有搜尋、分類、選取 Agent 導覽行為不變。
+
+**共同驗收**
+- 先寫 focused tests，再跑完整 Vitest suite。
+- `npm run build` 零錯誤。
+- production deploy 後以 `curl -L` 驗證 HTTP 200、title 與關鍵內容。
+- 以 390px / 768px / 1440px viewport 驗證實際 layout，並 read-back Notion。
+
+---
+
+*文件結束。本 PRD 為 v2.2.1，已通過 validate_prd.py 100% 合規。下游開發可依本文件執行 Sprint 1 v1 MVP.*
 
 ## X. Sprint 1 實作紀錄
 

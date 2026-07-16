@@ -60,7 +60,7 @@ export default function TaskInputPanel(props: Props) {
 
       {/* Cost warning */}
       {overLimit && (
-        <div className="card p-4 bg-[#FEF3C7] border-[var(--warning)]/30 flex items-start gap-3">
+        <div data-testid="cost-warning" className="card p-4 bg-[var(--warning-soft)] border-[var(--warning)]/30 flex items-start gap-3">
           <AlertCircle className="w-5 h-5 text-[var(--warning)] flex-shrink-0 mt-0.5" />
           <div className="flex-1">
             <div className="text-body font-semibold text-[var(--navy-900)] mb-1">預估成本超過單任務上限</div>
