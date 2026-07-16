@@ -19,8 +19,9 @@
 |---|---|
 | Phase | **05_EVOLUTION — Batch 2.1 已部署並完成活線驗證** |
 | Batch | **UX-1 + UX-3** |
-| 最新 commit | `2b91299` (`fix(batch2.1): polish mobile filters and cost warning`) |
-| GitHub main | `2b91299955377e9b74607cc82857efd382868764` |
+| 最新 commit | `2cf2765` (`chore(batch2.1): record production verification`) |
+| Batch implementation commit | `2b91299` (`fix(batch2.1): polish mobile filters and cost warning`) |
+| GitHub main | `2cf2765` |
 | 測試 | **96/96 pass**（7 test files，含 Batch 2.1 focused tests） |
 | Build | **0 errors**（Next.js 16.2.10，TypeScript pass） |
 | Production health | **HTTP 200**，final URL、title、關鍵內容正常 |
