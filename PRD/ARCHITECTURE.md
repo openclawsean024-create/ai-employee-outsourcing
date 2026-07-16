@@ -43,11 +43,15 @@ Design tokens
 ## 5. Verification and deployment
 
 1. Focused tests for UX-1 and UX-3.
-2. Full `npm test` and `npm run build`.
+2. Full `npm test`, `npm run lint`, and `npm run build`.
 3. Static checks for secrets, emoji, and compiled responsive CSS.
 4. Manual `vercel --prod --yes` from the ground-truth directory.
 5. Redirect-aware curl and 390px, 768px, and 1440px live browser checks.
 6. Notion update only after the live deployment evidence exists, followed by read-back verification.
+
+## 5.1 Lint configuration
+
+Next.js 16.2.10 no longer provides the `next lint` CLI. The project uses ESLint 9 flat config through `eslint.config.mjs` and the `eslint .` package script. TypeScript and TSX correctness remain covered by `next build` and Vitest.
 
 ## 6. Known risks
 

@@ -818,9 +818,14 @@ quadrantChart
 
 **共同驗收**
 - 先寫 focused tests，再跑完整 Vitest suite。
+- `npm run lint` 使用 ESLint flat config，必須零錯誤。
 - `npm run build` 零錯誤。
 - production deploy 後以 `curl -L` 驗證 HTTP 200、title 與關鍵內容。
 - 以 390px / 768px / 1440px viewport 驗證實際 layout，並 read-back Notion。
+
+**Lint configuration decision**
+- Next.js 16.2.10 已移除 `next lint` CLI；本專案改用 ESLint 9 flat config（`eslint.config.mjs`）與 `eslint .` script。
+- 本次只把 ESLint parser-level baseline 設為可執行驗證；TypeScript/TSX correctness 由 `next build` 與 Vitest 負責。
 
 ---
 

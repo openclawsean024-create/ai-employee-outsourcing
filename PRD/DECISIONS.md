@@ -26,3 +26,11 @@
 - (C) 最後決策：新增/使用 semantic token，讓 component 只表達意圖，並以 focused test + live viewport 檢查對比。
 - (D) 日期：2026-07-16
 - 取捨：不在本批次重做整套色彩系統。
+
+## D-004 — ESLint command on Next.js 16
+
+- (A) 問題陳述：`npm run lint` 原本指向 `next lint`，但 Next.js 16.2.10 已移除該 CLI，導致驗證命令失效。
+- (B) 考慮的選項：刪除 lint script；保留失效的 `next lint`；改用 ESLint 9 flat config 與 `eslint .`。
+- (C) 最後決策：採用 ESLint 9 flat config（`eslint.config.mjs`），讓 `npm run lint` 成為可重複執行的 parser-level baseline；完整 TypeScript/TSX 驗證由 `next build` 與 Vitest 負責。
+- (D) 日期：2026-07-16
+- 取捨：本次不引入 Next.js ESLint plugin，避免在 Next.js 16 migration 期間增加設定耦合；後續可另開 lint rules hardening batch。

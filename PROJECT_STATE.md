@@ -19,10 +19,11 @@
 |---|---|
 | Phase | **05_EVOLUTION — Batch 2.1 已部署並完成活線驗證** |
 | Batch | **UX-1 + UX-3** |
-| 最新 commit | `2cf2765` (`chore(batch2.1): record production verification`) |
+| 最新 commit | `919aa3c` (`chore(batch2.1): finalize delivery state`) |
 | Batch implementation commit | `2b91299` (`fix(batch2.1): polish mobile filters and cost warning`) |
-| GitHub main | `2cf2765` |
+| GitHub main | `919aa3c` |
 | 測試 | **96/96 pass**（7 test files，含 Batch 2.1 focused tests） |
+| Lint | **PASS**（ESLint 9 flat config，`npm run lint`） |
 | Build | **0 errors**（Next.js 16.2.10，TypeScript pass） |
 | Production health | **HTTP 200**，final URL、title、關鍵內容正常 |
 | Live DOM/CSS | **pass**：warning token runtime `#fff4c4`；filter bar/row 存在；compiled CSS 含 grid-cols-1/2/3/4/5、30 個 `@media` |
@@ -39,6 +40,7 @@
 - [x] 完整內層驗證：7 test files / 96 tests pass
 - [x] Production build：`npm run build` pass，TypeScript 0 errors
 - [x] 靜態檢查：secret scan pass、changed source emoji scan pass、`git diff --check` pass
+- [x] Lint：`npm run lint` 使用 ESLint 9 flat config，pass
 - [x] 本地 390px / 768px / 1440px screenshots 完成
 - [x] Git commit + GitHub push 完成
 - [x] Vercel production deploy 完成
@@ -51,6 +53,7 @@
 ### Inner Dev
 
 - `npm test`：7 files / 96 tests passed
+- `npm run lint`：ESLint 9 flat config pass
 - `npm run build`：Next.js production build passed
 - CSS audit：`grid-cols-1` 至 `grid-cols-5` 均存在，30 個 `@media`
 - secret scan：pass
