@@ -78,6 +78,7 @@ export default function Sidebar({ collapsed, onToggle }: Props) {
       <button
         onClick={onToggle}
         className="h-10 flex items-center justify-center border-t border-[var(--border-soft)] text-[var(--navy-400)] hover:text-[var(--navy-700)] hover:bg-[var(--cream-50)] transition-colors"
+        aria-label={collapsed ? '展開側邊欄' : '收合側邊欄'}
       >
         {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
       </button>

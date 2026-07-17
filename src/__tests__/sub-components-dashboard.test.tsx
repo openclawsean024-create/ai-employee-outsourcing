@@ -34,6 +34,12 @@ describe('DashboardPricing', () => {
     fireEvent.click(screen.getByRole('button', { name: '查看 Pro 版方案' }));
     expect(view).toBe('settings');
   });
+
+  it('keeps the visible current-plan CTA as its accessible name', () => {
+    render(<DashboardPricing currentTier="pro" onNavigate={() => {}} />);
+
+    expect(screen.getByRole('button', { name: '管理目前方案' })).toBeTruthy();
+  });
 });
 
 describe('DashboardFooter', () => {

@@ -95,7 +95,7 @@ export default function DashboardPricing({ currentTier, onNavigate }: Props) {
                   type="button"
                   onClick={() => onNavigate('settings')}
                   className={`btn w-full mt-6 ${isRecommended ? 'btn-primary' : 'btn-secondary'}`}
-                  aria-label={isCurrent ? `管理${TIER_LABELS[tier]}` : `查看 ${TIER_LABELS[tier]}方案`}
+                  aria-label={isCurrent ? '管理目前方案' : undefined}
                 >
                   <Users className="w-4 h-4" strokeWidth={2} />
                   {isCurrent ? '管理目前方案' : `查看 ${TIER_LABELS[tier]}方案`}

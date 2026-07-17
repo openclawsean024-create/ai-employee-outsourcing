@@ -10,10 +10,10 @@
 
 :root {
   /* Brand — Lindy 鮮藍 (取代 Relevance 紫) */
-  --brand:        #2A66FF;
-  --brand-hover:  #2252CC;
-  --brand-soft:   #C5D4FF;       /* Lindy nav hover pill bg */
-  --brand-tint:   rgba(42, 102, 255, 0.85);
+  --brand:        #1747C7;
+  --brand-hover:  #12399F;
+  --brand-soft:   #E7EEFF;       /* accessible active navigation surface */
+  --brand-tint:   rgba(23, 71, 199, 0.85);
 
   /* Navy text scale (取代 ink-900 系列) */
   --navy-900: #0F3547;            /* H1/H2/H3 主要文字 */
@@ -49,7 +49,7 @@
   --imessage-blue: #0A84FF;
 
   /* Status */
-  --success: #10B981;
+  --success: #047857;
   --warning: #F59E0B;
   --warning-soft: #FFF4C4;
   --danger:  #EF4444;
@@ -239,7 +239,7 @@ body {
     font-weight: 600;
     letter-spacing: 0.01em;
   }
-  .badge-brand   { background: var(--brand-soft); color: var(--brand); }
+  .badge-brand   { background: var(--brand-soft); color: #1747C7; }
   .badge-neutral { background: var(--navy-100); color: var(--navy-700); }
   .badge-success { background: #D1FAE5; color: #065F46; }
   .badge-warning { background: #FEF3C7; color: #92400E; }
