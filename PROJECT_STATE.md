@@ -19,9 +19,9 @@
 |---|---|
 | Phase | **05_EVOLUTION — Batch 2.3 UX-2 已部署並完成活線驗證** |
 | Batch | **UX-2 mobile task card fallback** |
-| 最新 commit | `9b48503` (`docs(state): record notion sync for batch 2.3`) |
+| 最新 commit | `2877a07` (`docs(state): update batch 2.3 commit pointer`) |
 | Batch implementation commit | `fdfc8b8` (`fix(batch2.3): add mobile task card fallback`) |
-| GitHub main | `9b48503` |
+| GitHub main | `2877a07` |
 | 測試 | **98/98 pass**（7 test files，含 Batch 2.3 focused tests） |
 | Lint | **PASS**（ESLint 9 flat config，`npm run lint`） |
 | Build | **0 errors**（Next.js 16.2.10，TypeScript pass） |
@@ -107,7 +107,7 @@
 
 ### Meta Evolution
 
-- GitHub `main` 已同步 commit `9b48503`（implementation `fdfc8b8`）
+- GitHub `main` 已同步 commit `2877a07`（implementation `fdfc8b8`）
 - Notion page `364449ca-65d8-810d-a4dc-c89a533677ac` 已完成 Batch 2.3 兩階段 PATCH + GET read-back：狀態、Vercel、程式碼完成度、PRD 規格分數、商業化分數、更新日期、進度均正確
 - Production 狀態已同步為 `已上線`
 - 下一 tick 若無具體 DoD 優先項，依 Healthy-Idle 規則不任意挑 backlog scope creep
