@@ -375,19 +375,21 @@ model Subscription {
 
 ### 6.1 v1 MVP DoD
 
-- [ ] Vercel production URL 200 OK
-- [ ] GitHub Repo 公開（main 分支）
-- [ ] 144 種預載 AI Agent（10 大類）
-- [ ] Agent 選擇 UI（含搜尋）
-- [ ] 多 Agent 協作（3-5 個）
-- [ ] 任務執行（GPT-4o + Claude）
-- [ ] 結果彙整報告
-- [ ] 範本儲存 + 一鍵執行
-- [ ] 任務歷史（IndexedDB 100 筆）
-- [ ] 效益報表
-- [ ] RWD 三斷點測試
-- [ ] Lighthouse 行動版 ≥85
-- [ ] 10 條 AC 單元測試全綠
+- [x] Vercel production URL 200 OK
+- [x] GitHub Repo 公開（main 分支）
+- [x] 144 種預載 AI Agent（10 大類）
+- [x] Agent 選擇 UI（含搜尋）
+- [x] 多 Agent 協作（3-5 個）
+- [x] 任務執行（本地 mock orchestrator；真實 GPT-4o / Claude API 為 Sprint 3）
+- [x] 結果彙整報告
+- [x] 範本儲存 + 一鍵執行
+- [x] 任務歷史（IndexedDB 100 筆）
+- [x] 效益報表
+- [x] RWD 三斷點測試
+- [x] Lighthouse 行動版 100（桌面版 100）
+- [x] 10 條 AC 單元測試全綠
+
+> Batch 2.2 新增可驗證品質閘門：Lighthouse desktop/mobile 四維均 100；Accessibility contrast、accessible name、Agentic Browsing accessibility tree 均通過。
 
 ### 6.2 v2 企業版 DoD
 

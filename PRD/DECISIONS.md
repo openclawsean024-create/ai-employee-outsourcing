@@ -34,3 +34,11 @@
 - (C) 最後決策：採用 ESLint 9 flat config（`eslint.config.mjs`），讓 `npm run lint` 成為可重複執行的 parser-level baseline；完整 TypeScript/TSX 驗證由 `next build` 與 Vitest 負責。
 - (D) 日期：2026-07-16
 - 取捨：本次不引入 Next.js ESLint plugin，避免在 Next.js 16 migration 期間增加設定耦合；後續可另開 lint rules hardening batch。
+
+## D-005 — Batch 2.2 accessibility quality gate
+
+- (A) 問題陳述：Batch 2.1 已完成 UX 修正，但 Lighthouse baseline 仍顯示 desktop Accessibility 89、Agentic Browsing 50，mobile Accessibility 96；production 仍有 accessible name 與 color contrast 缺陷。
+- (B) 考慮的選項：只接受 mobile ≥85；只修 button labels；修正 semantic brand/success tokens、sidebar toggle accessible name、visible label mismatch，並以 desktop/mobile Lighthouse 重跑驗收。
+- (C) 最後決策：執行 Batch 2.2 accessibility hardening。brand token 改用通過對比門檻的深藍，active surface 改為較淺 token，success 改為深綠，current-plan CTA 保留可見文字作 accessible name，sidebar collapse button 加 aria-label。
+- (D) 日期：2026-07-17
+- 取捨：不擴張到 Top 20 Agent 內容或 Dexie migration；以最小視覺/語意變更取得 Lighthouse 四維全綠。
