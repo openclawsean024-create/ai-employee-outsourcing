@@ -41,6 +41,13 @@
 | UX-2 | `TaskTable` mobile 隱藏欄位後整列可讀性下降 | tasks/TaskTable.tsx | 2h（加 mobile card view fallback） |
 | UX-3 | `AgentsFiltersBar` sticky bar mobile 沒設 padding 對齊 | agents/AgentsFiltersBar.tsx | 0.5h |
 
+### ✅ P1 — UX-2 mobile task card fallback（已完成 2026-07-17）
+
+- **問題**：TaskTable 在 mobile 隱藏 Agent / duration 欄後，任務列資訊密度與可讀性下降。
+- **決策**：新增 mobile-only card layout；desktop 保留 table layout，避免破壞既有寬螢幕 workflow。
+- **驗證**：focused 15/15、full 98/98、lint pass、build pass。
+- **Implementation**：待本批 commit
+
 ### ✅ P1 — Run Lighthouse 100/100/100/100（V3 SOP 強制，已完成 2026-07-17）
 
 - **範圍**: 4 維 — Performance / Accessibility / Best Practices / SEO
@@ -91,11 +98,9 @@
 
 排序 = 落地後立刻看到改進的可見度：
 
-1. **UX-1 / UX-3**（共 1h，純前端、低風險、立刻看到）
-2. **Lighthouse 100**（1 天，產 4 截圖 + benchmark）
-3. **UX-2**（2h，mobile-only bug）
-4. **Top 20 Agent 內容升級**（1 天，Demo 升級）
-5. **Dexie migration SOP**（2h，預防性）
+1. **Top 20 Agent 內容升級**（1 天，Demo 升級）
+2. **UX-1 / UX-3**（共 1h，純前端、低風險、立即可見）
+3. **Dexie migration SOP**（2h，預防性）
 
 ---
 

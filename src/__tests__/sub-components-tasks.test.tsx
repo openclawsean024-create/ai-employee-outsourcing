@@ -79,14 +79,25 @@ describe('TaskTable', () => {
     expect(screen.getByText('沒有符合的任務')).toBeTruthy()
   })
 
-  it('點擊 row 應呼叫 onView(task)', () => {
+  it('點擊 mobile card 的檢視按鈕應呼叫 onView(task)', () => {
     const task = makeTask()
     let captured: TaskLog | null = null
     render(<TaskTable tasks={[task]} hasAnyTask={true} onView={(t: TaskLog) => { captured = t }} />)
-    fireEvent.click(screen.getByText('測試任務'))
+    fireEvent.click(screen.getByRole('button', { name: '檢視測試任務' }))
     const id = (captured as TaskLog | null)?.id
     expect(id).toBe('t1')
   })
+
+  it('mobile fallback 應用 card 呈現任務細節與檢視按鈕', () => {
+    const task = makeTask({ agentNames: ['客服專員', '文案助手', '資料分析'] });
+    render(<TaskTable tasks={[task]} hasAnyTask={true} onView={() => {}} />);
+
+    const mobileCard = screen.getByTestId('task-mobile-card-t1');
+    expect(mobileCard.textContent).toContain('測試任務');
+    expect(mobileCard.textContent).toContain('客服專員');
+    expect(mobileCard.textContent).toContain('成功');
+    expect(screen.getByRole('button', { name: '檢視測試任務' })).toBeTruthy();
+  });
 
   it('應顯示任務成本', () => {
     const task = makeTask({ totalCost: 12.42 })
@@ -100,24 +111,24 @@ describe('TaskTable', () => {
       agentNames: ['A', 'B', 'C', 'D'],
     })
     render(<TaskTable tasks={[task]} hasAnyTask={true} onView={() => {}} />)
-    expect(screen.getByText(/\+2/)).toBeTruthy()
+    expect(screen.getByTestId('task-mobile-card-t1').textContent).toContain('+2');
   })
 
   it('status badge 應顯示中文標籤', () => {
     const task = makeTask({ status: 'success' })
     render(<TaskTable tasks={[task]} hasAnyTask={true} onView={() => {}} />)
-    expect(screen.getByText('成功')).toBeTruthy()
+    expect(screen.getByTestId('task-mobile-card-t1').textContent).toContain('成功');
   })
 
   it('failed status 應顯示「失敗」', () => {
     const task = makeTask({ status: 'failed' })
     render(<TaskTable tasks={[task]} hasAnyTask={true} onView={() => {}} />)
-    expect(screen.getByText('失敗')).toBeTruthy()
+    expect(screen.getByTestId('task-mobile-card-t1').textContent).toContain('失敗');
   })
 
   it('partial status 應顯示「部分」', () => {
     const task = makeTask({ status: 'partial' })
     render(<TaskTable tasks={[task]} hasAnyTask={true} onView={() => {}} />)
-    expect(screen.getByText('部分')).toBeTruthy()
+    expect(screen.getByTestId('task-mobile-card-t1').textContent).toContain('部分');
   })
 })

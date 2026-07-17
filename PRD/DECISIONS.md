@@ -35,6 +35,13 @@
 - (D) 日期：2026-07-16
 - 取捨：本次不引入 Next.js ESLint plugin，避免在 Next.js 16 migration 期間增加設定耦合；後續可另開 lint rules hardening batch。
 
+## D-006 — UX-2 mobile task card fallback
+
+- (A) 問題陳述：桌面 table 在 mobile 以隱藏欄位壓縮資訊，TaskTable 任務列只留下部分上下文，降低小螢幕可讀性與操作明確性。
+- (B) 考慮的選項：維持 table；改成所有 viewport 都用 card；mobile-only card、desktop table 雙呈現。
+- (C) 最後決策：採用 mobile-only card fallback。卡片保留任務名稱、日期、Agent、成本、執行時間、狀態，並提供有 accessible name 的檢視按鈕；desktop 維持原 table workflow。
+- (D) 日期：2026-07-17
+- 取捨：多渲染一份語意化 mobile/desktop markup，但避免用 CSS 隱藏造成 mobile context loss；未改動桌面互動行為。
 ## D-005 — Batch 2.2 accessibility quality gate
 
 - (A) 問題陳述：Batch 2.1 已完成 UX 修正，但 Lighthouse baseline 仍顯示 desktop Accessibility 89、Agentic Browsing 50，mobile Accessibility 96；production 仍有 accessible name 與 color contrast 缺陷。

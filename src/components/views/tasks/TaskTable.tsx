@@ -22,7 +22,46 @@ export default function TaskTable({ tasks, hasAnyTask, onView }: Props) {
   }
 
   return (
-    <div className="card overflow-hidden">
+    <>
+      <div className="space-y-3 md:hidden">
+      {tasks.map((t) => (
+        <article key={t.id} data-testid={`task-mobile-card-${t.id}`} className="card p-4">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <h3 className="text-body font-medium text-[var(--navy-900)] truncate">{t.taskName}</h3>
+              <p className="text-body-sm text-[var(--navy-500)] mt-0.5">{fmtShortDate(t.createdAt)}</p>
+            </div>
+            <span className={cn(
+              "badge shrink-0",
+              t.status === 'success' ? 'badge-success' :
+              t.status === 'partial' ? 'badge-warning' : 'badge-danger'
+            )}>
+              {t.status === 'success' ? '成功' : t.status === 'partial' ? '部分' : '失敗'}
+            </span>
+          </div>
+          <dl className="mt-4 grid grid-cols-2 gap-3 text-body-sm">
+            <div>
+              <dt className="text-[var(--navy-500)]">由 Agent 執行</dt>
+              <dd className="mt-0.5 text-[var(--navy-700)]">{t.agentNames.slice(0, 2).join(' · ')}{t.agentNames.length > 2 && ` +${t.agentNames.length - 2}`}</dd>
+            </div>
+            <div>
+              <dt className="text-[var(--navy-500)]">成本</dt>
+              <dd className="mt-0.5 text-[var(--navy-700)] text-tabular">{fmtMoney(t.totalCost)}</dd>
+            </div>
+            <div>
+              <dt className="text-[var(--navy-500)]">執行時間</dt>
+              <dd className="mt-0.5 text-[var(--navy-700)] text-tabular">{fmtDuration(t.totalDurationMs)}</dd>
+            </div>
+          </dl>
+          <button type="button" className="btn btn-secondary btn-sm w-full mt-4" onClick={() => onView(t)} aria-label={`檢視${t.taskName}`}>
+            <Eye className="w-4 h-4" aria-hidden="true" />
+            檢視任務
+          </button>
+        </article>
+      ))}
+      </div>
+
+      <div className="hidden md:block card overflow-hidden">
       <table className="w-full">
         <thead>
           <tr className="border-b border-[var(--border-soft)] text-left bg-[var(--cream-50)]">
@@ -76,6 +115,7 @@ export default function TaskTable({ tasks, hasAnyTask, onView }: Props) {
           ))}
         </tbody>
       </table>
-    </div>
+      </div>
+    </>
   );
 }
