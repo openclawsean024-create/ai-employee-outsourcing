@@ -19,9 +19,9 @@
 |---|---|
 | Phase | **05_EVOLUTION — Batch 2.2 已部署並完成活線驗證** |
 | Batch | **Lighthouse accessibility hardening** |
-| 最新 commit | `d8cd65e` (`fix(batch2.2): improve live accessibility contrast and labels`) |
+| 最新 commit | `2b2f71e` (`docs(batch2.2): close lighthouse backlog item`) |
 | Batch implementation commit | `d8cd65e` (`fix(batch2.2): improve live accessibility contrast and labels`) |
-| GitHub main | `d8cd65e` |
+| GitHub main | `2b2f71e` |
 | 測試 | **96/96 pass**（7 test files，含 Batch 2.2 focused tests） |
 | Lint | **PASS**（ESLint 9 flat config，`npm run lint`） |
 | Build | **0 errors**（Next.js 16.2.10，TypeScript pass） |
@@ -65,6 +65,7 @@
 - [x] 活線 DOM：390px body width 不溢出，filter row `overflow-x: auto`；1440px bar 對齊 main container
 - [x] Notion 4 維欄位更新並 read-back：狀態、Vercel、程式碼完成度、PRD 規格分數、商業化分數、更新日期、進度
 - [x] SPEC v1 MVP DoD 與 Batch 2.2 可驗證品質閘門已更新
+- [x] Sprint 2 backlog Lighthouse item 已關閉並 push（`2b2f71e`）
 
 ## 三層閉環驗證
 
@@ -91,7 +92,7 @@
 
 ### Meta Evolution
 
-- GitHub `main` 已同步 commit `d8cd65e`
+- GitHub `main` 已同步 commit `2b2f71e`（implementation `d8cd65e`）
 - Notion page `364449ca-65d8-810d-a4dc-c89a533677ac` 已完成兩階段 PATCH + GET read-back：狀態、Vercel、程式碼完成度、PRD 規格分數、商業化分數、更新日期、進度均正確
 - Production 狀態已同步為 `已上線`
 - 下一 tick 若無具體 DoD 優先項，依 Healthy-Idle 規則不任意挑 backlog scope creep
