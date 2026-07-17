@@ -41,13 +41,14 @@
 | UX-2 | `TaskTable` mobile 隱藏欄位後整列可讀性下降 | tasks/TaskTable.tsx | 2h（加 mobile card view fallback） |
 | UX-3 | `AgentsFiltersBar` sticky bar mobile 沒設 padding 對齊 | agents/AgentsFiltersBar.tsx | 0.5h |
 
-### 🟢 P1 — Run Lighthouse 100/100/100/100（V3 SOP 強制）
+### ✅ P1 — Run Lighthouse 100/100/100/100（V3 SOP 強制，已完成 2026-07-17）
 
 - **範圍**: 4 維 — Performance / Accessibility / Best Practices / SEO
 - **SOP**: `~/.hermes/skills/devops/lighthouse-100-recipe`
-- **已知 issue**: mobile + 144 cards render 可能 Performance 不到 100
-- **工時**: 1 天（含修效能 bug）
-- **交付**: 4 個 100 分截圖 + Budget JSON
+- **基線**: desktop Accessibility 89 / Agentic Browsing 50；mobile Accessibility 96 / Agentic Browsing 100
+- **交付**: desktop/mobile 四維均 100，50/50 audits pass；production screenshots + DOM + console evidence 已保存
+- **Implementation commit**: `d8cd65e`
+- **Deployment**: `https://ai-employee-outsourcing.vercel.app`
 
 ### 🟢 P2 — Top 20 Agent 內容升級（Demo → 真實感）
 
