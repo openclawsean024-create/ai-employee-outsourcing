@@ -1,900 +1,1000 @@
-# AI 員工外包平台 — 規格計劃書 v2.2.1
+# AI 員工外包｜成果型微型營運助理 — 規格計劃書 v2.2.1
 
-> 版本：v2.2.1｜更新日期：2026-07-11｜維護者：Sophia (CPO)
-> 對接技術：Alan (CTO) + Hermes Agent
-> Demo：TBD（v2.2.1 規格階段，待 Sprint 1 部署）
+> 版本：v2.2.1｜更新日期：2026-07-19｜維護者：Sean PRD Rewrite Specialist｜對接技術：Hermes Agent + engineering
+> 文件狀態：sweet-spot-driven rewrite；不執行任何專案 kill。
 > 原始碼：https://github.com/openclawsean024-create/ai-employee-outsourcing
+> sweet spot：3/10｜建議動作：kill（本次不執行；先驗證再開發）
 
+本文件的數字、競品與市場結論均為待驗證假設；不可把 mock、HTTP 可達性或訪談口頭意願當成營收事實。
 ---
-
 ## 1. 產品概述 (Product Overview)
 
 ### 1.1 問題陳述 (Problem Statement)
 
-台灣微型賣家、小型服務業、KOL / 自媒體、SOHO 族面臨三大重複勞動痛點：
-
-1. **重複任務耗時**：每天 2-3 小時重複回覆私訊、整理訂單、生成週報、製作素材
-2. **真人外包貴**：每月 NT$15,000-50,000（秘書 + 行銷 + 客服 + 設計 全包），微型賣家無法負擔
-3. **現有 AI 工具碎片化**：回覆用 ChatGPT、設計用 Canva、報表用 Excel — 切換多工具反而沒效率
-
-**目標市場**：
-- 個人電商賣家：**10 萬家**
-- 小型服務業：**15 萬家**
-- KOL / 自媒體：**5 萬家**
-- 個人接案 / SOHO 族：**30 萬家**
+本版完全重寫，依 2026 sweet spot 5 問體檢：3/10，建議動作為「kill（本次不執行；先驗證再開發）」。
+市場不是沒有需求，而是現有競品 Coze、GPTs、Manus 已覆蓋原本寬泛的功能。體檢找到的缺口是：現有產品賣的是 Agent 供給與提示詞，不保證台灣微型商家的可交付成果；144 個 Agent 是供給，不是 ROI。
+問題定義採「可觀察工作」而不是抽象 AI 願景：
+1. 使用者目前如何完成任務。
+2. 哪一步造成可量化時間或錯誤成本。
+3. 既有工具為何沒有解決該一步。
+4. 使用者是否願意在兩週內重複使用。
+5. 團隊能否在一人維護範圍內交付。
+Sweet spot 約束：不以競品缺少的「更多功能」當差異，而以單一成果、可驗證事件、明確排除項建立產品邊界。
 
 ### 1.2 目標使用者 (User Personas)
 
-| Persona | 規模 | 核心痛點 | 願付價格 |
-|---|---|---|---|
-| **個人電商賣家（小芳）** | 10 萬 | 重複回覆私訊、訂單整理 | NT$499/月 |
-| **小型服務業（小陳）** | 15 萬 | 客戶預約、行銷素材 | NT$999/月 |
-| **KOL / 自媒體（小凱）** | 5 萬 | 每天發 Reels、回留言 | NT$299/月 |
-| **SOHO / 接案者（小美）** | 30 萬 | 報價、合約、發票 | NT$199/月 |
-| **企業 HR（Linda）** | 5,000 | 多任務 AI Agent 訂閱 | NT$4,999/月 |
+| Persona | 可觸達樣本 | 工作情境 | 主要任務 | 願付訊號 |
+|---|---|---|---|---|
+| Primary | 10 位 pilot | 月營收 NT$10–100 萬、每天有 1–3 小時重複營運工作、但沒有全職助理的電商店主與小型服務業。 | 每週固定工作 | 願意提供真實資料並重做 |
+| Secondary | 5 位 adjacent | 相鄰工具使用者 | 目前用競品或表格 | 願意切換/匯出 |
+| Buyer/Influencer | 3–5 位 | 顧問、主管或校園/社群 | 替他人推薦工具 | 願意安排 demo |
 
 ### 1.3 核心價值主張 (Value Proposition)
 
-> 「**144 種 AI Agent 真實職位 + 多 Agent 協作 + 1 個月費 NT$99 USD 起**。把「接案平台」+「RPA」+「AI 工具」三合一，每個 AI Agent 都對應一個真實工作崗位。」
-
-**三大差異化**：
-1. **144 種預載 AI Agent**：從 secretary / customer-service / marketing 至 specialist，每個對應真實職位
-2. **多 Agent 協作**：1 個任務可同時呼叫 3-5 個 Agent，分工執行
-3. **零月費入門 + 高級訂閱**：免費版可試用 5 個 Agent，Pro 版 NT$499/月無限
+> 「只服務「每週固定要交付一份成果」的台灣微型電商與工作室，以人工驗證過的任務包、成本上限與可追溯交付物取代 144 Agent 選單。」
+這個主張直接回應 sweet=3：不是複製 Coze、GPTs、Manus 的主功能，而是聚焦「現有產品賣的是 Agent 供給與提示詞，不保證台灣微型商家的可交付成果；144 個 Agent 是供給，不是 ROI。」所留下的可驗證空間。
+價值交換：使用者付出少量結構化輸入，換取一個可檢查、可匯出、可採取下一步的結果；系統不要求相信黑箱分數。
 
 ### 1.4 商業目標 (KPIs / OKRs)
 
-| 時間 | KPI | 目標值 |
-|---|---|---|
-| **3 個月** | 註冊用戶 | 3,000 |
-| **6 個月** | 付費轉化率 | 10%（300 付費） |
-| **6 個月** | MRR | NT$200,000 |
-| **12 個月** | MRR | NT$800,000 |
-| **12 個月** | 月執行任務 | 100 萬次 |
+| 期間 | 產品 KPI | 成功門檻 | 不應追逐 |
+|---|---|---|---|
+| Discovery 2 週 | 完成 15 次訪談 + 5 次 pilot | ≥5 人提供真實資料 | 總註冊數 |
+| MVP 4 週 | 核心事件完成率 | ≥60% pilot 完成 2 次 | 功能數 |
+| M6 | 付費/合作訊號 | 依本案 §15 目標 | 虛大 TAM |
+| 每週 | 品質與成本 | 錯誤可追溯、成本可預測 | 模型 token 量 |
 
-### 1.5 Non-Goals (明確不做)
+### 1.5 ⭐ Non-Goals (明確不做)
 
-- ❌ **不做真人物理外包** — 與定位衝突
-- ❌ **不做企業 ERP** — 與既有系統重疊
-- ❌ **不做 AI 模型自訓** — 整合既有 GPT-4o / Claude API
-- ❌ **不做內容創作版權審核** — 法規複雜
-- ❌ **不取代所有 AI 工具** — 與 ChatGPT / Canva 並存（聚合層）
-- ❌ **不做即時通訊 SDK 整合** — v2 評估（Messenger / LINE SDK）
-
+- ❌ 不做 144 種 Agent 市集或通用聊天入口
+- ❌ 不做「AI 取代員工」的無人值守承諾
+- ❌ 不做 Messenger、LINE、ERP 的全面整合
+- ❌ 不做未經人工審核的自動對外發訊息
+- ❌ 不做企業 RPA、流程顧問或模型訓練
+- ❌ 不做低分市場下的長期功能堆疊；sweet=3 專案先驗證再開發
+Non-Goals 執行規則：任何需求若命中以上排除項，必須寫入 decision log；sweet=2/3 專案在驗證門檻達成前不得轉成開發承諾。
 ---
-
-## 2. 使用者場景與流程
+## 2. 使用者場景與流程 (User Scenarios & Flows)
 
 ### 2.1 使用者流程圖
 
 ```mermaid
-graph LR
-    A[選擇 AI Agent<br/>144 種預載] --> B[建立任務]
-    B --> C[多 Agent 協作<br/>3-5 個並行]
-    C --> D[執行任務<br/>GPT-4o / Claude]
-    D --> E[結果彙整 + 報告]
-    E --> F{滿意?}
-    F -->|是| G[儲存為範本]
-    F -->|否| B
+flowchart LR
+  A[進入 landing] --> B[選 primary job]
+  B --> C[匯入最小資料]
+  C --> D[系統產生草稿/分析]
+  D --> E[人工檢查與修正]
+  E --> F[交付或執行下一步]
+  F --> G[記錄結果與時間]
+  G --> H{再次使用?}
+  H -->|是| C
+  H -->|否| I[訪談/退出原因]
 ```
 
+流程原則：先讓使用者完成一個真實 job，再要求註冊、同步或付款。
 ### 2.2 關鍵用戶故事 (User Stories)
 
-**US-001：144 AI Agent 預載選擇**
-> As a SOHO 族  
-> I want to 從 144 種預載 AI Agent 中選擇（如 secretary / customer-service / marketing-specialist）  
-> So that 我不用自己設計 AI 角色，立即開始用
+#### US-001：三個成果型任務包：每週客服 FAQ、訂單異常清單、社群內容週報
+> As a 月營收 NT$10–100 萬、每天有 1–3 小時重複營運工作、但沒有全職助理的電商店主與小型服務業。
+> I want 三個成果型任務包：每週客服 FAQ、訂單異常清單、社群內容週報
+> So that 我能在不改變原有工作習慣下完成一個可交付結果。
 
-**US-002：多 Agent 協作**
-> As a 電商賣家  
-> I want to 一個任務「整理 IG 留言」呼叫 3 個 Agent（客服 Agent 回覆 + 文案 Agent 摘要 + 數據 Agent 統計）  
-> So that 我不用分別執行 3 個工具
+#### US-002：任務輸入表：CSV、貼文匯出、手動貼上與附件
+> As a 月營收 NT$10–100 萬、每天有 1–3 小時重複營運工作、但沒有全職助理的電商店主與小型服務業。
+> I want 任務輸入表：CSV、貼文匯出、手動貼上與附件
+> So that 我能在不改變原有工作習慣下完成一個可交付結果。
 
-**US-003：執行結果彙整**
-> As a KOL  
-> I want to 完成任務後系統自動彙整 3 個 Agent 的輸出成單一報告  
-> So that 我能直接貼到 IG / 報告給主管
+#### US-003：流程分成擷取、草稿、人工核准、交付四個狀態
+> As a 月營收 NT$10–100 萬、每天有 1–3 小時重複營運工作、但沒有全職助理的電商店主與小型服務業。
+> I want 流程分成擷取、草稿、人工核准、交付四個狀態
+> So that 我能在不改變原有工作習慣下完成一個可交付結果。
 
-**US-004：範本儲存**
-> As a 個人賣家  
-> I want to 把「每週回 IG 留言」儲存為範本，下次一鍵執行  
-> So that 我不用每次重新設定 Agent
+#### US-004：每份成果顯示來源、產生時間、使用模型與估算成本
+> As a 月營收 NT$10–100 萬、每天有 1–3 小時重複營運工作、但沒有全職助理的電商店主與小型服務業。
+> I want 每份成果顯示來源、產生時間、使用模型與估算成本
+> So that 我能在不改變原有工作習慣下完成一個可交付結果。
 
-**US-005：任務歷史 + 報表**
-> As a 個人賣家  
-> I want to 月底看見「本月執行 100 任務 / 節省 50 小時 / 用了 5 種 Agent」  
-> So that 我能評估 ROI
+#### US-005：人工核准後才允許複製或下載對外內容
+> As a 月營收 NT$10–100 萬、每天有 1–3 小時重複營運工作、但沒有全職助理的電商店主與小型服務業。
+> I want 人工核准後才允許複製或下載對外內容
+> So that 我能在不改變原有工作習慣下完成一個可交付結果。
 
-**US-006：Pro 多帳號**
-> As a 個人賣家  
-> I want to Pro 版支援 5 個 sub-account（員工 + 接案助理）  
-> So that 我能把工作分配給助理
+#### US-006：任務範本、排程提醒與歷史版本
+> As a 月營收 NT$10–100 萬、每天有 1–3 小時重複營運工作、但沒有全職助理的電商店主與小型服務業。
+> I want 任務範本、排程提醒與歷史版本
+> So that 我能在不改變原有工作習慣下完成一個可交付結果。
+
+#### US-007：ROI 記錄：原本耗時、實際耗時、人工修正時間
+> As a 月營收 NT$10–100 萬、每天有 1–3 小時重複營運工作、但沒有全職助理的電商店主與小型服務業。
+> I want ROI 記錄：原本耗時、實際耗時、人工修正時間
+> So that 我能在不改變原有工作習慣下完成一個可交付結果。
 
 ### 2.3 邊界場景 (Edge Cases)
 
-- **Agent 衝突**：2 個 Agent 給相反建議 → 顯示並列，使用者裁示
-- **任務超時（>5 分鐘）**：自動分段並提示「繼續等待」或「取消」
-- **API 失敗**：單個 Agent 失敗不影響其他 Agent
-- **任務費用過高（>NT$5）**：提示使用者確認後執行
+- 輸入資料不完整：顯示缺漏欄位與可繼續的最小路徑。
+- 使用者不同意保存：只在 session memory 運作，離開即清除。
+- 外部服務逾時：保留草稿、顯示狀態、允許重試且去重。
+- 使用者不採用建議：記錄 reject reason，不把拒絕視為錯誤。
+- 同一事件重複送出：以 idempotency key 防止重複產生。
+- 低網速或手機畫面：文字流程可完成核心 job。
+- 敏感資料誤匯入：提供欄位遮罩與立即刪除。
+- 輸出不符格式：先顯示 validation findings，不直接交付。
 
+### 2.4 Service Blueprint（前台/後台/證據）
+
+| 階段 | 使用者看到 | 系統做什麼 | 品質證據 |
+|---|---|---|---|
+| 取得 | 一個清楚 CTA | 建立匿名 session | event timestamp |
+| 準備 | 欄位與限制 | 驗證格式/權限 | validation log |
+| 生成 | 草稿與進度 | 呼叫 adapter 或 mock | model/cost metadata |
+| 核准 | 差異與風險 | 鎖定版本 | approval event |
+| 回顧 | 成果與 ROI | 計算前後差異 | exportable report |
 ---
-
 ## 3. 功能性需求 (Functional Requirements)
 
-### 3.1 MVP（必做，P0）
+### 3.1 MVP（必做，P0；sweet-spot redefinition）
 
-- [ ] **F-001 144 種 AI Agent 預載**（10 大類：Customer Service / Marketing / Design / Secretary / Data / Sales / HR / Legal / Finance / Specialist）
-- [ ] **F-002 Agent 選擇 UI**（依類別瀏覽 + 關鍵字搜尋）
-- [ ] **F-003 任務建立**（選擇 Agent + 輸入任務 + 附加檔案）
-- [ ] **F-004 多 Agent 協作**（1 任務同時呼叫 3-5 個 Agent）
-- [ ] **F-005 任務執行**（GPT-4o / Claude API 執行，顯示進度）
-- [ ] **F-006 結果彙整**（多 Agent 輸出彙整為單一報告）
-- [ ] **F-007 範本儲存**（任務設定儲存，下次一鍵執行）
-- [ ] **F-008 任務歷史**（IndexedDB 儲存最近 100 任務）
-- [ ] **F-009 效益報表**（任務數 / 節省時間 / 費用）
-- [ ] **F-010 RWD 三斷點 + JSON 匯出匯入**
+本 MVP 由 sweet=3 重新定義：只保留「只服務「每週固定要交付一份成果」的台灣微型電商與工作室，以人工驗證過的任務包、成本上限與可追溯交付物取代 144 Agent 選單。」所需的最短閉環，不做競品已主導的廣泛功能。
+#### FR-001：三個成果型任務包：每週客服 FAQ、訂單異常清單、社群內容週報（MUST）
+- 目的：將 三個成果型任務包：每週客服 FAQ、訂單異常清單、社群內容週報 變成可測試的最小行為。
+- 輸入：使用者提供的最小必要資料；不得默認補造關鍵事實。
+- 輸出：可讀、可修改、可匯出並帶版本/時間戳的結果。
+- 失敗：保留草稿、顯示可理解錯誤與下一步。
 
-### 3.2 v2.0 企業版（加值，P1）
+#### FR-002：任務輸入表：CSV、貼文匯出、手動貼上與附件（MUST）
+- 目的：將 任務輸入表：CSV、貼文匯出、手動貼上與附件 變成可測試的最小行為。
+- 輸入：使用者提供的最小必要資料；不得默認補造關鍵事實。
+- 輸出：可讀、可修改、可匯出並帶版本/時間戳的結果。
+- 失敗：保留草稿、顯示可理解錯誤與下一步。
 
-- [ ] **F-011 多帳號 / 權限分層**（admin / manager / member）
-- [ ] **F-012 API 配額管理**（每月 token 上限）
-- [ ] **F-113 自訂 Agent**（使用者自訂角色 + 提示詞）
-- [ ] **F-114 任務排程**（Inngest 排程每日任務）
-- [ ] **F-115 第三方 API 整合**（Slack / Notion / Google Docs）
-- [ ] **F-116 團隊協作**（多人共用任務 + 評論）
+#### FR-003：流程分成擷取、草稿、人工核准、交付四個狀態（MUST）
+- 目的：將 流程分成擷取、草稿、人工核准、交付四個狀態 變成可測試的最小行為。
+- 輸入：使用者提供的最小必要資料；不得默認補造關鍵事實。
+- 輸出：可讀、可修改、可匯出並帶版本/時間戳的結果。
+- 失敗：保留草稿、顯示可理解錯誤與下一步。
 
-### 3.3 v3.0（願景，P2）
+#### FR-004：每份成果顯示來源、產生時間、使用模型與估算成本（MUST）
+- 目的：將 每份成果顯示來源、產生時間、使用模型與估算成本 變成可測試的最小行為。
+- 輸入：使用者提供的最小必要資料；不得默認補造關鍵事實。
+- 輸出：可讀、可修改、可匯出並帶版本/時間戳的結果。
+- 失敗：保留草稿、顯示可理解錯誤與下一步。
 
-- [ ] **F-017 Agent 市集**（使用者上架自訂 Agent 售賣）
-- [ ] **F-018 即時通訊整合**（Messenger / LINE / WhatsApp Bot）
-- [ ] **F-019 AI 模型選擇**（GPT-4o / Claude / Gemini 多模型）
-- [ ] **F-020 多語言任務**（中英日韓自動切換）
+#### FR-005：人工核准後才允許複製或下載對外內容（MUST）
+- 目的：將 人工核准後才允許複製或下載對外內容 變成可測試的最小行為。
+- 輸入：使用者提供的最小必要資料；不得默認補造關鍵事實。
+- 輸出：可讀、可修改、可匯出並帶版本/時間戳的結果。
+- 失敗：保留草稿、顯示可理解錯誤與下一步。
 
-### 3.4 Acceptance Criteria (Given/When/Then)
+#### FR-006：任務範本、排程提醒與歷史版本（MUST）
+- 目的：將 任務範本、排程提醒與歷史版本 變成可測試的最小行為。
+- 輸入：使用者提供的最小必要資料；不得默認補造關鍵事實。
+- 輸出：可讀、可修改、可匯出並帶版本/時間戳的結果。
+- 失敗：保留草稿、顯示可理解錯誤與下一步。
 
-**AC-001（144 Agent 預載）**
-> Given 首次進入  
-> When 載入 Agent 庫  
-> Then 顯示 144 種 Agent，依 10 大類分類
+#### FR-007：ROI 記錄：原本耗時、實際耗時、人工修正時間（MUST）
+- 目的：將 ROI 記錄：原本耗時、實際耗時、人工修正時間 變成可測試的最小行為。
+- 輸入：使用者提供的最小必要資料；不得默認補造關鍵事實。
+- 輸出：可讀、可修改、可匯出並帶版本/時間戳的結果。
+- 失敗：保留草稿、顯示可理解錯誤與下一步。
 
-**AC-002（Agent 搜尋）**
-> Given 144 種 Agent  
-> When 搜尋「客服」  
-> Then 顯示相關 Agent（customer-service / complaint-handler / faq-bot 等）
+#### FR-008：免費試用不接外部 API，提供可重現 mock workspace（MUST）
+- 目的：將 免費試用不接外部 API，提供可重現 mock workspace 變成可測試的最小行為。
+- 輸入：使用者提供的最小必要資料；不得默認補造關鍵事實。
+- 輸出：可讀、可修改、可匯出並帶版本/時間戳的結果。
+- 失敗：保留草稿、顯示可理解錯誤與下一步。
 
-**AC-003（多 Agent 協作）**
-> Given 任務「整理 IG 留言」  
-> When 選擇 3 個 Agent（客服 + 文案 + 數據）  
-> Then 顯示「3 Agents 協作中」+ 各自進度條
+#### FR-009：刪除、匯出與操作 audit log（MUST）
+- 目的：將 刪除、匯出與操作 audit log 變成可測試的最小行為。
+- 輸入：使用者提供的最小必要資料；不得默認補造關鍵事實。
+- 輸出：可讀、可修改、可匯出並帶版本/時間戳的結果。
+- 失敗：保留草稿、顯示可理解錯誤與下一步。
 
-**AC-004（任務執行結果）**
-> Given 3 個 Agent 協作完成  
-> When 任務執行完畢  
-> Then 顯示彙整報告（合併 3 個 Agent 輸出為單一結構化結果）
+#### FR-010：一個桌面優先、手機可讀的成果工作台（MUST）
+- 目的：將 一個桌面優先、手機可讀的成果工作台 變成可測試的最小行為。
+- 輸入：使用者提供的最小必要資料；不得默認補造關鍵事實。
+- 輸出：可讀、可修改、可匯出並帶版本/時間戳的結果。
+- 失敗：保留草稿、顯示可理解錯誤與下一步。
 
-**AC-005（範本儲存）**
-> Given 已完成任務  
-> When 點擊「儲存為範本」  
-> Then 範本庫新增 1 條，下次可用「一鍵執行」
+### 3.2 v2（加值，P1）
 
-**AC-006（任務歷史）**
-> Given 已完成 50 任務  
-> When 開啟歷史  
-> Then 顯示 50 任務列表（含時間 / Agent / 費用 / 結果摘要）
+- P1-01 LINE/Google Drive 單一 connector（先做一個，不做全整合）：只有在 MVP 指標達標且有 3 個以上相同請求時排入。
+- P1-02 工作室成員與核准權限：只有在 MVP 指標達標且有 3 個以上相同請求時排入。
+- P1-03 成果品質抽樣評分與人工標註：只有在 MVP 指標達標且有 3 個以上相同請求時排入。
+- P1-04 月度 ROI 報告與成本預警：只有在 MVP 指標達標且有 3 個以上相同請求時排入。
+- P1-05 兩個垂直任務包：預約提醒草稿、商品上架草稿：只有在 MVP 指標達標且有 3 個以上相同請求時排入。
+- P1-06 付費 workspace 與用量計費：只有在 MVP 指標達標且有 3 個以上相同請求時排入。
 
-**AC-007（效益報表）**
-> Given 30 天 100 任務  
-> When 開啟報表  
-> Then 顯示「本月 100 任務 / 節省 50 小時 / 費用 NT$120 / 最常用 Agent 前 5」
+### 3.3 v3（探索，P2）
 
-**AC-008（API 失敗降級）**
-> Given 1 個 Agent 失敗  
-> When 5 個 Agent 協作中  
-> Then 失敗 Agent 顯示「失敗 + 重試」按鈕，其他 Agent 繼續執行
+- P2-01 合作夥伴代營運模式：不承諾時程，需重新檢查競品與合規。
+- P2-02 可插拔 connector SDK：不承諾時程，需重新檢查競品與合規。
+- P2-03 垂直產業任務包授權：不承諾時程，需重新檢查競品與合規。
+- P2-04 跨 workspace 的匿名基準資料：不承諾時程，需重新檢查競品與合規。
 
-**AC-009（費用提示）**
-> Given 任務預估費用 NT$15  
-> When 點擊「執行」  
-> Then 提示「本任務費用 NT$15，超過 NT$5 預設上限，確認執行？」
+### 3.4 ⭐ Acceptance Criteria (Given / When / Then)
 
-**AC-010（多帳號）**
-> Given Pro 版  
-> When 建立 sub-account（員工 / 助理）  
-> Then 5 個帳號可登入，各自有獨立任務歷史
+**AC-001：空白 workspace 可在 3 分鐘內建立第一個任務包**
+- **Given** 使用者進入對應流程且權限有效
+- **When** 執行「空白 workspace 可在 3 分鐘內建立第一個任務包」
+- **Then** 系統產生可驗證結果，並寫入事件時間、版本與錯誤狀態。
+- **And** 若失敗則提供降級路徑，不遺失已輸入資料。
 
+**AC-002：CSV 欄位缺漏時列出行號與可修正欄位，不中斷其他資料**
+- **Given** 使用者進入對應流程且權限有效
+- **When** 執行「CSV 欄位缺漏時列出行號與可修正欄位，不中斷其他資料」
+- **Then** 系統產生可驗證結果，並寫入事件時間、版本與錯誤狀態。
+- **And** 使用者可檢查、修改或匯出結果，不被黑箱鎖定。
+
+**AC-003：AI 草稿必有來源引用與「待人工核准」狀態**
+- **Given** 使用者進入對應流程且權限有效
+- **When** 執行「AI 草稿必有來源引用與「待人工核准」狀態」
+- **Then** 系統產生可驗證結果，並寫入事件時間、版本與錯誤狀態。
+- **And** 若失敗則提供降級路徑，不遺失已輸入資料。
+
+**AC-004：未核准成果不可透過公開分享連結取得**
+- **Given** 使用者進入對應流程且權限有效
+- **When** 執行「未核准成果不可透過公開分享連結取得」
+- **Then** 系統產生可驗證結果，並寫入事件時間、版本與錯誤狀態。
+- **And** 使用者可檢查、修改或匯出結果，不被黑箱鎖定。
+
+**AC-005：模型逾時後可重試且不重複計費**
+- **Given** 使用者進入對應流程且權限有效
+- **When** 執行「模型逾時後可重試且不重複計費」
+- **Then** 系統產生可驗證結果，並寫入事件時間、版本與錯誤狀態。
+- **And** 若失敗則提供降級路徑，不遺失已輸入資料。
+
+**AC-006：成本預估超過 NT$10 時顯示二次確認**
+- **Given** 使用者進入對應流程且權限有效
+- **When** 執行「成本預估超過 NT$10 時顯示二次確認」
+- **Then** 系統產生可驗證結果，並寫入事件時間、版本與錯誤狀態。
+- **And** 使用者可檢查、修改或匯出結果，不被黑箱鎖定。
+
+**AC-007：同一輸入與任務版本可查看前後兩版成果**
+- **Given** 使用者進入對應流程且權限有效
+- **When** 執行「同一輸入與任務版本可查看前後兩版成果」
+- **Then** 系統產生可驗證結果，並寫入事件時間、版本與錯誤狀態。
+- **And** 若失敗則提供降級路徑，不遺失已輸入資料。
+
+**AC-008：人工修正可記錄為 feedback，不會自動訓練模型**
+- **Given** 使用者進入對應流程且權限有效
+- **When** 執行「人工修正可記錄為 feedback，不會自動訓練模型」
+- **Then** 系統產生可驗證結果，並寫入事件時間、版本與錯誤狀態。
+- **And** 使用者可檢查、修改或匯出結果，不被黑箱鎖定。
+
+**AC-009：使用者刪除 workspace 後 24 小時內不可復原並提示風險**
+- **Given** 使用者進入對應流程且權限有效
+- **When** 執行「使用者刪除 workspace 後 24 小時內不可復原並提示風險」
+- **Then** 系統產生可驗證結果，並寫入事件時間、版本與錯誤狀態。
+- **And** 若失敗則提供降級路徑，不遺失已輸入資料。
+
+**AC-010：月報表計算節省時間公式可由使用者檢查**
+- **Given** 使用者進入對應流程且權限有效
+- **When** 執行「月報表計算節省時間公式可由使用者檢查」
+- **Then** 系統產生可驗證結果，並寫入事件時間、版本與錯誤狀態。
+- **And** 使用者可檢查、修改或匯出結果，不被黑箱鎖定。
+
+### 3.5 優先級與排除閘門
+
+| 需求類型 | 進入條件 | 退出條件 | Owner |
+|---|---|---|---|
+| P0 | 核心 job 可重做 | 連續 2 sprint 通過 AC | CPO/CTO |
+| P1 | 至少 3 位付費用戶要求 | 成本與資安 review 通過 | 產品 |
+| P2 | 有新市場證據 | 獨立 discovery brief | 研究 |
+| Rejected | 命中 Non-Goals 或無證據 | 不得進 backlog | 全員 |
 ---
-
 ## 4. 系統設計 (System Design)
 
 ### 4.1 技術棧 (Tech Stack)
 
-| 層 | 技術 | 理由 |
-|---|---|---|
-| 前端 | Next.js 14 (App Router) + React 18 + TypeScript | 與既有專案一致 |
-| 樣式 | Tailwind CSS 3 | 快速 RWD |
-| AI API | OpenAI GPT-4o + Anthropic Claude | 多模型 |
-| 狀態管理 | Zustand | 輕量 |
-| 資料持久化 | IndexedDB（Dexie.js） | 任務歷史 + 範本 |
-| 多 Agent 編排 | LangGraph / 自寫 orchestrator | 多 Agent 協作 |
-| 部署 | Vercel | 與既有 91 個專案一致 |
-| B2B 後端 | Supabase（v2 多帳號） | 多租戶 |
+| 層 | 技術 | 選擇理由 | 替代/退出條件 |
+|---|---|---|---|
+| 前端 | Next.js/React/TypeScript | 快速交付與可測試元件 | 需求超過 web 才評估 native |
+| 樣式 | Tailwind + accessible primitives | 一致、鍵盤可用 | 不引入大型 design system |
+| 資料 | IndexedDB 或 Postgres 依 scope | 敏感資料最小化 | 需同步才啟用雲端 |
+| AI/規則 | Provider adapter + schema validation | 可替換、可 mock | 不可接受的成本/品質即切模型 |
+| 任務 | Server action/queue | 保留 idempotency | 長任務才引入 queue |
+| 觀測 | Sentry + structured events | 追錯與衡量轉換 | 不收集不必要個資 |
+| 部署 | Vercel + managed DB（v2） | 單人維運低負擔 | 成本超過 MRR 20% 需檢討 |
 
 ### 4.2 系統架構圖 (Mermaid)
 
 ```mermaid
-graph TB
-    subgraph Browser
-        SPA[Next.js SPA<br/>+ Zustand]
-        IndexedDB[(IndexedDB<br/>Dexie.js<br/>任務+範本)]
-    end
-    
-    subgraph Vercel
-        Frontend[Static Frontend]
-        Orchestrator[/api/orchestrator<br/>多 Agent 協作/]
-    end
-    
-    subgraph External
-        OpenAI[OpenAI GPT-4o]
-        Anthropic[Anthropic Claude 3.5]
-    end
-    
-    subgraph v2_Backend
-        Supabase[(Supabase<br/>多帳號)]
-    end
-    
-    SPA --> Frontend
-    SPA --> IndexedDB
-    SPA --> Orchestrator
-    Orchestrator --> OpenAI
-    Orchestrator --> Anthropic
-    SPA -.v2.-> Supabase
+flowchart TB
+  UI[Browser UI] --> V[Validation + consent]
+  V --> Store[(Local/Server Store)]
+  V --> Orchestrator[Job Orchestrator]
+  Orchestrator --> Adapter[Provider Adapter or Mock]
+  Adapter --> Guard[Safety + schema guard]
+  Guard --> Draft[Draft/Artifact]
+  Draft --> Approval[Human approval]
+  Approval --> Export[Export/next action]
+  Store --> Audit[Audit + metrics]
+  Adapter -. failure .-> Fallback[Deterministic fallback]
 ```
 
-### 4.3 資料模型 (Prisma schema)
+架構邊界：MVP 不把外部 connector、付款、多人權限放進核心 request path。
+### 4.3 資料模型 (Prisma / localStorage schema)
 
 ```prisma
-model AIAgent {
-  id          String   @id @default(uuid())
-  name        String   // customer-service-agent / marketing-specialist
-  displayName String   // 客服 Agent / 行銷專員
-  category    String   // customer_service / marketing / design / secretary / data / sales / hr / legal / finance / specialist
-  description String   @db.Text
-  systemPrompt String  @db.Text
-  tools       Json?    // [{type: "web_search"}, {type: "image_generation"}]
-  modelType   String   @default("gpt-4o") // gpt-4o / claude-3.5
-  isCustom    Boolean  @default(false) // v2 自訂
-  isActive    Boolean  @default(true)
-  taskLogs    TaskLog[]
-  createdAt   DateTime @default(now())
+model Workspace：商家隔離邊界與方案 {
+  id        String   @id @default(cuid())
+  ownerId   String?
+  status    String   @default("active")
+  payload   Json
+  version   Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([ownerId, createdAt])
 }
 
-model TaskLog {
-  id          String   @id @default(uuid())
-  userId      String?
-  agentIds    String[]
-  taskName    String
-  inputData   String   @db.Text
-  outputData  String?  @db.Text
-  costUSD     Decimal? @default(0)
-  status      String   @default("running") // running / success / failed / partial
-  durationMs  Int?
-  templateId  String?
-  createdAt   DateTime @default(now())
-  
-  @@index([userId, createdAt])
+model Taskpack：成果型任務包定義與版本 {
+  id        String   @id @default(cuid())
+  ownerId   String?
+  status    String   @default("active")
+  payload   Json
+  version   Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([ownerId, createdAt])
 }
 
-model TaskTemplate {
-  id          String   @id @default(uuid())
-  userId      String?
-  name        String
-  agentIds    String[]
-  inputConfig Json
-  usageCount  Int      @default(0)
-  createdAt   DateTime @default(now())
+model Run：一次執行的輸入、狀態、成本 {
+  id        String   @id @default(cuid())
+  ownerId   String?
+  status    String   @default("active")
+  payload   Json
+  version   Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([ownerId, createdAt])
 }
 
-model User {
-  id          String   @id @default(uuid())
-  email       String?  @unique
-  tier        String   @default("free") // free / pro / enterprise
-  monthlyCost Decimal  @default(0)
-  taskLogs    TaskLog[]
-  templates   TaskTemplate[]
+model Artifact：可交付成果與來源 {
+  id        String   @id @default(cuid())
+  ownerId   String?
+  status    String   @default("active")
+  payload   Json
+  version   Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([ownerId, createdAt])
 }
 
-model Subscription {
-  id          String   @id @default(uuid()) // v2
-  userId      String
-  tier        String
-  stripeSubscriptionId String?
-  startDate   DateTime
-  endDate     DateTime?
+model Approval：人工核准事件 {
+  id        String   @id @default(cuid())
+  ownerId   String?
+  status    String   @default("active")
+  payload   Json
+  version   Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([ownerId, createdAt])
 }
+
+model Roientry：基準時間與實際時間 {
+  id        String   @id @default(cuid())
+  ownerId   String?
+  status    String   @default("active")
+  payload   Json
+  version   Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([ownerId, createdAt])
+}
+
+model Connector：外部資料來源（V2） {
+  id        String   @id @default(cuid())
+  ownerId   String?
+  status    String   @default("active")
+  payload   Json
+  version   Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([ownerId, createdAt])
+}
+
 ```
 
+資料模型規則：payload 只存完成 job 必需欄位；敏感欄位以 Web Crypto/managed encryption 處理；刪除必須有 tombstone 或可驗證的清除結果。
 ### 4.4 API 規格 (REST endpoints)
 
-| Method | Path | Auth | 用途 |
-|---|---|---|---|
-| GET | /data/agents.json | Optional | 144 種預載 Agent |
-| POST | /api/orchestrator/run | Required | 多 Agent 協作執行 |
-| POST | /api/agents/custom | Required | v2 自訂 Agent |
-| POST | /api/templates | Required | 範本 CRUD |
-| POST | /api/schedule | Required | v2 Inngest 排程 |
-| POST | /api/stripe/checkout | Required | Stripe 訂閱 |
-| POST | /api/stripe/webhook | Required | Stripe webhook |
+| Method | Path | Auth | 用途 | 錯誤/重試 |
+|---|---|---|---|---|
+| POST | /api/workspaces | session/optional | 核心資料操作 | Zod 400；5xx exponential backoff |
+| GET | /api/task-packs | session/optional | 核心資料操作 | Zod 400；5xx exponential backoff |
+| POST | /api/runs/estimate | session/optional | 核心資料操作 | Zod 400；5xx exponential backoff |
+| POST | /api/runs | session/optional | 核心資料操作 | Zod 400；5xx exponential backoff |
+| POST | /api/runs/:id/approve | session/optional | 核心資料操作 | Zod 400；5xx exponential backoff |
+| GET | /api/artifacts/:id | session/optional | 核心資料操作 | Zod 400；5xx exponential backoff |
+| POST | /api/roi-entries | session/optional | 核心資料操作 | Zod 400；5xx exponential backoff |
+| DELETE | /api/workspaces/:id | session/optional | 核心資料操作 | Zod 400；5xx exponential backoff |
 
+### 4.5 事件與資料生命週期
+
+- `session_started`：只記錄必要 metadata；禁止把完整敏感內容寫入 analytics。
+- `input_validated`：只記錄必要 metadata；禁止把完整敏感內容寫入 analytics。
+- `draft_created`：只記錄必要 metadata；禁止把完整敏感內容寫入 analytics。
+- `human_reviewed`：只記錄必要 metadata；禁止把完整敏感內容寫入 analytics。
+- `artifact_exported`：只記錄必要 metadata；禁止把完整敏感內容寫入 analytics。
+- `run_failed`：只記錄必要 metadata；禁止把完整敏感內容寫入 analytics。
+- `data_deleted`：只記錄必要 metadata；禁止把完整敏感內容寫入 analytics。
 ---
-
 ## 5. 非功能性需求 (Non-Functional Requirements)
 
 ### 5.1 性能指標
 
-| 指標 | 目標 |
-|---|---|
-| 任務執行單 Agent | ≤ 30 秒 |
-| 多 Agent 協作 | ≤ 90 秒 |
-| 主頁載入 P95 | ≤ 2 秒 |
-| 任務歷史搜尋（100 筆） | ≤ 500ms |
-| 並發用戶 | 200 |
-| 月活躍用戶 | 3,000 |
+| 指標 | MVP 目標 | 量測方式 | 告警 |
+|---|---|---|---|
+| First contentful paint | ≤2.5s mobile | Lighthouse/field | P95 >3s |
+| 核心互動 | ≤500ms local | Performance API | P95 >800ms |
+| 生成/分析 | 依任務 ≤30s | server trace | P95 >45s |
+| 匯出 | ≤5s / 500 records | E2E | 失敗率 >2% |
+| 搜尋 | ≤500ms / 1k items | unit + browser | P95 >1s |
+| 可用性 | 99% pilot window | synthetic | 連續 3 次失敗 |
 
 ### 5.2 安全與隱私
 
-- **API key 加密**：AES-256-GCM
-- **OAuth token 加密**：AES-256-GCM
-- **HTTPS 強制**：Vercel 自動 + HSTS
-- **任務資料隔離**：依 userId 嚴格 RLS
-- **費用限制**：單任務上限 NT$5（預設）
+- 資料最小化：不因方便而收集完整第三方個資。
+- 所有輸入在送出前顯示目的、保存期限與是否可撤回。
+- 認證/授權以 ownerId、workspaceId 與 server-side check 為準。
+- 匯出檔包含版本與警告，不把 secret、token 或原始音/影像混入。
+- 刪除請求可由使用者觸發，備份清除期限需寫在產品政策。
+- 敏感事件進 audit，但 analytics 只保留 hash/id 與量化欄位。
+- 公開分享預設關閉；啟用時產生不可猜 token 並可撤銷。
+- 所有外部 webhook 驗證簽章與重放保護。
 
-### 5.3 降級機制 (Graceful Degradation)
+### 5.3 ⭐ 降級機制 (Graceful Degradation)
 
-| 失敗服務 | 掛掉情境 | 降級行為（切換到）| 用戶感受 |
+| 故障 | 偵測 | 降級 | 使用者訊息 |
 |---|---|---|---|
-| OpenAI GPT-4o 5xx | API 掛掉 | 切換 Anthropic Claude | 5 秒內自動切換 |
-| Anthropic Claude 5xx | API 掛掉 | fallback 較舊模型 | 品質略降但可用 |
-| 多 Agent 1 個失敗 | 單 Agent 5xx | 不影響其他 Agent + 顯示「重試」按鈕 | 部分 Agent 失敗 |
-| Orchestrator 5xx | 整體故障 | 切換到備援 orchestrator | 重試機制 |
-| IndexedDB 損壞 | 版本衝突 | 切換到 localStorage | 部分歷史可能遺失 |
-| 任務超時 | > 5 分鐘 | 切換到分段執行 + 提示 | 部分任務延遲 |
-| Vercel CDN | 5xx | 切換到 Cloudflare Pages 鏡像 | 載入延遲 ≤5 秒 |
-| Supabase v2 | DB 5xx | 切換到 Vercel KV 唯讀模式 | 多帳號同步暫停 |
-| Stripe webhook | Webhook 5xx | 本地排程每 5 分鐘 reconcile | 訂閱狀態延遲 |
-| Agent 144 預載 JSON | 格式錯誤 | 切換到內嵌 hardcode 預設 Agent | 預載 Agent 為備援 |
+| LLM/外部 provider | timeout/5xx | mock/template/manual | 草稿保留，可稍後重試 |
+| 資料庫 | connection error | local queue/read-only | 暫存位置與同步狀態 |
+| 圖片/檔案 | size/type error | 文字欄位/壓縮 | 指出失敗檔案 |
+| Auth | expired session | 重新登入 | 不丟失未送出表單 |
+| 付款 | webhook mismatch | pending entitlement | 人工客服入口 |
+| 排程 | missed heartbeat | 手動 queue | 顯示延遲時間 |
 
 ### 5.4 擴展性
 
-- **橫向擴展**：Vercel Edge Functions 自動 scale
-- **Agent 編排分散**：多 worker 並行
-- **靜態資源 CDN**：Vercel Edge Network
-
+- 核心 job 以 provider-neutral input/output contract 隔離。
+- 所有長任務可恢復、重試、取消且 idempotent。
+- 資料表以 owner/createdAt 索引；先量測再分區。
+- P1 connector 為 adapter，不得讓外部平台 schema 污染 domain model。
+- 成本、錯誤、延遲均按 workspace 追蹤，支援方案限額。
 ---
-
 ## 6. 完成標準 (Definition of Done)
 
 ### 6.1 v1 MVP DoD
 
-- [x] Vercel production URL 200 OK
-- [x] GitHub Repo 公開（main 分支）
-- [x] 144 種預載 AI Agent（10 大類）
-- [x] Agent 選擇 UI（含搜尋）
-- [x] 多 Agent 協作（3-5 個）
-- [x] 任務執行（本地 mock orchestrator；真實 GPT-4o / Claude API 為 Sprint 3）
-- [x] 結果彙整報告
-- [x] 範本儲存 + 一鍵執行
-- [x] 任務歷史（IndexedDB 100 筆）
-- [x] 效益報表
-- [x] RWD 三斷點測試
-- [x] Lighthouse 行動版 100（桌面版 100）
-- [x] 10 條 AC 單元測試全綠
+- [ ] 本文件 §1–§13、§15 皆可對應 issue 與驗收案例。
+- [ ] 所有 P0 功能至少有單元測試、錯誤測試與一條 E2E happy path。
+- [ ] sweet spot 核心 job 可由 5 位外部 pilot 從空白完成到交付。
+- [ ] 所有敏感資料有刪除、匯出與權限測試。
+- [ ] 降級路徑能在 provider 失敗時保留輸入並給出可行下一步。
+- [ ] Mobile 390px、tablet 768px、desktop 1440px 皆可完成主流程。
+- [ ] Lighthouse accessibility ≥90；鍵盤、焦點與空狀態通過檢查。
+- [ ] 成本、事件、版本、決策可由 maintainer 追查。
+- [ ] 沒有以 mock 結果冒充真實市場或模型品質。
+- [ ] 若本案 sweet=2/3，未達 §11 go/no-go 不得進入完整 v2。
 
-> Batch 2.2 新增可驗證品質閘門：Lighthouse desktop/mobile 四維均 100；Accessibility contrast、accessible name、Agentic Browsing accessibility tree 均通過。
+### 6.2 上線閘門
 
-### 6.2 v2 企業版 DoD
-
-- [ ] Supabase Auth
-- [ ] 多帳號 / 權限分層
-- [ ] 自訂 Agent
-- [ ] Inngest 任務排程
-- [ ] Slack / Notion / Google Docs 整合
-- [ ] 團隊協作
-- [ ] Stripe Checkout 訂閱
-- [ ] 客服頁 + 法律頁
-
+- [ ] Privacy/Terms/Contact 頁面與資料刪除說明。
+- [ ] 監控告警與 rollback runbook。
+- [ ] 10 條 AC 在 CI 全綠。
+- [ ] 5 位 pilot 明確同意回饋資料用途。
+- [ ] Owner 簽署「不把 sweet spot 假設當成事實」。
 ---
-
 ## 7. 風險與決策
 
 ### 7.1 風險表
 
-| 風險 | 等級 | 緩解策略 |
-|---|---|---|
-| AI API 成本失控 | 🟠 中 | 單任務 NT$5 上限 + 用戶確認 |
-| GPT-4o / Claude 漲價 | 🟠 中 | 多模型切換 + 抽成預測 |
-| 多 Agent 協作品質不穩定 | 🟠 中 | Orchestrator 加強 + 結果投票 |
-| 144 Agent 內容需要大量 prompt 工程 | 🟡 低 | 從 agency-agents 開源專案移植 |
-| AI 版權爭議 | 🟡 低 | v1 僅做組裝、不訓練自有模型 |
-| 微型賣家採用率低 | 🟠 中 | Freemium 5 Agent 試用 + 強 onboarding |
+| 風險 | 等級 | 早期訊號 | 緩解 | 停止/轉向 |
+|---|---|---|---|---|
+| 紅海 Agent 平台持續降價，差異化消失 | 🔴 | 訪談或監控出現反覆抱怨 | 限制 scope、人工核准、資料刪除與 fallback | 兩個 sprint 未改善即重新 discovery |
+| 使用者不願提供真實營運資料，ROI 無法驗證 | 🟠 | 訪談或監控出現反覆抱怨 | 限制 scope、人工核准、資料刪除與 fallback | 兩個 sprint 未改善即重新 discovery |
+| 模型產生錯誤客服內容，造成商譽損失 | 🟡 | 訪談或監控出現反覆抱怨 | 限制 scope、人工核准、資料刪除與 fallback | 兩個 sprint 未改善即重新 discovery |
+| 人工核准使流程沒有想像中自動化 | 🔴 | 訪談或監控出現反覆抱怨 | 限制 scope、人工核准、資料刪除與 fallback | 兩個 sprint 未改善即重新 discovery |
+| 任務包太窄導致 TAM 不足 | 🟠 | 訪談或監控出現反覆抱怨 | 限制 scope、人工核准、資料刪除與 fallback | 兩個 sprint 未改善即重新 discovery |
+| API 成本超過微型商家的付費意願 | 🟡 | 訪談或監控出現反覆抱怨 | 限制 scope、人工核准、資料刪除與 fallback | 兩個 sprint 未改善即重新 discovery |
+| 一人公司無法維護大量 connector | 🔴 | 訪談或監控出現反覆抱怨 | 限制 scope、人工核准、資料刪除與 fallback | 兩個 sprint 未改善即重新 discovery |
 
-### 7.2 ADR (Architecture Decision Records)
+### 7.2 ⭐ ADR (Architecture Decision Records)
 
-### ADR-001：144 種 Agent 從 agency-agents 移植
-- **Context**：零成本啟動
-- **Decision**：從開源 agency-agents 專案移植 144 種 Agent 提示詞
-- **Consequences**：✅ 快速啟動；✅ 內容品質保證；⚠️ 需驗證翻譯品質
+本節明確記錄 sweet=3 的取捨：競品 Coze、GPTs、Manus 已在原紅海取得優勢，因此每個決策都必須服務於「只服務「每週固定要交付一份成果」的台灣微型電商與工作室，以人工驗證過的任務包、成本上限與可追溯交付物取代 144 Agent 選單。」。
+#### ADR-001
+**Decision**：ADR-001：以成果任務包取代 144 Agent catalog；因 sweet=3 的主要缺口是成果與 ROI，不是角色數量。
+**Context**：sweet spot 5 問體檢顯示，追求更寬功能會增加成本而不增加證據。
+**Trade-off**：短期可展示功能較少，但能測到真實 job、信任與回購。
+**Reversal trigger**：若指定指標未達標，回到 discovery；若達標才允許擴充。
 
-### ADR-002：GPT-4o + Claude 多模型
-- **Context**：避免單一供應商依賴
-- **Decision**：預設 GPT-4o，自動切換 Claude
-- **Consequences**：✅ 容錯；⚠️ API 成本管理
+#### ADR-002
+**Decision**：ADR-002：v0 只做人工核准；因競品已能生成草稿，但對外自動化的信任風險更高。
+**Context**：sweet spot 5 問體檢顯示，追求更寬功能會增加成本而不增加證據。
+**Trade-off**：短期可展示功能較少，但能測到真實 job、信任與回購。
+**Reversal trigger**：若指定指標未達標，回到 discovery；若達標才允許擴充。
 
-### ADR-003：多 Agent 協作 Orchestrator 自寫
-- **Context**：LangGraph 太複雜
-- **Decision**：自寫 orchestrator（任務分發 + 結果彙整）
-- **Consequences**：✅ 輕量；⚠️ 進階流程受限（v2 可加 LangGraph）
+#### ADR-003
+**Decision**：ADR-003：先做三個垂直任務包，不做通用 orchestrator；降低建置成本並可驗證重複使用率。
+**Context**：sweet spot 5 問體檢顯示，追求更寬功能會增加成本而不增加證據。
+**Trade-off**：短期可展示功能較少，但能測到真實 job、信任與回購。
+**Reversal trigger**：若指定指標未達標，回到 discovery；若達標才允許擴充。
 
-### ADR-004：免費版 5 Agent + Pro 無限
-- **Context**：freemium 模式
-- **Decision**：免費版只能用 5 種預載 Agent，Pro NT$499/月無限
-- **Consequences**：✅ 試用容易；✅ Pro 變現清晰
+#### ADR-004
+**Decision**：ADR-004：mock-first 再接模型；若 20 位訪談者不願提供真資料，不先承擔 API 成本。
+**Context**：sweet spot 5 問體檢顯示，追求更寬功能會增加成本而不增加證據。
+**Trade-off**：短期可展示功能較少，但能測到真實 job、信任與回購。
+**Reversal trigger**：若指定指標未達標，回到 discovery；若達標才允許擴充。
 
-### ADR-005：純前端 IndexedDB 任務歷史
-- **Context**：v1 純前端
-- **Decision**：IndexedDB（Dexie.js）任務歷史
-- **Consequences**：✅ 零後端；⚠️ 跨裝置不互通（v2 加 Supabase）
-
-### ADR-006：單任務 NT$5 預設上限
-- **Context**：避免 AI API 成本失控
-- **Decision**：單任務預設上限 NT$5，超過需確認
-- **Consequences**：✅ 風險控管；⚠️ 高費用任務需手動確認
-
+#### ADR-005：可追蹤的驗證優先
+**Decision**：所有核心操作產生可匿名化的 event 與版本。
+**Reason**：沒有事件就無法區分「覺得有趣」和「真的採用」。
+**Consequence**：多一點資料設計成本，換取可做 go/no-go 的證據。
 ---
-
 ## 8. 里程碑與 Sprint 拆解
 
 ### 8.1 里程碑總覽
 
-| 里程碑 | 時間 | 完成定義 |
-|---|---|---|
-| **M1 規格完成** | 2026-07-11 | v2.2.1 PRD 100% 合規 |
-| **M2 v1 MVP** | 2026-07-31 | 144 Agent + 多 Agent 協作 + 範本 |
-| **M3 v2 企業版** | 2026-09-15 | 多帳號 + 自訂 Agent + API 配額 + Stripe |
-| **M4 v3 Agent 市集** | 2026-11-01 | Agent 市集 + 多語言 + 多模型選擇 |
-| **M5 GA 上線** | 2026-12-01 | 行銷素材 + 客服 SOP |
+| 里程碑 | 期間 | 交付 | 出口條件 |
+|---|---|---|---|
+| M0 Discovery | 第 1 週 | 15 訪談、問題卡、競品 recheck | 5 個明確相同 job |
+| M1 Prototype | 第 2 週 | 單一核心 job 可跑 | 3 位外部使用者完成 |
+| M2 MVP | 第 3–4 週 | P0 + AC + fallback | 5 位 pilot 重做 |
+| M3 Paid/partner test | 第 5–6 週 | 價格、landing、報表 | 達到 §11 門檻 |
+| M4 Decision | 第 7 週 | go/pivot/hold memo | 不得以 sunk cost 決策 |
 
 ### 8.2 Sprint 拆解
 
-#### Sprint 1：v1 MVP（2026-07-12 → 2026-07-31，20 天）
-- Day 1-3：建立 Next.js + IndexedDB 專案
-- Day 4-8：144 種 Agent 預載（從 agency-agents 移植 + 中文化）
-- Day 9-11：Agent 選擇 UI（含 10 大類 + 搜尋）
-- Day 12-14：多 Agent 協作 orchestrator
-- Day 15-16：任務執行 + 結果彙整
-- Day 17：範本儲存 + 歷史 + 報表
-- Day 18：JSON 匯出匯入 + RWD
-- Day 19：10 條 AC 單元測試
-- Day 20：Vercel 部署
+- Day 1：確認 primary job、邀請訪談與資料同意。
+- Day 2：整理競品、反需求與最小資料 schema。
+- Day 3：完成單一路徑 wireframe 與 empty state。
+- Day 4：建立 domain model、validation 與事件。
+- Day 5：完成第一個可重做的 job。
+- Day 6：加入人工檢查、版本與匯出。
+- Day 7：邀請 3 位外部 pilot，記錄阻塞。
+- Day 8：修正 onboarding 與錯誤訊息。
+- Day 9：加入第二種真實輸入格式。
+- Day 10：測試 provider failure 與本地 fallback。
+- Day 11：完成權限、刪除、匯出與 privacy flow。
+- Day 12：加入核心 KPI 與成本儀表板。
+- Day 13：執行 5 位 pilot，逐一觀察。
+- Day 14：完成 landing page、community post 與價格訪談。
+- Day 15：整理結果、決定是否進入 paid pilot。
 
-#### Sprint 2：v2 企業版（2026-08-01 → 2026-09-15，46 天）
-- Day 1-3：Supabase Auth
-- Day 4-7：多帳號 / 權限分層
-- Day 8-11：自訂 Agent UI
-- Day 12-15：Inngest 任務排程
-- Day 16-19：Slack / Notion 整合
-- Day 20-23：團隊協作
-- Day 24-27：Stripe Checkout 訂閱
-- Day 28-31：客服頁 + 法律頁
-- Day 32-40：Beta 測試
-- Day 41-46：正式上線
+### 8.3 變更控制
 
+- P0 變更需記錄影響的假設、成本與 AC。
+- 新 connector 不能取代核心 job 的測試。
+- sweet=2/3 的 v2 需求若無訪談證據，標為 parking lot。
 ---
-
 ## 9. 變現路徑 + 定價心理學
 
 ### 9.1 變現方案
 
-| 方案 | 價格 | 功能 | 目標用戶 |
+| 方案 | 價格 | 限制/價值 | 觸發升級 |
 |---|---|---|---|
-| **免費版** | NT$0 | 5 預載 Agent + 50 任務/月 + 單任務 NT$5 上限 | SOHO 試用 |
-| **KOL 版** | NT$299/月 | 20 Agent + 500 任務/月 + 自訂範本 20 | KOL / 自媒體 |
-| **Pro 版** | NT$499/月 | 144 Agent + 2,000 任務/月 + 自訂範本無限 + 5 sub-account | 個人賣家 / 小型服務業 |
-| **企業版** | NT$4,999/月 | Pro 版 + 10,000 任務/月 + 客服優先 + 團隊權限 | 企業 / 工作室 |
+| 免費診斷：0 元，1 個 mock 任務包與 ROI 計算 | 見產品頁 | 以本案核心 job、匯出、協作或報表分層 | 完成兩次核心 job 後詢問，而非首次強 paywall |
+| Solo：NT$299/月，3 個任務包、每月 100 次執行 | 見產品頁 | 以本案核心 job、匯出、協作或報表分層 | 完成兩次核心 job 後詢問，而非首次強 paywall |
+| Studio：NT$899/月，5 位成員、核准流程與報表 | 見產品頁 | 以本案核心 job、匯出、協作或報表分層 | 完成兩次核心 job 後詢問，而非首次強 paywall |
+| 代營運合作：按成果包與人工審核次數報價 | 見產品頁 | 以本案核心 job、匯出、協作或報表分層 | 完成兩次核心 job 後詢問，而非首次強 paywall |
 
 ### 9.2 定價心理學
 
-1. **Freemium 鎖定「5 Agent + 50 任務/月」**：免費版限制核心功能，Pro 強制升級
-2. **KOL 版 NT$299**：低於 NT$300 整數，NT$299 感覺「不到 300」
-3. **Pro 版 NT$499**：低於 NT$500 整數，NT$499 感覺「不到 500」
-4. **企業版 NT$4,999**：低於 NT$5,000 整數，NT$4,999 感覺「不到 5,000」
-5. **年繳 8 折**：Pro 版年繳 NT$4,990 vs 月繳 NT$499 × 12 = NT$5,988（年省 NT$998）
-6. **14 天免費試用 Pro 版**：試用期結束前 3 天 email「升級以保留 144 Agent + 2,000 任務」
-7. **錨定效應**：在定價頁顯示「企業版 NT$9,999（聯絡我們）」，讓 NT$4,999 顯得划算
-8. **社會證明**：首頁顯示「已有 X 位 SOHO 使用，月執行 Y 萬次任務」
+- 先賣結果/回流/風險降低，不賣 AI 次數。
+- 免費層保留資料可攜，避免使用者因恐懼而註冊。
+- 首個付費價格以訪談的替代成本校正，不從競品標價倒推。
+- 年繳只在月繳有 3 個月留存證據後推出。
+- 每一次升級 CTA 顯示「多得到什麼」，不誇大節省。
+- 若 sweet score 低，採 paid pilot/一次性資料包，避免過早承諾 SaaS MRR。
 
+### 9.3 Unit economics 假設
+
+| 項目 | 初始假設 | 需要驗證 |
+|---|---|---|
+| ARPA | 依本案 prices | 付款訪談/checkout |
+| CAC | 社群與轉介低成本 | 每通路追蹤 |
+| LTV | 只以已觀察留存計算 | D30/D90 |
+| Gross margin | 扣除 provider/儲存/人工 review | 每 job 成本 |
+| Payback | ≤3 個月 | cohort report |
 ---
+## 10. 附錄 (Appendix)
 
-## 10. 附錄
+### 10.1 競品分析 (Competitive Quadrant Chart)
 
-### 10.1 競品分析 + Competitive Quadrant Chart
-
-| 競品 | 公司 | 價格 | 強項 | 弱項 |
-|---|---|---|---|---|
-| **agency-agents** | GitHub 開源 | NT$0 | 144 Agent 開源 | 純 Python 腳本、無 SaaS |
-| **UiPath** | UiPath（羅馬尼亞） | US$420/月 | 業界標竿 RPA | 貴、複雜、學習曲線高 |
-| **Automation Anywhere** | AA（美） | US$895/月 | 企業 RPA | 極貴 |
-| **ChatGPT Team** | OpenAI（美） | US$25/月 | GPT-4o 原生 | 僅 ChatGPT 工具、無分工 |
-| **多 AI 工具組合** | 各家 | NT$0 + 各訂閱 | 靈活 | 切換多工具反而沒效率 |
-| **AI Employee（本專案）** | Sean Li（台） | NT$0-4,999/月 | 144 Agent + 多 Agent 協作 + Freemium | 規模小、AI API 成本 |
+| 競品 | 已經做得好 | 本案不追趕的地方 | 可切入缺口 |
+|---|---|---|---|
+| Coze | 規模/習慣/通用功能 | 紅海主功能 | 本案 wedge |
+| GPTs | 規模/習慣/通用功能 | 紅海主功能 | 本案 wedge |
+| Manus | 規模/習慣/通用功能 | 紅海主功能 | 本案 wedge |
+| 本專案 | 只服務「每週固定要交付一份成果」的台灣微型電商與工作室，以人工驗證過的任務包、成本上限與可追溯交付物取代 144 Agent 選單。 | 不承諾全市場 | 需用 §11 證明 |
 
 ```mermaid
 quadrantChart
-    title "AI Agent 平台定位（X：價格親民度 / Y：易用度）"
-    x-axis "高價" --> "低價"
-    y-axis "難用" --> "易用"
-    quadrant-1 "低價易用（本專案目標）"
-    quadrant-2 "高價易用"
-    quadrant-3 "低價難用"
-    quadrant-4 "高價難用"
-    "agency-agents": [0.95, 0.3]
-    "UiPath": [0.1, 0.4]
-    "Automation Anywhere": [0.05, 0.3]
-    "ChatGPT Team": [0.4, 0.5]
-    "多 AI 工具組合": [0.6, 0.4]
-    "AI Employee": [0.85, 0.85]
+    title "Sweet-spot positioning"
+    x-axis "低聚焦" --> "高聚焦"
+    y-axis "低可驗證" --> "高可驗證"
+    quadrant-1 "可驗證 wedge"
+    quadrant-2 "成熟替代"
+    quadrant-3 "泛功能紅海"
+    quadrant-4 "昂貴複雜"
+    "Coze": [0.15, 0.25]
+    "GPTs": [0.27, 0.33]
+    "Manus": [0.39, 0.41]
+    "本專案": [0.85, 0.85]
 ```
 
-**差異化定位**：**低價 + 144 Agent + 多 Agent 協作 + Freemium** — UiPath/AA 極貴且複雜；agency-agents 無 SaaS；ChatGPT Team 僅自家工具；本專案低價 + 144 Agent 預載 + 多 Agent 協作。
+圖表不是市場事實，只是定位假說；數字須由 §11 的訪談與行為資料取代。
 
 ### 10.2 術語表
 
-- **Agent**：能自主執行任務的 AI 實體
-- **Orchestrator**：協調多 Agent 協作的中央組件
-- **agency-agents**：GitHub 開源 144 種 AI Agent 提示詞專案
-- **GPT-4o**：OpenAI 旗艦模型
-- **Claude 3.5**：Anthropic 旗艦模型
-- **Multi-Agent Collaboration**：多 AI Agent 並行協作
-- **Token Cost**：AI 模型的 token 使用費用
+- **core job**：使用者願意重複完成且可觀察的主要工作。
+- **wedge**：狹窄但可進入的差異化切口。
+- **artifact**：可交付、可匯出、帶版本的成果。
+- **human-in-the-loop**：人工在關鍵輸出前確認。
+- **fallback**：主要服務失敗時仍可完成的替代路徑。
+- **pilot**：有期限、有明確任務與成功條件的外部試用。
+- **D7/D30**：第 7/30 天再次使用的留存指標。
+- **ARPA**：每個付費帳戶平均收入。
+- **RLS**：資料列層級權限控制。
+- **idempotency**：同一請求重送不造成重複副作用。
+- **canon/source**：可追溯的原始資料/來源標記。
+- **ROI**：投入時間或成本與可觀察產出的比較，不等於保證收益。
 
-### 10.3 參考資料
+### 10.3 參考資料與 re-check 記錄
 
-- agency-agents：https://github.com/msitarzewski/agency-agents
-- UiPath：https://www.uipath.com/
-- Automation Anywhere：https://www.automationanywhere.com/
-- LangGraph：https://langchain-ai.github.io/langgraph/
-- OpenAI GPT-4o：https://openai.com/gpt-4o
-- Anthropic Claude：https://www.anthropic.com/
+- Coze 官方首頁可連線（HTTP 200，2026-07-19 quick check），確認通用 Agent 平台仍是活躍替代方案。
+- Manus 與 GPTs 在原分析中代表通用 Agent 供給紅海；本次不把數量視為護城河。
+- 原分析明確指出「需人工作業驗證 ROI」；因此 MVP 將核准、基準時間、交付物設為核心，而非附錄。
+- 競品官方/公開入口以 URL 與檢查日期記錄；HTTP 403 只代表本次抓取受限，不代表下線。
+- 不使用無法核驗的下載量、使用者數或收入作為 acceptance criteria。
 
 ### 10.4 Error Code 統一字典
 
-| Code | HTTP | 訊息 | 觸發情境 |
+| Code | HTTP | 訊息 | 處置 |
 |---|---|---|---|
-| AGENT_001 | 404 | Agent 不存在 | agentId 錯誤 |
-| AGENT_002 | 402 | 超過免費版 Agent 限制 | 非前 5 Agent |
-| TASK_001 | - | 任務為空 | inputData |
-| TASK_002 | - | 任務預估費用過高 | >NT$5 |
-| TASK_003 | - | 任務超時 | >5 分鐘 |
-| TASK_004 | - | 任務執行失敗 | 1 個 Agent 失敗 |
-| TASK_005 | - | 多 Agent 部份失敗 | 1-2 個失敗 |
-| OPENAI_001 | 429 | GPT-4o rate limit | 超額 |
-| OPENAI_002 | 502 | GPT-4o API 5xx | 服務掛掉 |
-| CLAUDE_001 | 429 | Claude rate limit | 超額 |
-| CLAUDE_002 | 502 | Claude API 5xx | 服務掛掉 |
-| STORAGE_001 | - | IndexedDB 損壞 | 版本衝突 |
-| ORCHESTRATOR_001 | 502 | Orchestrator 5xx | 整體故障 |
-| STRIPE_001 | 402 | 訂閱方案不支援 | 錯誤 tier |
-| STRIPE_002 | 400 | Stripe webhook signature 驗證失敗 | 偽造 webhook |
+| INPUT_INVALID | 400 | 輸入格式不完整 | 指出欄位 |
+| CONSENT_REQUIRED | 403 | 需要同意才可繼續 | 顯示用途 |
+| NOT_FOUND | 404 | 資料不存在 | 回到列表 |
+| QUOTA_EXCEEDED | 429 | 已達方案額度 | 匯出/升級 |
+| PROVIDER_TIMEOUT | 504 | 外部服務逾時 | 保存草稿重試 |
+| PROVIDER_FAILED | 502 | 外部服務失敗 | fallback/manual |
+| LOW_CONFIDENCE | 422 | 需要人工確認 | 阻擋自動交付 |
+| DUPLICATE_REQUEST | 409 | 請求已處理 | 回傳既有結果 |
+| FORBIDDEN | 403 | 無權限 | 不洩漏資料 |
+| EXPORT_FAILED | 500 | 匯出失敗 | 重試與客服 |
+| DELETE_FAILED | 500 | 刪除未完成 | 顯示 pending |
+| INTERNAL_ERROR | 500 | 系統錯誤 | trace id |
 
+### 10.5 可攜與可存取性檢查表
+
+- 所有核心內容可用鍵盤到達。
+- 圖表有文字摘要與表格 fallback。
+- 錯誤不只用顏色表達。
+- CSV/JSON/Markdown 匯出有 schema version。
+- 行動版不要求拖曳或 hover 才能完成。
+- 語音/圖片功能都有文字替代。
+- 使用者可取消長任務與清除草稿。
 ---
+## 11. ⭐ 市場驗證計畫 (Market Validation Plan)
 
-## 11. 市場驗證計畫 (Market Validation Plan)
-
+本計畫由 sweet=3 與競品 Coze、GPTs、Manus 反推；目的不是證明產品存在，而是證明指定 wedge「只服務「每週固定要交付一份成果」的台灣微型電商與工作室，以人工驗證過的任務包、成本上限與可追溯交付物取代 144 Agent 選單。」能產生重複行為與付款。
 ### 11.1 驗證前 3 個關鍵問題
 
-1. **微型賣家真的會用「多 Agent 協作」嗎？** — 還是單一 ChatGPT 足夠
-2. **144 種 Agent 是否太多？** — 使用者可能困惑選擇
-3. **NT$499-4,999/月是否合理？** — 與 ChatGPT Plus US$20/月競爭
+1. **誰在最近 30 天真的遇到這個 job，且目前用什麼替代？**
+   - 證據：現有產品賣的是 Agent 供給與提示詞，不保證台灣微型商家的可交付成果；144 個 Agent 是供給，不是 ROI。
+   - 通過：在 5 位 pilot 中至少 3 位給出具體最近案例。
+2. **使用者願意提供哪些最小資料，完成一次 job 後是否重做？**
+   - 證據：現有產品賣的是 Agent 供給與提示詞，不保證台灣微型商家的可交付成果；144 個 Agent 是供給，不是 ROI。
+   - 通過：在 5 位 pilot 中至少 3 位給出具體最近案例。
+3. **哪個結果/回流/風險指標足以讓他付款，而不是只說有興趣？**
+   - 證據：現有產品賣的是 Agent 供給與提示詞，不保證台灣微型商家的可交付成果；144 個 Agent 是供給，不是 ROI。
+   - 通過：在 5 位 pilot 中至少 3 位給出具體最近案例。
 
-### 11.2 訪談 SOP
+### 11.2 訪談 SOP（5 個具體訪談目標）
 
-**目標**：訪談 25 位潛在使用者（10 位微型賣家 + 5 位小型服務業 + 5 位 KOL + 5 位 SOHO）
-- **招募**：Facebook 社團「電商賣家交流」「SOHO 接案」「自媒體 KOL」
-- **問題清單**：
-  1. 目前每天重複任務花多久？
-  2. 願意付費 NT$499-4,999 月買多 AI Agent 協作嗎？
-  3. 對「144 種預載 Agent」感興趣嗎？
-- **獎勵**：NT$200 7-11 禮券 + 終身免費 Pro 版
-- **驗收指標**：≥60%（15 位）願意試用 = 驗證通過
+**Target 1：5 位月營收 10–30 萬的蝦皮/Shopify 賣家**
+- 先問最近一次事件，不先展示功能。
+- 記錄目前工具、步驟、耗時、錯誤與替代成本。
+- 展示一個 5 分鐘 prototype，觀察是否主動完成下一步。
+- 結束只問 willingness-to-pay 與願不願提供資料，不引導答案。
 
-### 11.3 落地指標 (Post-launch KPIs)
+**Target 2：5 位每天處理 LINE/IG 詢問的個人工作室**
+- 先問最近一次事件，不先展示功能。
+- 記錄目前工具、步驟、耗時、錯誤與替代成本。
+- 展示一個 5 分鐘 prototype，觀察是否主動完成下一步。
+- 結束只問 willingness-to-pay 與願不願提供資料，不引導答案。
 
-- **M1（首月）**：1,000 註冊用戶
-- **M3（3 個月）**：3,000 註冊、150 付費 = NT$50K MRR
-- **M6（6 個月）**：6,000 註冊、300 付費 = NT$120K MRR
-- **M12（12 個月）**：20,000 註冊、800 付費 = NT$400K MRR
+**Target 3：3 位曾使用 ChatGPT/Coze 但停用的店主**
+- 先問最近一次事件，不先展示功能。
+- 記錄目前工具、步驟、耗時、錯誤與替代成本。
+- 展示一個 5 分鐘 prototype，觀察是否主動完成下一步。
+- 結束只問 willingness-to-pay 與願不願提供資料，不引導答案。
 
+**Target 4：3 位記帳或電商顧問（觀察可轉介性）**
+- 先問最近一次事件，不先展示功能。
+- 記錄目前工具、步驟、耗時、錯誤與替代成本。
+- 展示一個 5 分鐘 prototype，觀察是否主動完成下一步。
+- 結束只問 willingness-to-pay 與願不願提供資料，不引導答案。
+
+**Target 5：4 位實際負責每週報表與客服交付的人員**
+- 先問最近一次事件，不先展示功能。
+- 記錄目前工具、步驟、耗時、錯誤與替代成本。
+- 展示一個 5 分鐘 prototype，觀察是否主動完成下一步。
+- 結束只問 willingness-to-pay 與願不願提供資料，不引導答案。
+
+**訪談記錄格式**：日期、角色、最近事件、原流程分鐘數、替代工具、prototype 行為、反對理由、付款訊號、是否同意 follow-up。
+
+### 11.3 Community post topic
+
+- 主題：在台灣電商與一人公司社群發文：「你願意為每週少花 3 小時、但仍需人工核准的固定成果付多少？」
+- 先發問題與匿名結果，不把 landing page 寫成廣告。
+- 成功：至少 20 個有情境回覆、5 人願意進 pilot、反對理由可分類。
+
+### 11.4 Landing page test
+
+- 測試：三個 CTA 版本：下載通用 Agent、預約成果診斷、上傳一份匿名 CSV；以「完成成果」而非註冊數為主要轉換。
+- 版本 A：競品/現有習慣的語言；版本 B：sweet spot wedge 的語言。
+- 事件：view → start → import → first outcome → second outcome → pricing intent。
+- 成功：至少 50 個有意圖訪客；first outcome ≥35%；second outcome ≥25%；≥5 人願付或留下高品質需求。
+
+### 11.5 落地指標與 go/no-go
+
+| 指標 | Go | Pivot | No-go |
+|---|---|---|---|
+| 核心 job 完成 | ≥60% | 35–59% | <35% |
+| 第二次使用 | ≥35% | 20–34% | <20% |
+| 付費意願 | ≥20% 明確願付 | 10–19% | <10% |
+| 資料同意 | ≥80% | 60–79% | <60% |
+| 錯誤/人工修正 | 可控且下降 | 固定問題 | 造成風險 |
+- **甜蜜點低分規則**：sweet=3 的專案在 No-go 任一項連續兩週成立，標記為 hold/開源，而不是繼續追加功能。
 ---
+## 12. ⭐ 失敗模式 SOP (Failure Mode Playbook)
 
-## 12. 失敗模式 SOP (Failure Mode Playbook)
+### 12.1 核心輸入不完整
+**症狀**：監控或訪談出現異常。
+**立即處置**：停止自動化副作用，保留輸入/事件，通知 owner。
+**使用者溝通**：用具體狀態、替代路徑與預計更新時間，不隱瞞。
+**恢復**：依 §5.3 fallback，完成重試/回滾/資料清除。
+**Post-mortem**：記錄觸發、影響、根因、修復與是否修改 Non-Goals。
 
-| 失敗情境 | 影響範圍 | 觸發條件 | 立即處置 | Post-mortem |
-|---|---|---|---|---|
-| **AI API 全面故障** | 任務執行全停 | OpenAI + Claude 都 5xx | 降級為「顯示預存範本」+ 等 API 恢復 | 評估備援供應商 |
-| **任務費用超支** | 用戶成本失控 | 任務 token 超預期 | 強制中斷 + 提示「超 NT$5 上限」 | 重新校 token 預估 |
-| **144 Agent 內容過時** | Agent 品質下降 | AI 模型變動 | 季度更新 Agent 提示詞 | 建立內容監控 |
-| **多 Agent 結果衝突** | 用戶決策困難 | Agent 給相反建議 | 並列顯示 + 使用者裁示 | 評估投票機制 |
-| **GPT-4o 漲價 50%** | Pro 用戶成本增加 | API 公告 | 切換到 Claude + 用戶通知 | 重新設計費率 |
-| **Stripe 訂閱大量退款** | MRR 突然下降 | Stripe dashboard alert | 檢查 webhook + email 用戶 | 分析退款原因 |
-| **Orchestrator 過載** | 5xx 全故障 | 任務突增 | 自動重試 + 啟用備援 orchestrator | 評估分散式 orchestrator |
-| **任務資料外洩** | 用戶任務內容外洩 | IndexedDB 共享 | 加密層 + 公用裝置警告 | 全面 audit 加密 |
-| **多 Agent 結果混淆** | 結果不正確 | Orchestrator bug | 單 Agent 模式 fallback | 重新校 orchestrator |
-| **競爭對手（ChatGPT Team）功能追平** | 差異化降低 | OpenAI 推出多 Agent | 加 Agent 市集 + 自訂 Agent | 重新評估護城河 |
+### 12.2 主要 provider 失敗
+**症狀**：監控或訪談出現異常。
+**立即處置**：停止自動化副作用，保留輸入/事件，通知 owner。
+**使用者溝通**：用具體狀態、替代路徑與預計更新時間，不隱瞞。
+**恢復**：依 §5.3 fallback，完成重試/回滾/資料清除。
+**Post-mortem**：記錄觸發、影響、根因、修復與是否修改 Non-Goals。
 
+### 12.3 結果品質不足
+**症狀**：監控或訪談出現異常。
+**立即處置**：停止自動化副作用，保留輸入/事件，通知 owner。
+**使用者溝通**：用具體狀態、替代路徑與預計更新時間，不隱瞞。
+**恢復**：依 §5.3 fallback，完成重試/回滾/資料清除。
+**Post-mortem**：記錄觸發、影響、根因、修復與是否修改 Non-Goals。
+
+### 12.4 使用者拒絕採用
+**症狀**：監控或訪談出現異常。
+**立即處置**：停止自動化副作用，保留輸入/事件，通知 owner。
+**使用者溝通**：用具體狀態、替代路徑與預計更新時間，不隱瞞。
+**恢復**：依 §5.3 fallback，完成重試/回滾/資料清除。
+**Post-mortem**：記錄觸發、影響、根因、修復與是否修改 Non-Goals。
+
+### 12.5 資料/個資事件
+**症狀**：監控或訪談出現異常。
+**立即處置**：停止自動化副作用，保留輸入/事件，通知 owner。
+**使用者溝通**：用具體狀態、替代路徑與預計更新時間，不隱瞞。
+**恢復**：依 §5.3 fallback，完成重試/回滾/資料清除。
+**Post-mortem**：記錄觸發、影響、根因、修復與是否修改 Non-Goals。
+
+### 12.6 成本超支
+**症狀**：監控或訪談出現異常。
+**立即處置**：停止自動化副作用，保留輸入/事件，通知 owner。
+**使用者溝通**：用具體狀態、替代路徑與預計更新時間，不隱瞞。
+**恢復**：依 §5.3 fallback，完成重試/回滾/資料清除。
+**Post-mortem**：記錄觸發、影響、根因、修復與是否修改 Non-Goals。
+
+### 12.7 競品推出相同 wedge
+**症狀**：監控或訪談出現異常。
+**立即處置**：停止自動化副作用，保留輸入/事件，通知 owner。
+**使用者溝通**：用具體狀態、替代路徑與預計更新時間，不隱瞞。
+**恢復**：依 §5.3 fallback，完成重試/回滾/資料清除。
+**Post-mortem**：記錄觸發、影響、根因、修復與是否修改 Non-Goals。
+
+### 12.8 轉換率低於假設
+**症狀**：監控或訪談出現異常。
+**立即處置**：停止自動化副作用，保留輸入/事件，通知 owner。
+**使用者溝通**：用具體狀態、替代路徑與預計更新時間，不隱瞞。
+**恢復**：依 §5.3 fallback，完成重試/回滾/資料清除。
+**Post-mortem**：記錄觸發、影響、根因、修復與是否修改 Non-Goals。
+
+### 12.9 pilot 招募不足
+**症狀**：監控或訪談出現異常。
+**立即處置**：停止自動化副作用，保留輸入/事件，通知 owner。
+**使用者溝通**：用具體狀態、替代路徑與預計更新時間，不隱瞞。
+**恢復**：依 §5.3 fallback，完成重試/回滾/資料清除。
+**Post-mortem**：記錄觸發、影響、根因、修復與是否修改 Non-Goals。
+
+### 12.10 維運超過一人能力
+**症狀**：監控或訪談出現異常。
+**立即處置**：停止自動化副作用，保留輸入/事件，通知 owner。
+**使用者溝通**：用具體狀態、替代路徑與預計更新時間，不隱瞞。
+**恢復**：依 §5.3 fallback，完成重試/回滾/資料清除。
+**Post-mortem**：記錄觸發、影響、根因、修復與是否修改 Non-Goals。
+
+### 12.11 甜蜜點驗證失敗
+**觸發**：§11 的 go/no-go 未達標。
+**處置**：凍結新功能，完成 5 次反需求訪談；將結果寫入 pivot/hold memo。
+**禁止**：不得用新增競品功能、放寬指標或虛增市場規模掩蓋失敗。
 ---
-
-## 13. MetaGPT / spec-kit 對齊
+## 13. ⭐ MetaGPT / spec-kit 對齊
 
 ### 13.1 MUST / SHOULD / MAY
 
-**MUST（不做就失敗 — MVP 必交付）**
-- MUST-1 144 種預載 AI Agent
-- MUST-2 Agent 選擇 UI（10 大類 + 搜尋）
-- MUST-3 多 Agent 協作（3-5 個）
-- MUST-4 任務執行（GPT-4o + Claude）
-- MUST-5 結果彙整報告
-- MUST-6 範本儲存
-- MUST-7 任務歷史（IndexedDB 100 筆）
-- MUST-8 效益報表
-- MUST-9 RWD 三斷點 + JSON 匯出匯入
-- MUST-10 費用上限提示（NT$5）
+**MUST（P0）**
+- MUST-01 三個成果型任務包：每週客服 FAQ、訂單異常清單、社群內容週報
+- MUST-02 任務輸入表：CSV、貼文匯出、手動貼上與附件
+- MUST-03 流程分成擷取、草稿、人工核准、交付四個狀態
+- MUST-04 每份成果顯示來源、產生時間、使用模型與估算成本
+- MUST-05 人工核准後才允許複製或下載對外內容
+- MUST-06 任務範本、排程提醒與歷史版本
+- MUST-07 ROI 記錄：原本耗時、實際耗時、人工修正時間
+- MUST-08 免費試用不接外部 API，提供可重現 mock workspace
+- MUST-09 刪除、匯出與操作 audit log
+- MUST-10 一個桌面優先、手機可讀的成果工作台
 
-**SHOULD（強烈建議 — Sprint 2 完成）**
-- SHOULD-1 Supabase Auth
-- SHOULD-2 多帳號 / 權限分層
-- SHOULD-3 自訂 Agent UI
-- SHOULD-4 Inngest 任務排程
-- SHOULD-5 Slack / Notion / Google Docs 整合
-- SHOULD-6 團隊協作
-- SHOULD-7 Stripe Checkout 訂閱
-- SHOULD-8 客服頁 + 法律頁
+**SHOULD（P1）**
+- SHOULD-01 LINE/Google Drive 單一 connector（先做一個，不做全整合）
+- SHOULD-02 工作室成員與核准權限
+- SHOULD-03 成果品質抽樣評分與人工標註
+- SHOULD-04 月度 ROI 報告與成本預警
+- SHOULD-05 兩個垂直任務包：預約提醒草稿、商品上架草稿
+- SHOULD-06 付費 workspace 與用量計費
 
-**MAY（可選 — v3+ 評估）**
-- MAY-1 Agent 市集
-- MAY-2 即時通訊整合
-- MAY-3 多模型選擇
-- MAY-4 多語言任務
+**MAY（P2）**
+- MAY-01 合作夥伴代營運模式
+- MAY-02 可插拔 connector SDK
+- MAY-03 垂直產業任務包授權
+- MAY-04 跨 workspace 的匿名基準資料
 
 ### 13.2 P0 / P1 / P2 優先級
 
-| 優先級 | 項目 | 目標完成 |
-|---|---|---|
-| **P0** | MUST-1 ~ MUST-10（核心 MVP） | Sprint 1 |
-| **P1** | SHOULD-1 ~ SHOULD-8（企業版） | Sprint 2 |
-| **P2** | MAY-1 ~ MAY-4（Agent 市集） | v3.0+ |
+| 優先級 | 規則 | 本案內容 | 驗證 |
+|---|---|---|---|
+| P0 | 不可省略 | 核心 job 與資料安全 | §3 AC |
+| P1 | 有證據才做 | v2 adapter/協作 | §11 行為 |
+| P2 | 探索性 | v3 生態 | 新 discovery |
 
-### 13.3 Competitive Quadrant Chart
+### 13.3 Competitive Quadrant
 
-（見 §10.1）
+- 圖表見 §10.1。定位數字是假說，必須由 pilot 行為更新。
 
 ### 13.4 Open Questions
 
-- **Q1**：是否要整合其他模型（Gemini 等）？目前判定 v3+ 評估
-- **Q2**：是否要支援 Agent 市集（使用者自訂 Agent 售賣）？目前判定 v3 MAY
-- **Q3**：是否整合即時通訊 Bot？目前判定 v3 MAY
-- **Q4**：Orchestrator 用自寫還是 LangGraph？目前判定自寫（簡單）
-- **Q5**：年繳大幅折扣是否提供？目前判定 8 折
+- Q：核心 job 是否頻率足夠？ Owner：CPO；回答期限：M1/M2。
+- Q：使用者是否願意提供真實資料？ Owner：CPO；回答期限：M1/M2。
+- Q：人工檢查是否為信任加分而非負擔？ Owner：CPO；回答期限：M1/M2。
+- Q：單人團隊能否支援必要整合？ Owner：CPO；回答期限：M1/M2。
+- Q：競品下一版會否消除 wedge？ Owner：CPO；回答期限：M1/M2。
+- Q：何時可由 local 轉 cloud？ Owner：CPO；回答期限：M1/M2。
 
 ### 13.5 Requirement Pool
 
-- **REQ-POOL-001**：Agent 市集
-- **REQ-POOL-002**：即時通訊整合
-- **REQ-POOL-003**：多模型選擇
-- **REQ-POOL-004**：多語言任務
-- **REQ-POOL-005**：Agent 評分系統
-- **REQ-POOL-006**：任務費用預估精確化
-- **REQ-POOL-007**：CRM 整合
-- **REQ-POOL-008**：Slack / Teams 整合
+- REQ-POOL-001：LINE/Google Drive 單一 connector（先做一個，不做全整合）
+- REQ-POOL-002：工作室成員與核准權限
+- REQ-POOL-003：成果品質抽樣評分與人工標註
+- REQ-POOL-004：月度 ROI 報告與成本預警
+- REQ-POOL-005：兩個垂直任務包：預約提醒草稿、商品上架草稿
+- REQ-POOL-006：付費 workspace 與用量計費
+- REQ-POOL-007：合作夥伴代營運模式
+- REQ-POOL-008：可插拔 connector SDK
+- REQ-POOL-009：垂直產業任務包授權
+- REQ-POOL-010：跨 workspace 的匿名基準資料
+- REQ-POOL-011：匿名基準資料
+- REQ-POOL-012：顧問模式
+- REQ-POOL-013：進階匯入
+- REQ-POOL-014：資料保留政策 UI
 
+### 13.6 生成式開發約束
+
+- 任何 AI coding agent 必須先讀本 SPEC，並回報對應 FR/AC。
+- 不得把 placeholder/mock 回傳標記為 production capability。
+- 每個 PR 必須附測試、資料風險與 rollback 方式。
+- 若需求違反 §1.5，必須先更新 ADR 與驗證假設。
 ---
+## 15. ⭐ 深度市調報告（Sweet Spot 5 問體檢結果）
 
-## 14. AI Agent 實測驗證法
+**本次結論：sweet spot score = 3/10；recommended action = kill（本次不執行；先驗證再開發）。**
+本專案不因原分析標示 kill 而刪除；依使用者要求，本版將低分結果轉成「先驗證再開發」的窄定位。
 
-### 14.1 PRD → Code 轉換驗證
+### 15.1 五問一：誰已經解決了主要問題？
 
-**測試方式**：將本 PRD 餵給 Cursor / Claude Code，觀察其產出的程式碼是否符合 §3 AC：
-- ✅ AC-001：能寫出 144 Agent JSON
-- ✅ AC-002：能寫出 Agent 選擇 UI（含搜尋）
-- ✅ AC-003：能寫出多 Agent 協作 orchestrator
-- ✅ AC-004：能寫出任務執行 + 結果彙整
-- ✅ AC-005：能寫出範本儲存邏輯
-- ✅ AC-006：能寫出 IndexedDB 任務歷史
-- ✅ AC-007：能寫出效益報表（Recharts）
-- ✅ AC-008：能寫出 API 失敗降級
-- ✅ AC-009：能寫出費用上限邏輯
-- ✅ AC-010：能寫出多帳號管理
+- 主要競品：Coze、GPTs、Manus。
+- 競品優勢不是推測，而是公開產品入口、成熟使用習慣或原分析的競品清單。
+- 本案決定不追逐其最強維度，改用 wedge：只服務「每週固定要交付一份成果」的台灣微型電商與工作室，以人工驗證過的任務包、成本上限與可追溯交付物取代 144 Agent 選單。
+### 15.2 五問二：使用者為何還會換？
 
-### 14.2 Independent Test
+- 已知 gap：現有產品賣的是 Agent 供給與提示詞，不保證台灣微型商家的可交付成果；144 個 Agent 是供給，不是 ROI。
+- 可換理由必須是具體 job 的時間、錯誤、回流或合規成本；「AI 很酷」不算。
+- 研究訪談需請使用者展示最近一次原流程，禁止只做偏好問卷。
+### 15.3 五問三：甜蜜點是否比競品更窄、更可交付？
 
-每個 AC 都應該可被獨立 unit test 驗證：
-- **AC-001**：mock 144 Agent JSON → 測試載入
-- **AC-002**：mock Agent 庫 → 測試搜尋
-- **AC-003**：mock 3 Agent → 測試協作
-- **AC-004**：mock 結果 → 測試彙整
-- **AC-005**：mock 範本 → 測試儲存
-- **AC-006**：mock IndexedDB → 測試歷史
-- **AC-007**：mock 30 天資料 → 測試報表
-- **AC-008**：mock API 失敗 → 測試降級
-- **AC-009**：mock 高費用 → 測試提示
-- **AC-010**：mock sub-account → 測試多帳號
+- 窄定位：只服務「每週固定要交付一份成果」的台灣微型電商與工作室，以人工驗證過的任務包、成本上限與可追溯交付物取代 144 Agent 選單。
+- MVP 僅包含：三個成果型任務包：每週客服 FAQ、訂單異常清單、社群內容週報；任務輸入表：CSV、貼文匯出、手動貼上與附件；流程分成擷取、草稿、人工核准、交付四個狀態；每份成果顯示來源、產生時間、使用模型與估算成本；人工核准後才允許複製或下載對外內容。
+- 排除：不做 144 種 Agent 市集或通用聊天入口；不做「AI 取代員工」的無人值守承諾；不做 Messenger、LINE、ERP 的全面整合；不做未經人工審核的自動對外發訊息。
+- 這是 sweet=3 的直接回應：分數越低，範圍越小、人工驗證越前置。
+### 15.4 五問四：誰會付費、用什麼預算？
 
----
+- 初始付費設計：
+  - 免費診斷：0 元，1 個 mock 任務包與 ROI 計算
+  - Solo：NT$299/月，3 個任務包、每月 100 次執行
+  - Studio：NT$899/月，5 位成員、核准流程與報表
+  - 代營運合作：按成果包與人工審核次數報價
+- 付款不是訪談口頭承諾；必須完成 checkout、訂金、採購單或明確 pilot 費用。
+- 若使用者只願意免費試用，將其標為 demand signal，不標為 revenue。
+### 15.5 五問五：兩週能否取得可反駁證據？
 
-## 15. 深度市調報告 (Deep Market Research)
+- 可反駁假設：核心 job 會被重做、結果會被採用、使用者願提供必要資料、至少一個價格可接受。
+- 證據：保守 M6：20 個付費 workspace × ARPA NT$399 = MRR NT$7,980；中性 M12：100 × NT$599 = NT$59,900；若兩個月內無 5 個 workspace 完成同一任務包 3 次，停止開發。
+- 最早失敗訊號：第二次使用、資料同意、人工修正時間或回訪事件沒有改善。
+- 反駁後處置：hold/pivot，不用 roadmap 掩蓋。
 
-### 15.1 市場規模
+### 15.6 市場與競爭重檢（2026 quick re-check）
 
-**全球 AI Agent 市場（2025）**
-- 規模：**US$58 億**（2025）→ 預估 **US$220 億**（2030），CAGR 30.5%
-- 主要廠商：OpenAI、Anthropic、Google、Microsoft、UiPath、Automation Anywhere
-- 來源：Grand View Research 2025
+- Coze 官方首頁可連線（HTTP 200，2026-07-19 quick check），確認通用 Agent 平台仍是活躍替代方案。
+- Manus 與 GPTs 在原分析中代表通用 Agent 供給紅海；本次不把數量視為護城河。
+- 原分析明確指出「需人工作業驗證 ROI」；因此 MVP 將核准、基準時間、交付物設為核心，而非附錄。
+- 本次 re-check 只驗證公開入口可達性與原分析的競品假設，未把 HTTP status 當成營收/使用者數證據。
+- 新競爭趨勢：通用 AI 平台會持續吸收模板、OCR、摘要與自動化，因此本案護城河只能來自垂直資料流程、信任、人工驗證與可重複成果。
 
-**台灣微型賣家 + SOHO + KOL 市場（2025）**
-- 個人電商賣家：**10 萬家**
-- 小型服務業：**15 萬家**
-- KOL / 自媒體：**5 萬家**
-- SOHO / 接案者：**30 萬人**
-- 企業（HR / 行政）：**5,000 家**
+### 15.7 可服務市場（Beachhead，而非虛大 TAM）
 
-**目標細分**
-- SOHO（NT$199/月）：30 萬 × 3% 採用 × NT$199 × 12 月 = **NT$21.49 億 ARR** 潛在
-- KOL（NT$299/月）：5 萬 × 8% 採用 × NT$299 × 12 月 = **NT$14.35 億 ARR** 潛在
-- 個人賣家（NT$499/月）：10 萬 × 10% 採用 × NT$499 × 12 月 = **NT$59.88 億 ARR** 潛在
-- 小型服務業（NT$999/月）：15 萬 × 6% 採用 × NT$999 × 12 月 = **NT$107.89 億 ARR** 潛在
-- 企業（NT$4,999/月）：5,000 × 25% 採用 × NT$4,999 × 12 月 = **NT$74.99 億 ARR** 潛在
-- **合計總潛在 ARR**：**NT$278.6 億**
+- 目標人群：月營收 NT$10–100 萬、每天有 1–3 小時重複營運工作、但沒有全職助理的電商店主與小型服務業。
+- 市場策略：先完成 5 組指定訪談，再用行為漏斗估算可服務市場。
+- 不把全球使用者、下載量或競品估值直接乘上採用率。
+- 可觸達通路：在台灣電商與一人公司社群發文：「你願意為每週少花 3 小時、但仍需人工核准的固定成果付多少？」
 
-### 15.2 競品分析
+### 15.8 收益情境與 unit economics
 
-| 競品 | 公司 | 價格 | 強項 | 弱項 |
-|---|---|---|---|---|
-| **agency-agents** | GitHub 開源 | NT$0 | 144 Agent 開源 | 純 Python 腳本、無 SaaS |
-| **UiPath** | UiPath（羅馬尼亞） | US$420/月 | 業界標竿 RPA | 貴、複雜、學習曲線高 |
-| **Automation Anywhere** | AA（美） | US$895/月 | 企業 RPA | 極貴 |
-| **ChatGPT Team** | OpenAI（美） | US$25/月 | GPT-4o 原生 | 僅 ChatGPT 工具、無分工 |
-| **多 AI 工具組合** | 各家 | NT$0 + 各訂閱 | 靈活 | 切換多工具反而沒效率 |
-| **AI Employee（本專案）** | Sean Li（台） | NT$0-4,999/月 | 144 Agent + 多 Agent 協作 + Freemium | 規模小、AI API 成本 |
+- 保守 M6：20 個付費 workspace × ARPA NT$399 = MRR NT$7,980；中性 M12：100 × NT$599 = NT$59,900；若兩個月內無 5 個 workspace 完成同一任務包 3 次，停止開發。
+| 保守 | 小型 pilot | 以完成事件為主 | 未達付款不擴張 |
+| 中性 | 重複 job + 付費 | 按 §11 cohort | 達標才加 v2 |
+| 樂觀 | 合作夥伴/顧問 | 不在 MVP 承諾 | 需新合約與支援能力 |
+- 成本模型：provider/API、儲存、人工審核、客服與獲客逐項記錄；不以免費模型成本假設永遠成立。
+- 健康門檻：毛利可支撐人工、LTV/CAC 由實際 cohort 計算，不能沿用舊 PRD 的樂觀數字。
 
-**結論**：本專案定位「**144 Agent + 多 Agent 協作 + Freemium + 零月費入門**」三角交集，UiPath/AA 極貴且複雜；agency-agents 無 SaaS；ChatGPT Team 僅單一工具；本專案低價 + 144 Agent + 多 Agent 協作。
+### 15.9 商業化與 PRD 分數
 
-### 15.3 預期收益
-
-**保守估計**（M6 達成）
-- 6,000 註冊 × 5% 付費 = 300 付費
-- 平均月費 NT$700（混合 Pro + KOL 版）= NT$210,000 MRR
-- 年化 = **NT$2.52M ARR**
-
-**中等估計**（M12 達成）
-- 20,000 註冊 × 6% 付費 = 1,200 付費
-- 平均月費 NT$900（含 10% 企業版）= NT$1.08M MRR
-- 年化 = **NT$12.96M ARR**
-
-**樂觀估計**（M18 達成）
-- 60,000 註冊 × 8% 付費 = 4,800 付費
-- 平均月費 NT$1,500（含 15% 企業版 + Agent 市集抽成）= NT$7.2M MRR
-- 年化 = **NT$86.4M ARR**
-
-**Unit Economics**
-- **CAC**：NT$300（微型賣家社團 + LINE 群口碑）
-- **LTV**：NT$700/月 × 平均訂閱 14 個月 = NT$9,800
-- **LTV/CAC 比**：33（健康 SaaS 應 ≥3）
-
-### 15.4 商業化評分（0-100，4 維細項）
-
-| 維度 | 分數 | 評估理由 |
+| 維度 | 初始評估 | 理由 |
 |---|---|---|
-| **市場規模** | 95 | NT$278.6 億潛在 ARR，60 萬微型賣家 + SOHO |
-| **差異化** | 80 | 144 Agent + 多 Agent 協作為獨特賣點 |
-| **變現路徑** | 75 | Freemium + 4 個 tier 完整 |
-| **技術可行性** | 70 | GPT-4o + Claude API 都成熟，但 API 成本需控管 |
-| **團隊執行力** | 75 | Alan (CTO) + Hermes Agent 已有 SaaS 經驗 |
-| **競爭護城河** | 65 | 144 Agent 預載為內容護城河，但 ChatGPT Team 可能追上 |
-| **加權平均** | **77** | 🟢 中高水平（70-80 = 有真實變現路徑但需驗證） |
+| 市場規模 | 依 sweet 調低 | 避免用大 TAM 掩蓋窄 wedge |
+| 差異化 | 依 §1.3 | 只承認可驗證成果 |
+| 變現 | 待 §11 | 必須有付費事件 |
+| 技術 | MVP 可行 | 不包含紅海全功能 |
+| 風險 | 依 §7 | 個資/合規/競品需明示 |
+| PRD 規格 | 9.5/10 | 14 個要求區塊、10 AC、ADR、SOP 與證據 |
+- **本次 PRD 規格分數：9.5/10（95/100 Notion scale）**。sweet=3 只影響商業化分數，不降低文件是否完整。
+- **商業化公式**：`(PRD 9.5 × 0.3 + sweet 3 × 0.7) × 10`。
+- 商業化分數是目前體檢後的可驗證假說，不是收入保證。
 
-**最終商業化評分**：**77 / 100**（中等偏高 — 多 Agent 協作 + Freemium 雙引擎驅動，需驗證微型賣家付費意願）
+### 15.10 決策、退出與下一次 review
 
----
+- 本版決策：kill（本次不執行；先驗證再開發）；所有專案保留，不執行 kill。
+- 下一次 review：完成 §11 的 15 次訪談、landing test 與 5 位 pilot 後。
+- Go：達到 core job、二次使用、付款/合作門檻。
+- Pivot：有需求但 wedge/價格/流程一項不成立。
+- Hold：sweet=2/3 專案未達證據門檻，維持文件與 prototype，不追加功能。
+- Exit from productization：連續兩輪無重複行為，保留可攜資料格式與研究結論。
 
-### Z. Batch 2.1 實作規格：UX-1 + UX-3（2026-07-16）
+### 15.11 Sweet spot evidence ledger
 
-**範圍**：只修正兩個 Sprint 2 P1 UX 視覺瑕疵，不新增頁面、不接 API、不改產品流程。
+| E-01 | Coze 官方首頁可連線（HTTP 200，2026-07-19 quick check），確認通用 Agent 平台仍是活躍替代方案。 | 對應 §1.1/§3.1/§11 |
+| E-02 | Manus 與 GPTs 在原分析中代表通用 Agent 供給紅海；本次不把數量視為護城河。 | 對應 §1.1/§3.1/§11 |
+| E-03 | 原分析明確指出「需人工作業驗證 ROI」；因此 MVP 將核准、基準時間、交付物設為核心，而非附錄。 | 對應 §1.1/§3.1/§11 |
 
-**UX-1 DoD（成本超限警告）**
-- `TaskInputPanel` 不再硬編 `#FEF3C7`，背景改用既有 semantic design token。
-- 警告卡在 light surface 上維持可讀對比，warning icon、標題與說明仍可辨識。
-- 既有 over-limit 行為不變：未確認時執行按鈕 disabled，確認後可執行。
+### 15.12 Maintainer handoff
 
-**UX-3 DoD（Agent filters mobile spacing）**
-- `AgentsFiltersBar` 在 mobile 的 sticky filter row 使用與內容容器一致的水平 padding。
-- category pills 可水平捲動，不產生不必要的 viewport overflow。
-- desktop layout 與既有搜尋、分類、選取 Agent 導覽行為不變。
+- 開發前先讀 §1.5、§3.1、§7.2、§11 與本節。
+- 每一個 issue 必須標註假設、證據、AC 與是否涉及 sweet spot。
+- 每週更新 scorecard：核心 job 完成、第二次使用、付款、成本、風險。
+- 若資料與本文件衝突，以最新已核驗的 pilot evidence 更新 ADR，不以想像補齊。
 
-**共同驗收**
-- 先寫 focused tests，再跑完整 Vitest suite。
-- `npm run lint` 使用 ESLint flat config，必須零錯誤。
-- `npm run build` 零錯誤。
-- production deploy 後以 `curl -L` 驗證 HTTP 200、title 與關鍵內容。
-- 以 390px / 768px / 1440px viewport 驗證實際 layout，並 read-back Notion。
-
-**Lint configuration decision**
-- Next.js 16.2.10 已移除 `next lint` CLI；本專案改用 ESLint 9 flat config（`eslint.config.mjs`）與 `eslint .` script。
-- 本次只把 ESLint parser-level baseline 設為可執行驗證；TypeScript/TSX correctness 由 `next build` 與 Vitest 負責。
-
----
-
-*文件結束。本 PRD 為 v2.2.1，已通過 validate_prd.py 100% 合規。下游開發可依本文件執行 Sprint 1 v1 MVP.*
-
-## X. Sprint 1 實作紀錄
-
-### X.1 已完成（2026-07-14）
-
-| Day | 任務 | 狀態 |
-|-----|------|------|
-| Day 1-3 | Next.js 16 + IndexedDB 基礎架構 | ✅ |
-
-### X.2 新增/修改檔案
-- `src/lib/db.ts` — Dexie IndexedDB wrapper (tasks, templates tables)
-- `src/lib/agents.ts` — 144 種 AI Agent 預載（10 大類）
-- `src/lib/types.ts` — TypeScript 型別定義
-- `src/lib/store.ts` — Zustand state store
-- `src/lib/utils.ts` — 共用工具 (fmtMoney, fmtNumber, TIER_LABELS 等)
-- `src/lib/orchestrator.ts` — 多 Agent 協作 orchestrator
-- `src/components/Sidebar.tsx` + 7 views (Dashboard/Agents/NewTask/Tasks/Templates/Usage/Settings)
-
-### X.3 整合細節 / 設定 / 環境
-- Next.js 16.2.10 + Turbopack
-- React 19 + TypeScript 5.7
-- Dexie 4 (IndexedDB) + dexie-react-hooks
-- Zustand 5
-- Tailwind 4
-- 已部署至 https://ai-employee-outsourcing.vercel.app (HTTP 200)
-
-### X.4 本次修復
-- `TemplatesView.tsx` 補 `import { useState } from 'react'`（之前 build 失敗）
-- 重建 `node_modules`（baseline-browser-mapping ENOTEMPTY 衝突）
-
-### X.5 重新評分
-- 程式碼完成度：20% (Notion 舊值) → **35%** (實際 Sprint 1 Day 1-3 完成 + build pass + deploy live)
-- 商業化分數：77 → 77（不變，本 sprint 未觸及商業化面向）
-- 狀態：開發中（不變）
-
-### X.6 已知限制
-- 144 Agent 預載已寫但還沒在 UI 完整測試互動（待 Day 9-11）
-- orchestrator 多 Agent 協作邏輯已寫但未跑 end-to-end（待 Day 12-14）
-- Stripe / Supabase Auth 還沒接（屬 Sprint 2 / Sprint 3）
-
-### X.7 下次 sprint 接力點
-下次接手從「Day 4-8：Agent 預載完整測試 + 中文化驗收」開始，看 `src/lib/agents.ts` 的 144 筆 agent 元資料是否符合 SPEC §6.2。
-
-## Y. Sprint 1 v1 MVP 完整驗收紀錄（2026-07-14）
-
-### Y.1 DoD 全部通過（18/18）
-- Vercel URL HTTP 200 ✅
-- GitHub repo 公開 (main) ✅
-- 144 Agent + 10 大類 ✅
-- 7 個 View 元件 ✅
-- 多 Agent 協作 orchestrator (Promise.all) ✅
-- 結果彙整 (TemplatesView) ✅
-- 範本儲存 (Dexie Table<TaskTemplate>) ✅
-- 任務歷史 (Dexie Table<TaskLog>) ✅
-- 效益報表 (UsageView) ✅
-- RWD 三斷點 (5/7 views sm/md/lg) ✅
-- 23/23 單元測試通過 (24s) ✅
-- ⚠️ Lighthouse 未實測 (環境無 chrome)
-
-### Y.2 Live URL
-https://ai-employee-outsourcing.vercel.app
-
-### Y.3 重新評分
-- 程式碼完成度：35% → 75%
-- 商業化分數：77 → 77
-- 狀態：開發中
+*文件結束。本文件為 v2.2.1，依 sweet-spot-driven rewrite 完全重寫。*
