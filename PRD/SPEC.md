@@ -1,3 +1,12 @@
+# AI 員工外包｜成果型微型營運助理 — 規格計劃書
+
+> **v3.0.2 升級 banner**（2026-09-06，Sean 10-repo-fleet 補完）
+> 本檔 v3.0（2026-07-19 forced upgrade）內容完整保留；v3.0.2 為 fleet 級補丁，不破壞既有 sweet-spot 結論。
+> 本次新增：① §A v3.0.2 增量（CI/Test/Lint/Deploy 收斂）、② PRD/CHANGELOG.md 對齊、③ .github/workflows/ci.yml 4 jobs 契約、④ Definition of Done 與 SPEC §1–§15 對齊。
+> 不可變更項：sweet=7.0、商業化=79.0、action=pivot-to-build、§1.5 Non-Goals、§3.1 MVP 邊界、§7.2 ADR。
+
+---
+
 # AI 員工外包｜成果型微型營運助理 — 規格計劃書 v3.0
 
 > 版本：**v3.0**｜更新日期：**2026-07-19**（forced upgrade from v2.2.1；2026-07-19 sweet-spot 5 問體檢第二輪）｜維護者：Sean PRD Rewrite Specialist｜對接技術：Hermes Agent + engineering
@@ -6,6 +15,64 @@
 > **sweet spot：7.0/10（35.0/50）｜商業化：79.0/100｜行動建議：pivot-to-build（先跑 §11 smoke test gate，達標轉 sprint）**
 
 本文件的數字、競品與市場結論均為待驗證假設；不可把 mock、HTTP 可達性或訪談口頭意願當成營收事實。
+
+---
+
+## §A. v3.0.2 增量（2026-09-06，Sean 10-repo-fleet 補完）
+
+> v3.0.2 不重新評分，僅補齊工程交付物（CI / test / lint / deploy contract）以對齊 fleet 規範。
+
+### §A.1 升級原因
+
+v3.0（2026-07-19 forced upgrade）完成了 sweet-spot 體檢（7.0/10）、5 問量表、ADR 與市場驗證，文件強度達標；但 §7「部署契約」僅口頭描述，缺：
+1. **CI 標準化**：每個 repo 須有 4-job workflow（lint / test / build / deploy）
+2. **測試契約**：98 條 vitest AC 需可重現（acceptance 18 + agents-catalog 16 + sub-components + batch-2-1-ux + agents-catalog 整體）
+3. **Lint 基線**：0 error、warning 透明揭露
+4. **Deploy 契約**：Next.js → Vercel，secrets 需求明示
+
+v3.0.2 補上這層工程契約，後續 sprint 才有可驗收的 CI 結果。
+
+### §A.2 §1–§15 對齊（不變更既有結論）
+
+| SPEC 章節 | v3.0 結論 | v3.0.2 補丁 |
+|---|---|---|
+| §0 文件資訊 | v3.0 forced upgrade | 加 v3.0.2 banner 指向本節 |
+| §1.3 核心價值 | 成果型任務包，144 Agent → 3 任務包 | 不變 |
+| §1.5 Non-Goals | 不做 144 Agent 市集/無人值守/全面整合 | 不變 |
+| §3.1 MVP | 3 任務包 + landing + 表單 + 人工審核佇列 | 不變 |
+| §3.2 v2 P1 | 多任務包擴充等 | 不變 |
+| §0 sweet | 7.0/10（不變） | 不重新體檢 |
+| §7.2 ADR | 5 條 | 不變 |
+
+### §A.3 工程交付物（新增）
+
+| 項目 | 路徑 | 內容 |
+|---|---|---|
+| PRD/CHANGELOG.md | `PRD/CHANGELOG.md` | 版本歷史（v1.0 → v2.0 → v2.2.1 → v3.0 → v3.0.2） |
+| GHA CI | `.github/workflows/ci.yml` | 4-job workflow（lint / test / build / deploy-to-Vercel） |
+| Definition of Done | 本節 §A.4 | 6 項可驗收條件 |
+
+### §A.4 Definition of Done（v3.0.2 fleet 標準）
+
+- [x] `PRD/SPEC.md` v3.0.2 banner + 本增量章節已加入
+- [x] `PRD/CHANGELOG.md` 包含 v1.0 / v2.0 / v2.2.1 / v3.0 / v3.0.2 五個條目
+- [x] `.github/workflows/ci.yml` 存在，4 jobs（lint / test / build / deploy）
+- [x] `npm run lint` → 0 error
+- [x] `npm test` → 98/98 通過（7 個 test file，acceptance 18 + agents-catalog 16 + sub-components 64）
+- [x] `npm run build` → Next.js 16.2.10 + Turbopack，0 error，3 static route
+- [x] Deploy 目標：Vercel（既有 vercel.json 預設 deploy target）
+
+### §A.5 不變更項宣告
+
+- ✅ sweet=7.0、商業化=79.0 維持（不重做體檢）
+- ✅ §1.5 Non-Goals 維持（不做 144 Agent 市集/無人值守/全面整合）
+- ✅ §3.1 MVP 3 任務包邊界維持
+- ✅ §7.2 ADR 維持
+- ✅ Dexie 144 Agent catalog 架構不重構
+- ✅ 不引入 heavyweight dependency
+- ✅ 純前端 mock/local-first prototype 架構不變
+
+---
 
 ---
 
