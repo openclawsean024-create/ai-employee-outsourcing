@@ -69,7 +69,9 @@ export default function Sidebar({ collapsed, onToggle }: Props) {
               title={collapsed ? item.label : undefined}
             >
               <Icon className="w-[18px] h-[18px] flex-shrink-0" strokeWidth={1.75} />
-              {!collapsed && <span className="truncate">{item.label}</span>}
+              {!collapsed && (
+                <span className="truncate flex-1 text-left">{item.label}</span>
+              )}
             </button>
           );
         })}

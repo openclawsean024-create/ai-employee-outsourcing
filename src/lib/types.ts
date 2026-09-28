@@ -82,4 +82,6 @@ export type View =
   | 'tasks'
   | 'templates'
   | 'usage'
-  | 'settings';
+  | 'settings'
+  // v3：成果工作台（純前端示範）
+  | 'outcome';

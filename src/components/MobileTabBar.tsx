@@ -7,8 +7,8 @@ import { cn } from '@/lib/utils';
 
 const MOBILE_MENU: Array<{ view: View; label: string; icon: React.ElementType }> = [
   { view: 'dashboard', label: '儀表板', icon: LayoutDashboard },
-  { view: 'agents', label: 'Agent', icon: Bot },
   { view: 'task_new', label: '建立', icon: Plus },
+  { view: 'agents', label: 'Agent', icon: Bot },
   { view: 'settings', label: '設定', icon: SettingsIcon },
 ];
 
