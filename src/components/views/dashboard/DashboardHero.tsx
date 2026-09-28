@@ -29,9 +29,10 @@ export default function DashboardHero({ onNavigate }: { onNavigate: (v: View) =>
         把客服、行銷、秘書、設計、法務的雜事，全部交給 AI。一次任務同時呼叫 3-5 個 Agent，每月 NT$99 起。
       </p>
       <div className="flex items-center justify-center gap-3 mt-8">
-        <button onClick={() => onNavigate('task_new')} className="btn btn-primary btn-lg">
+        {/* v3：主 CTA 改接成果工作台（純前端示範） */}
+        <button onClick={() => onNavigate('outcome')} className="btn btn-primary btn-lg">
           <Play className="w-4 h-4" strokeWidth={2.5} />
-          開始使用
+          新增本週任務
         </button>
         <button onClick={() => onNavigate('agents')} className="btn btn-secondary btn-lg">
           瀏覽 144 種 Agent

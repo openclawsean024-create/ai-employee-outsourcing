@@ -103,11 +103,11 @@ describe('DashboardHero', () => {
     expect(screen.getByText(/AI 員工團隊/)).toBeTruthy()
   })
 
-  it('點擊「開始使用」應呼叫 onNavigate("task_new")', () => {
+  it('點擊「新增本週任務」應呼叫 onNavigate("outcome")', () => {
     let navigated = ''
     render(<DashboardHero onNavigate={(v) => { navigated = v }} />)
-    screen.getByText('開始使用').click()
-    expect(navigated).toBe('task_new')
+    screen.getByText('新增本週任務').click()
+    expect(navigated).toBe('outcome')
   })
 
   it('點擊「瀏覽 144 種 Agent」應呼叫 onNavigate("agents")', () => {
