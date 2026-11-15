@@ -35,7 +35,10 @@ function Metric({ label, value, delta, deltaColor = 'neutral', icon: Icon }: Met
 
 export default function DashboardMetrics() {
   return (
-    <section>
+    <section aria-label="示意數據">
+      <p className="text-body-sm mb-3" data-testid="metrics-illustrative-note">
+        以下為介面示意數字，並非實際用量、成本或成效統計。
+      </p>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <Metric
           label="任務執行 / 月"
@@ -46,15 +49,15 @@ export default function DashboardMetrics() {
         />
         <Metric
           label="花費 / 月"
-          value="$118"
+          value="NT$ 118"
           delta="↓ 69%"
           deltaColor="success"
           icon={DollarSign}
         />
         <Metric
           label="平均任務成本"
-          value="$0.09"
-          delta="從 $0.14 下降"
+          value="NT$ 0.09"
+          delta="從 NT$ 0.14 下降"
           deltaColor="neutral"
           icon={TrendingDown}
         />
