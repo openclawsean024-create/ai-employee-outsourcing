@@ -12,7 +12,7 @@
 | AC | 內容 | 狀態 | 測試檔（`src/__tests__/`） | 證據 |
 |---|---|---|---|---|
 | AC-012 | 品質關卡 | ✅ 完成 | `quality-gate.test.ts` | `npm run typecheck` exit 0；`grep -n 'no test script' .github/workflows/ci.yml` 無輸出；CI 新增 typecheck job，lint 移除 `continue-on-error`，test 改為 `npm test` |
-| AC-009 | mock 工作台移到 `/demo` | ⏳ 進行中 | — | — |
+| AC-009 | mock 工作台移到 `/demo` | ✅ 完成 | `demo.test.tsx`（既有 7 檔 98 測試原樣保留） | 工作台改由 `app/demo/page.tsx` → `src/components/demo/DemoWorkbench.tsx` 渲染，頁首 `DemoNotice` 固定顯示「示範：輸出為模擬內容，未呼叫真實 AI」；`SettingsView` 改為「沒有連接任何 AI 服務，也沒有使用任何 API 金鑰」；Sean 未指示移除 demo，依預設保留 |
 | AC-008 | 移除未查證宣稱 | ⏳ 未開始 | — | — |
 | AC-007 | 合併內容搬遷 | ⏳ 未開始 | — | — |
 | AC-001 | 服務方案頁 | ⏳ 未開始 | — | — |

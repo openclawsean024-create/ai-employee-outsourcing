@@ -1,51 +1,14 @@
-'use client';
+import Link from 'next/link';
 
-import { useState } from 'react';
-import { useAIEOStore } from '@/lib/store';
-import Sidebar from '@/components/Sidebar';
-import MobileTabBar from '@/components/MobileTabBar';
-import DashboardView from '@/components/views/DashboardView';
-import AgentsView from '@/components/views/AgentsView';
-import NewTaskView from '@/components/views/NewTaskView';
-import TasksView from '@/components/views/TasksView';
-import TemplatesView from '@/components/views/TemplatesView';
-import UsageView from '@/components/views/UsageView';
-import SettingsView from '@/components/views/SettingsView';
-import { cn } from '@/lib/utils';
-
+/** 過渡首頁：服務官網首頁於 M1 AC-010 完成後取代本頁。 */
 export default function HomePage() {
-  const currentView = useAIEOStore(s => s.currentView);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-
   return (
-    <div className="min-h-screen flex bg-[var(--cream-200)]">
-      {/* Desktop Sidebar */}
-      <div className="hidden md:flex sticky top-0 h-screen">
-        <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} />
-      </div>
-
-      {/* Main */}
-      <main className="flex-1 min-w-0 flex flex-col">
-        <div className="flex-1 overflow-y-auto">
-          <div className={cn(
-            "mx-auto w-full",
-            "max-w-[1200px]",
-            "px-6 py-8 md:px-10 md:py-12",
-            "pb-24 md:pb-12"  // mobile: leave room for bottom tab bar
-          )}>
-            {currentView === 'dashboard' && <DashboardView />}
-            {currentView === 'agents' && <AgentsView />}
-            {currentView === 'task_new' && <NewTaskView />}
-            {currentView === 'tasks' && <TasksView />}
-            {currentView === 'templates' && <TemplatesView />}
-            {currentView === 'usage' && <UsageView />}
-            {currentView === 'settings' && <SettingsView />}
-          </div>
-        </div>
-      </main>
-
-      {/* Mobile Bottom Tab Bar */}
-      <MobileTabBar />
-    </div>
+    <main className="min-h-screen flex flex-col items-center justify-center gap-4 px-6 text-center">
+      <h1 className="text-h2">服務官網建置中</h1>
+      <p className="text-body">原 AI 員工工作台已移到示範頁。</p>
+      <Link href="/demo" className="btn btn-secondary">
+        前往示範頁
+      </Link>
+    </main>
   );
 }

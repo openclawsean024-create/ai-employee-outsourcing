@@ -103,8 +103,8 @@ export default function SettingsView() {
       {/* API Keys (future) */}
       <Section title="API 金鑰" icon={Key}>
         <p className="text-body-sm text-[var(--navy-500)] mb-4">
-          連接你自己的 OpenAI / Anthropic API 金鑰可享有更便宜的模型成本。
-          目前 Beta 版僅使用平台預載金鑰。
+          本示範沒有連接任何 AI 服務，也沒有使用任何 API 金鑰，所有輸出皆為模擬內容。
+          下方欄位僅為介面示意，無法輸入或儲存金鑰。
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <input
@@ -121,7 +121,7 @@ export default function SettingsView() {
           />
         </div>
         <div className="text-body-sm text-[var(--navy-500)] mt-2">
-          Sprint 2 開放自訂金鑰功能
+          自訂金鑰功能尚未提供
         </div>
       </Section>
 
