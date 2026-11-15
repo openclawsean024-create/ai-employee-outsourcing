@@ -13,7 +13,7 @@
 |---|---|---|---|---|
 | AC-012 | 品質關卡 | ✅ 完成 | `quality-gate.test.ts` | `npm run typecheck` exit 0；`grep -n 'no test script' .github/workflows/ci.yml` 無輸出；CI 新增 typecheck job，lint 移除 `continue-on-error`，test 改為 `npm test` |
 | AC-009 | mock 工作台移到 `/demo` | ✅ 完成 | `demo.test.tsx`（既有 7 檔 98 測試原樣保留） | 工作台改由 `app/demo/page.tsx` → `src/components/demo/DemoWorkbench.tsx` 渲染，頁首 `DemoNotice` 固定顯示「示範：輸出為模擬內容，未呼叫真實 AI」；`SettingsView` 改為「沒有連接任何 AI 服務，也沒有使用任何 API 金鑰」；Sean 未指示移除 demo，依預設保留 |
-| AC-008 | 移除未查證宣稱 | ⏳ 未開始 | — | — |
+| AC-008 | 移除未查證宣稱 | ✅ 完成（搬入內容於 AC-007 起持續由掃描把關） | `no-unverified-claims.test.ts` | `DashboardHero` 移除「4.9 在 Product Hunt · 已有 800+ 微型賣家使用」與「每月 NT$99 起」；`DashboardMetrics` 假指標標示為示意數字並改 NT$；禁用詞清單掃描 `app/`、`src/components/`、`src/content/`；GOAL 指定的 grep 無輸出 |
 | AC-007 | 合併內容搬遷 | ⏳ 未開始 | — | — |
 | AC-001 | 服務方案頁 | ⏳ 未開始 | — | — |
 | AC-002 | 報價方式整合 | ⏳ 未開始 | — | — |
