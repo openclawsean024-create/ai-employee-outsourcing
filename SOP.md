@@ -3,8 +3,8 @@
 ## 規格對齊狀態（2026-11-16）
 
 - ✅ `PRD/SPEC.md` v4.0 與 `GOAL.md`（M1）已依實際程式碼重建；舊 v3.0.2 SaaS 規格不再適用。
-- ⚠️ 程式碼仍是舊定位的 144 Agent mock 工作台；M1 的服務官網功能尚未開發。
-- ⚠️ CI test job 使用 `npm test -- --run 2>&1 || echo "no test script"`，測試失敗不會讓 CI 失敗（M1 AC-012 修正）。
+- ✅ M1 服務官網已在分支 `feat/m1` 開發完成（AC-001～AC-012），待 Sean 覆審；144 Agent mock 工作台移到 `/demo`。
+- ✅ CI 的 lint、typecheck、test、build 任一失敗都會讓 CI 失敗（AC-012）。
 
 ## 環境
 
@@ -14,31 +14,27 @@
 
 ## 驗證指令
 
-以下指令皆來自 `package.json` scripts，並於 2026-11-16 在 `main@4067b4b` 實跑：
+以下指令皆來自 `package.json` scripts。提交前依序執行，全部必須 exit 0；最近一次實跑結果記錄在 `STATUS.md` 的「M1 驗證紀錄」：
 
 ```bash
-npm ci --legacy-peer-deps   # exit 0
-npm run lint                # exit 0（eslint .）
-npm test                    # exit 0（vitest run：7 files, 98 tests passed）
-npm run build               # exit 0（next build；路由 / 與 /_not-found，皆為靜態）
+npm ci --legacy-peer-deps
+npm run lint                # eslint .
+npm run typecheck           # tsc --noEmit
+npm test                    # vitest run
+npm run build               # next build；路由 /、/services、/cases、/training、/contact、/demo 皆為靜態
 ```
 
-可執行但**尚未配置成 npm script**：
-
-```bash
-npx tsc --noEmit            # exit 0（M1 AC-012 改為 npm run typecheck）
-```
+單一 AC 的測試可用檔名篩選，例如 `npm test -- contact`（對照表見 `README.md`「驗證」）。
 
 **尚未配置**（不得當作已通過）：
 
-- `npm run typecheck` — 尚未配置
 - E2E（Playwright 等）— 尚未配置
 - Integration test — 尚未配置
 - Format（Prettier 等）— 尚未配置
 
 其他 scripts：`npm run dev`（本機開發伺服器）、`npm run start`（啟動 build 結果）、`npm run test:watch`（Vitest watch 模式）。
 
-## M1 開發順序建議
+## M1 開發順序建議（已完成，保留作紀錄）
 
 1. 建 `src/content/*` 型別與資料檔，先寫內容測試（AC-002、AC-007）。
 2. 搬入 `ai-landing-specialist@8e0625e` 的服務天梯、流程、方法論、FAQ（用 `git show 8e0625e:index.html` 在該 repo 本機 clone 讀取，不修改該 repo）。
