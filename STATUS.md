@@ -21,7 +21,7 @@
 | AC-004 | 預約諮詢表單（測試模式） | ✅ 完成 | `contact.test.tsx` | `/contact` 表單 7 個欄位以 zod 驗證；送出交給可替換的 `submitInquiry`（M1 = `mockSubmitInquiry`）；假資料送出時 adapter 1 次、`fetch`／XHR／`sendBeacon` 0 次、localStorage／sessionStorage／IndexedDB 無寫入；成功畫面顯示「測試模式，資料未送出」；瀏覽器實測送出後新增網路請求 0 筆 |
 | AC-005 | 個資告知與同意 | ✅ 完成 | `contact.test.tsx` | 表單上方顯示個資蒐集告知（蒐集目的、資料類別、利用期間與方式、當事人權利、不提供的影響），標註「版本 v0.1 草稿（待 Sean／法務確認）」；同意核取方塊必勾，未勾選時 adapter 0 次 |
 | AC-006 | 內訓課程介紹頁 | ✅ 完成 | `training.test.tsx` | `/training` 由 `src/content/training.ts` 渲染基礎／進階／企業三種程度、企業包班形式；內訓 CTA 連到 `/contact?type=training`；「企業 AI 導入教材整合中」占位區塊指向待整合的外部教材，未讀取、未撰寫其課綱（課程皆標「課綱整理中」） |
-| AC-010 | 首頁導覽與品牌 | ⏳ 未開始 | — | — |
+| AC-010 | 首頁導覽與品牌 | ✅ 完成 | `home.test.tsx` | `/` 為服務官網首頁（hero、痛點、兩種合作方式、方法論、5 步流程、FAQ、CTA）；導覽列 4 個連結 `/services`、`/cases`、`/training`、`/contact`；`app/layout.tsx` title／description 取自 `src/content/brand.ts` 的 `BRAND`（暫定名「AI 員工外包與導入服務」，`nameConfirmed: false`）；`grep -n "144 種 AI Agent" app/layout.tsx` 無輸出 |
 | AC-011 | README 補齊 | ⏳ 未開始 | — | — |
 
 ## 與 Notion 商品資料庫的對應

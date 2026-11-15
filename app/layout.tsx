@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
+import { BRAND } from "@/content/brand";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -10,8 +11,11 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "AI Employee — 144 種 AI Agent 隨選即用",
-  description: "把重複工作交給 AI。144 種預載 Agent + 多 Agent 協作 + Freemium。",
+  title: {
+    default: `${BRAND.name}｜${BRAND.tagline}`,
+    template: `%s｜${BRAND.name}`,
+  },
+  description: BRAND.description,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
