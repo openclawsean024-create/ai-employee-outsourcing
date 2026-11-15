@@ -15,7 +15,7 @@
 | AC-009 | mock 工作台移到 `/demo` | ✅ 完成 | `demo.test.tsx`（既有 7 檔 98 測試原樣保留） | 工作台改由 `app/demo/page.tsx` → `src/components/demo/DemoWorkbench.tsx` 渲染，頁首 `DemoNotice` 固定顯示「示範：輸出為模擬內容，未呼叫真實 AI」；`SettingsView` 改為「沒有連接任何 AI 服務，也沒有使用任何 API 金鑰」；Sean 未指示移除 demo，依預設保留 |
 | AC-008 | 移除未查證宣稱 | ✅ 完成（搬入內容於 AC-007 起持續由掃描把關） | `no-unverified-claims.test.ts` | `DashboardHero` 移除「4.9 在 Product Hunt · 已有 800+ 微型賣家使用」與「每月 NT$99 起」；`DashboardMetrics` 假指標標示為示意數字並改 NT$；禁用詞清單掃描 `app/`、`src/components/`、`src/content/`；GOAL 指定的 grep 無輸出 |
 | AC-007 | 合併內容搬遷 | ✅ 完成 | `content.test.ts` | `src/content/`：`services.ts`（四階服務天梯＋顧問方案）、`home.ts`（3 個痛點，改為示意）、`methodology.ts`（三大板塊＋四個空格）、`process.ts`（5 步）、`faq.ts`（7 題）、`training.ts`（課程程度、課程卡、企業包班）、`contact.ts`＋`src/lib/inquiry/schema.ts`（預約欄位、zod）；未搬 auth／Prisma／報名／Stripe／Supabase；來源 repo HEAD 仍為 `9db33f4`、`48e84a7`（`gh api …/commits/main --jq .sha`） |
-| AC-001 | 服務方案頁 | ⏳ 未開始 | — | — |
+| AC-001 | 服務方案頁 | ✅ 完成 | `services.test.tsx` | `/services` 由 `src/content/services.ts` 渲染兩類共 6 個方案，每案顯示適合對象、交付內容、時程、報價方式；元件內無寫死價格字串（測試掃描 `src/components/site`、`app/(site)`）；build 路由表含 `/services` |
 | AC-002 | 報價方式整合 | ⏳ 未開始 | — | — |
 | AC-003 | 案例頁（示範情境） | ⏳ 未開始 | — | — |
 | AC-004 | 預約諮詢表單（測試模式） | ⏳ 未開始 | — | — |
