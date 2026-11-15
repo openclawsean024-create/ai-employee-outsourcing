@@ -2,8 +2,27 @@
 
 - 產品：AI 員工外包與導入服務
 - Repo：`openclawsean024-create/ai-employee-outsourcing`（預設分支 `main`）
-- State：🟡 **文件重建完成、尚未開發 M1**（2026-11-16）
+- State：🟡 **M1 開發中**（分支 `feat/m1`，2026-11-16）
 - Spec：`PRD/SPEC.md` v4.0；目前目標：`GOAL.md`（M1）
+
+## M1 AC 進度（分支 `feat/m1`）
+
+每條 AC 完成時更新本表；完整指令輸出與 exit code 見文末「M1 驗證紀錄」。
+
+| AC | 內容 | 狀態 | 測試檔（`src/__tests__/`） | 證據 |
+|---|---|---|---|---|
+| AC-012 | 品質關卡 | ✅ 完成 | `quality-gate.test.ts` | `npm run typecheck` exit 0；`grep -n 'no test script' .github/workflows/ci.yml` 無輸出；CI 新增 typecheck job，lint 移除 `continue-on-error`，test 改為 `npm test` |
+| AC-009 | mock 工作台移到 `/demo` | ⏳ 進行中 | — | — |
+| AC-008 | 移除未查證宣稱 | ⏳ 未開始 | — | — |
+| AC-007 | 合併內容搬遷 | ⏳ 未開始 | — | — |
+| AC-001 | 服務方案頁 | ⏳ 未開始 | — | — |
+| AC-002 | 報價方式整合 | ⏳ 未開始 | — | — |
+| AC-003 | 案例頁（示範情境） | ⏳ 未開始 | — | — |
+| AC-004 | 預約諮詢表單（測試模式） | ⏳ 未開始 | — | — |
+| AC-005 | 個資告知與同意 | ⏳ 未開始 | — | — |
+| AC-006 | 內訓課程介紹頁 | ⏳ 未開始 | — | — |
+| AC-010 | 首頁導覽與品牌 | ⏳ 未開始 | — | — |
+| AC-011 | README 補齊 | ⏳ 未開始 | — | — |
 
 ## 與 Notion 商品資料庫的對應
 
