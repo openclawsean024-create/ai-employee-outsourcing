@@ -35,12 +35,22 @@ function installLeakSpies() {
   const xhrSend = vi.spyOn(window.XMLHttpRequest.prototype, 'send');
   ensureStorage('localStorage');
   ensureStorage('sessionStorage');
+  // 在 prototype 上監看 setItem：瀏覽器／jsdom 的 Storage 不能直接在實例上覆寫方法。
   const setItem = vi.fn();
-  for (const storage of [window.localStorage, window.sessionStorage]) {
-    const original = storage.setItem.bind(storage);
-    vi.spyOn(storage, 'setItem').mockImplementation((key: string, value: string) => {
+  const prototypes = new Set(
+    [window.localStorage, window.sessionStorage].map(
+      (storage) => Object.getPrototypeOf(storage) as Storage,
+    ),
+  );
+  for (const proto of prototypes) {
+    const original = proto.setItem;
+    vi.spyOn(proto, 'setItem').mockImplementation(function (
+      this: Storage,
+      key: string,
+      value: string,
+    ) {
       setItem(key);
-      original(key, value);
+      return original.call(this, key, value);
     });
   }
   const idbOpen = vi.spyOn(indexedDB, 'open');
